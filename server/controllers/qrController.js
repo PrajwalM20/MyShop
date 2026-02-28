@@ -3,6 +3,7 @@ const QRCode = require('qrcode');
 // @GET /api/qr/generate
 const generateQR = async (req, res) => {
   const shopUrl = process.env.SHOP_QR_URL || `${process.env.CLIENT_URL}/order`;
+  const shopName = process.env.SHOP_NAME || 'Usha Photo Studio';
 
   const qrDataURL = await QRCode.toDataURL(shopUrl, {
     errorCorrectionLevel: 'H',
@@ -11,7 +12,7 @@ const generateQR = async (req, res) => {
     width: 512,
   });
 
-  res.json({ qrCode: qrDataURL, url: shopUrl });
+  res.json({ qrCode: qrDataURL, url: shopUrl, shopName });
 };
 
 // @GET /api/qr/download
@@ -26,7 +27,7 @@ const downloadQR = async (req, res) => {
   });
 
   res.setHeader('Content-Type', 'image/png');
-  res.setHeader('Content-Disposition', 'attachment; filename=clickqueue-qr.png');
+  res.setHeader('Content-Disposition', 'attachment; filename=shop-qr.png');
   res.send(qrBuffer);
 };
 

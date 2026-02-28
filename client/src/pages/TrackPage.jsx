@@ -1,157 +1,134 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import api from '../utils/api';
 
 const STATUS_STEPS = ['pending', 'processing', 'ready', 'completed'];
+
 const STATUS_INFO = {
-  pending: { label: 'Order Received', icon: '📋', color: 'var(--warning)' },
-  processing: { label: 'Being Processed', icon: '🖨️', color: 'var(--info)' },
-  ready: { label: 'Ready for Pickup!', icon: '✅', color: 'var(--success)' },
-  completed: { label: 'Completed', icon: '🎉', color: 'var(--gold)' },
-  cancelled: { label: 'Cancelled', icon: '❌', color: 'var(--danger)' },
+  pending:    { icon: '⏳', label: 'Order Received',    color: 'var(--warning)', desc: 'Your order has been received and is in queue' },
+  processing: { icon: '🖨️', label: 'Being Processed',  color: 'var(--info)',    desc: 'We are working on your photos right now' },
+  ready:      { icon: '✅', label: 'Ready for Pickup',  color: 'var(--success)', desc: 'Your photos are ready! Please visit the shop' },
+  completed:  { icon: '🎉', label: 'Completed',         color: 'var(--gold)',    desc: 'Order completed. Thank you for visiting!' },
+  cancelled:  { icon: '❌', label: 'Cancelled',         color: 'var(--danger)',  desc: 'This order was cancelled' },
 };
 
 export default function TrackPage() {
   const { orderId: paramId } = useParams();
-  const navigate = useNavigate();
   const [orderId, setOrderId] = useState(paramId || '');
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const trackOrder = async (id = orderId) => {
-    if (!id.trim()) return toast.error('Enter your Order ID');
+  useEffect(() => { if (paramId) trackOrder(paramId); }, [paramId]);
+
+  const trackOrder = async (id) => {
+    const trackId = id || orderId.trim();
+    if (!trackId) return toast.error('Please enter your Order ID');
     setLoading(true);
     try {
-      const { data } = await api.get(`/orders/track/${id.trim().toUpperCase()}`);
+      const { data } = await api.get(`/orders/track/${trackId}`);
       setOrder(data);
     } catch (err) {
-      toast.error('Order not found. Check your Order ID.');
+      toast.error('Order not found. Please check your Order ID');
       setOrder(null);
     } finally {
       setLoading(false);
     }
   };
 
-  // Auto-track if orderId in URL
-  useState(() => { if (paramId) trackOrder(paramId); }, []);
-
-  const currentStepIdx = order ? STATUS_STEPS.indexOf(order.orderStatus) : -1;
+  const statusInfo = order ? (STATUS_INFO[order.orderStatus] || STATUS_INFO.pending) : null;
+  const stepIndex = order ? STATUS_STEPS.indexOf(order.orderStatus) : -1;
 
   return (
     <div className="page">
-      <div className="container" style={{ maxWidth: '680px' }}>
+      <div className="container" style={{ maxWidth: '640px' }}>
 
         <div className="fade-in" style={{ textAlign: 'center', marginBottom: '40px' }}>
-          <h1 style={{ fontSize: '40px', marginBottom: '8px' }}>Track <span className="text-gold">Your Order</span></h1>
-          <p style={{ color: 'var(--text-muted)' }}>Enter your Order ID to check status</p>
+          <h1 style={{ fontSize: '36px', marginBottom: '8px' }}>Track Your <span className="text-gold">Order</span></h1>
+          <p style={{ color: 'var(--text-muted)' }}>Enter your Order ID to check the status</p>
         </div>
 
+        {/* Search */}
         <div className="card fade-in" style={{ marginBottom: '24px' }}>
-          <div style={{ display: 'flex', gap: '12px' }}>
+          <div className="input-group">
+            <label>Order ID</label>
             <input
               value={orderId}
-              onChange={(e) => setOrderId(e.target.value.toUpperCase())}
-              placeholder="e.g. CQ-A1B2C3D4"
-              style={{ flex: 1 }}
-              onKeyDown={(e) => e.key === 'Enter' && trackOrder()}
+              onChange={e => setOrderId(e.target.value)}
+              placeholder="e.g. CQ-XXXXXXXX"
+              onKeyDown={e => e.key === 'Enter' && trackOrder()}
+              style={{ fontSize: '18px', letterSpacing: '1px' }}
             />
-            <button onClick={() => trackOrder()} className="btn btn-primary" disabled={loading} style={{ minWidth: '120px' }}>
-              {loading ? <span className="spinner" /> : '🔍 Track'}
-            </button>
           </div>
+          <button onClick={() => trackOrder()} className="btn btn-primary" style={{ width: '100%' }} disabled={loading}>
+            {loading ? <span className="spinner" /> : '🔍 Track Order'}
+          </button>
         </div>
 
+        {/* Result */}
         {order && (
-          <div className="fade-in">
-            {/* Order header */}
-            <div className="card" style={{ marginBottom: '16px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '12px' }}>
-                <div>
-                  <div style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '4px' }}>ORDER ID</div>
-                  <div style={{ fontFamily: 'var(--font-display)', fontSize: '22px', color: 'var(--gold)', fontWeight: 700 }}>{order.orderId}</div>
-                </div>
-                <div style={{ textAlign: 'right' }}>
-                  <div style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '4px' }}>QUEUE NUMBER</div>
-                  <div style={{ fontFamily: 'var(--font-display)', fontSize: '40px', fontWeight: 900, lineHeight: 1, color: 'var(--gold)' }}>#{order.queueNumber}</div>
-                </div>
-              </div>
-              <div className="divider" />
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', fontSize: '14px' }}>
-                <div><span style={{ color: 'var(--text-muted)' }}>Customer: </span>{order.customer?.name}</div>
-                <div><span style={{ color: 'var(--text-muted)' }}>Service: </span>{order.serviceType}</div>
-                <div><span style={{ color: 'var(--text-muted)' }}>Quantity: </span>{order.quantity}</div>
-                <div><span style={{ color: 'var(--text-muted)' }}>Amount: </span><strong style={{ color: 'var(--gold)' }}>₹{order.totalAmount}</strong></div>
-              </div>
-              <div className="divider" />
-              <div style={{ display: 'flex', gap: '10px' }}>
-                <span className={`badge badge-${order.paymentStatus}`}>💳 {order.paymentStatus}</span>
-                <span className={`badge badge-${order.orderStatus}`}>
-                  {STATUS_INFO[order.orderStatus]?.icon} {STATUS_INFO[order.orderStatus]?.label}
-                </span>
-              </div>
+          <div className="card fade-in">
+            {/* Status Banner */}
+            <div style={{
+              background: `${statusInfo.color}15`,
+              border: `1px solid ${statusInfo.color}40`,
+              borderRadius: 'var(--radius)', padding: '20px',
+              textAlign: 'center', marginBottom: '28px',
+            }}>
+              <div style={{ fontSize: '40px', marginBottom: '8px' }}>{statusInfo.icon}</div>
+              <div style={{ fontSize: '20px', fontWeight: 700, color: statusInfo.color, marginBottom: '4px' }}>{statusInfo.label}</div>
+              <div style={{ color: 'var(--text-muted)', fontSize: '14px' }}>{statusInfo.desc}</div>
             </div>
 
             {/* Status Timeline */}
-            <div className="card">
-              <h3 style={{ marginBottom: '24px', fontSize: '16px' }}>Order Progress</h3>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
-                {STATUS_STEPS.map((status, i) => {
-                  const info = STATUS_INFO[status];
-                  const isCompleted = i <= currentStepIdx;
-                  const isCurrent = i === currentStepIdx;
-                  return (
-                    <div key={status} style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
-                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                        <div style={{
-                          width: '36px', height: '36px', borderRadius: '50%',
-                          background: isCompleted ? info.color : 'var(--surface2)',
-                          border: `2px solid ${isCompleted ? info.color : 'var(--border)'}`,
-                          display: 'flex', alignItems: 'center', justifyContent: 'center',
-                          fontSize: '16px', transition: 'all 0.3s',
-                          boxShadow: isCurrent ? `0 0 16px ${info.color}66` : 'none',
-                        }}>
-                          {isCompleted ? '✓' : i + 1}
-                        </div>
-                        {i < STATUS_STEPS.length - 1 && (
-                          <div style={{
-                            width: '2px', height: '32px',
-                            background: i < currentStepIdx ? info.color : 'var(--border)',
-                            transition: 'all 0.3s',
-                          }} />
-                        )}
-                      </div>
-                      <div style={{ paddingTop: '6px', paddingBottom: '16px' }}>
-                        <div style={{
-                          fontSize: '15px', fontWeight: isCurrent ? 700 : 400,
-                          color: isCompleted ? 'var(--text)' : 'var(--text-muted)',
-                        }}>
-                          {info.icon} {info.label}
-                        </div>
-                        {isCurrent && (
-                          <div style={{ fontSize: '12px', color: info.color, marginTop: '2px' }}>
-                            ← Current Status
-                          </div>
-                        )}
-                      </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '32px', position: 'relative' }}>
+              <div style={{ position: 'absolute', top: '18px', left: '10%', right: '10%', height: '2px', background: 'var(--border)', zIndex: 0 }} />
+              <div style={{ position: 'absolute', top: '18px', left: '10%', height: '2px', background: 'var(--gold)', zIndex: 1, width: `${Math.max(0, stepIndex) * (80 / (STATUS_STEPS.length - 1))}%`, transition: 'width 0.5s ease' }} />
+              {STATUS_STEPS.map((s, i) => {
+                const done = i <= stepIndex;
+                const info = STATUS_INFO[s];
+                return (
+                  <div key={s} style={{ textAlign: 'center', zIndex: 2, flex: 1 }}>
+                    <div style={{
+                      width: '36px', height: '36px', borderRadius: '50%', margin: '0 auto 8px',
+                      background: done ? 'var(--gold)' : 'var(--surface2)',
+                      border: `2px solid ${done ? 'var(--gold)' : 'var(--border)'}`,
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      fontSize: '14px', transition: 'all 0.3s',
+                    }}>
+                      {done ? '✓' : <span style={{ color: 'var(--text-muted)', fontSize: '11px' }}>{i + 1}</span>}
                     </div>
-                  );
-                })}
-              </div>
-
-              {order.orderStatus === 'ready' && (
-                <div style={{
-                  background: 'rgba(45,216,130,0.08)', border: '1px solid rgba(45,216,130,0.3)',
-                  borderRadius: 'var(--radius)', padding: '16px', marginTop: '16px', textAlign: 'center',
-                }}>
-                  <div style={{ fontSize: '24px', marginBottom: '8px' }}>🎉</div>
-                  <div style={{ fontWeight: 700, color: 'var(--success)', marginBottom: '4px' }}>Your photos are ready!</div>
-                  <div style={{ fontSize: '13px', color: 'var(--text-muted)' }}>
-                    Visit the shop and show your Order ID: <strong>{order.orderId}</strong>
+                    <div style={{ fontSize: '11px', color: done ? 'var(--gold)' : 'var(--text-muted)', fontWeight: done ? 700 : 400, textTransform: 'capitalize' }}>{s}</div>
                   </div>
-                </div>
-              )}
+                );
+              })}
             </div>
+
+            {/* Order Details */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              {[
+                ['Order ID', order.orderId],
+                ['Queue Number', `#${order.queueNumber}`],
+                ['Customer', order.customer?.name],
+                ['Service', order.serviceType],
+                ['Quantity', order.quantity],
+                ['Amount Paid', `₹${order.totalAmount}`],
+                ['Payment', order.paymentStatus],
+              ].map(([label, value]) => (
+                <div key={label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 0', borderBottom: '1px solid var(--border)' }}>
+                  <span style={{ color: 'var(--text-muted)', fontSize: '13px' }}>{label}</span>
+                  <span style={{ fontWeight: 600, fontSize: '14px', color: label === 'Queue Number' ? 'var(--gold)' : 'var(--text)' }}>{value}</span>
+                </div>
+              ))}
+            </div>
+
+            {order.orderStatus === 'ready' && (
+              <div style={{ background: 'rgba(45,216,130,0.1)', border: '1px solid rgba(45,216,130,0.3)', borderRadius: 'var(--radius)', padding: '16px', marginTop: '20px', textAlign: 'center' }}>
+                <div style={{ fontSize: '24px', marginBottom: '6px' }}>🎉</div>
+                <div style={{ color: 'var(--success)', fontWeight: 700 }}>Your photos are ready!</div>
+                <div style={{ color: 'var(--text-muted)', fontSize: '13px', marginTop: '4px' }}>Please visit the shop and show your Order ID: <strong>{order.orderId}</strong></div>
+              </div>
+            )}
           </div>
         )}
       </div>

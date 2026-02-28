@@ -13,7 +13,7 @@ app.use(cors({ origin: process.env.CLIENT_URL || 'http://localhost:3000', creden
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Serve local uploads folder (used when Cloudinary not configured)
+// Serve local uploads folder
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Routes
@@ -23,6 +23,7 @@ app.use('/api/payment', require('./routes/paymentRoutes'));
 app.use('/api/owner', require('./routes/ownerRoutes'));
 app.use('/api/qr', require('./routes/qrRoutes'));
 app.use('/api/settings', require('./routes/settingsRoutes'));
+app.use('/api/portfolio', require('./routes/portfolioRoutes')); // ← ADD THIS
 
 app.get('/', (req, res) => res.json({ message: 'ClickQueue API Running 🚀' }));
 
