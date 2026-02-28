@@ -8,7 +8,7 @@ export default function QRPosterPage() {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [qrCode, setQrCode] = useState(null);
-  const [shopName, setShopName] = useState('ClickQueue Photo Studio');
+  const [shopName, setShopName] = useState('Usha Photo Studio');
   const [tagline, setTagline] = useState('Scan to place your order online. No waiting!');
   const [loading, setLoading] = useState(true);
   const posterRef = useRef();
@@ -178,10 +178,10 @@ export default function QRPosterPage() {
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
                     {[
                       ['🪪 Passport Photo', '₹40/pc'],
-                      ['🖼️ Print 4×6', '₹15/pc'],
+                      ['🖼️ Print 4×6', '₹50/pc'],
                       ['📄 Print A4', '₹30/pc'],
-                      ['✨ Lamination', '₹50/pc'],
-                      ['🎓 School ID Photo', '₹60/pc'],
+                      ['✨ Lamination', '₹150/pc'],
+                      ['🎓 School ID Photo', '₹50/pc'],
                     ].map(([service, price]) => (
                       <div key={service} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <span style={{ color: '#ccc', fontSize: '12px', fontFamily: 'DM Sans, sans-serif' }}>{service}</span>

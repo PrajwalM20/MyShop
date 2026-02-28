@@ -13,7 +13,7 @@ export default function Navbar() {
   return (
     <nav className="navbar">
       <div className="container navbar-inner">
-        <Link to="/" className="logo">Click<span>Queue</span></Link>
+        <Link to="/" className="logo">Usha<span>Studio</span></Link>
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
           <Link to="/track" style={{ color: 'var(--text-muted)', fontSize: '14px' }}>Track Order</Link>
           {user ? (

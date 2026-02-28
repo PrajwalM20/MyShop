@@ -68,7 +68,7 @@ export default function OwnerDashboard() {
   };
 
   const exportCSV = () => {
-    window.open('/api/owner/orders/export', '_blank');
+  window.open('http://localhost:5000/api/owner/orders/export', '_blank');
   };
 
   if (loading) return (

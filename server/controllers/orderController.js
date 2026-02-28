@@ -8,11 +8,11 @@ const {
 } = require('../config/notifications');
 
 const SERVICE_PRICES = {
-  passport: 40,
-  print_4x6: 15,
+  passport: 50,
+  print_4x6: 50,
   print_a4: 30,
-  lamination: 50,
-  school_id: 60,
+  lamination: 150,
+  school_id: 50,
   custom: 0,
 };
 
