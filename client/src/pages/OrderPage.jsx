@@ -5,11 +5,11 @@ import toast from 'react-hot-toast';
 import api from '../utils/api';
 
 const SERVICES = [
-  { id: 'passport', label: 'Passport Size Photo', icon: '🪪', price: 40 },
-  { id: 'print_4x6', label: 'Print 4×6', icon: '🖼️', price: 15 },
+  { id: 'passport', label: 'Passport Size Photo', icon: '🪪', price: 50 },
+  { id: 'print_4x6', label: 'Print 4×6', icon: '🖼️', price: 50 },
   { id: 'print_a4', label: 'Print A4', icon: '📄', price: 30 },
-  { id: 'lamination', label: 'Lamination', icon: '✨', price: 50 },
-  { id: 'school_id', label: 'School ID Photo', icon: '🎓', price: 60 },
+  { id: 'lamination', label: 'Lamination', icon: '✨', price: 150 },
+  { id: 'school_id', label: 'School ID Photo', icon: '🎓', price: 50 },
 ];
 
 const STEPS = ['Your Info', 'Upload Photos', 'Service & Pay'];

@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 
 const services = [
-  { icon: '🪪', name: 'Passport Photo', desc: 'Govt-approved size with white background', price: '₹40' },
+  { icon: '🪪', name: 'Passport Photo', desc: 'Govt-approved size with white background', price: '₹50' },
   { icon: '🖼️', name: 'Photo Print 4×6', desc: 'High-quality glossy/matte finish', price: '₹50' },
   { icon: '📄', name: 'Photo Print A4', desc: 'Full-size premium photo print', price: '₹30' },
   { icon: '✨', name: 'Lamination', desc: 'Protect your precious photos', price: '₹150' },

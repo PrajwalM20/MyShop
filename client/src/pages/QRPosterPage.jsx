@@ -177,11 +177,11 @@ export default function QRPosterPage() {
                   </div>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
                     {[
-                      ['🪪 Passport Photo', '₹40/pc'],
-                      ['🖼️ Print 4×6', '₹50/pc'],
-                      ['📄 Print A4', '₹30/pc'],
-                      ['✨ Lamination', '₹150/pc'],
-                      ['🎓 School ID Photo', '₹50/pc'],
+                      ['🪪 Passport Photo', '₹50'],
+                      ['🖼️ Print 4×6', '₹50'],
+                      ['📄 Print A4', '₹30'],
+                      ['✨ Lamination', '₹150'],
+                      ['🎓 School ID Photo', '₹50'],
                     ].map(([service, price]) => (
                       <div key={service} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <span style={{ color: '#ccc', fontSize: '12px', fontFamily: 'DM Sans, sans-serif' }}>{service}</span>
