@@ -11,6 +11,7 @@ import QRPosterPage from './pages/QRPosterPage';
 import SettingsPage from './pages/SettingsPage';
 import PortfolioPage from './pages/PortfolioPage';
 import ManagePortfolioPage from './pages/ManagePortfolioPage';
+import DataManagerPage from './pages/DataManagerPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import './styles/global.css';
@@ -20,10 +21,7 @@ export default function App() {
     <AuthProvider>
       <BrowserRouter>
         <Toaster position="top-right" toastOptions={{
-          style: {
-            background: 'var(--surface2)', color: 'var(--text)',
-            border: '1px solid var(--border)', fontFamily: 'var(--font-body)',
-          },
+          style: { background: 'var(--surface2)', color: 'var(--text)', border: '1px solid var(--border)', fontFamily: 'var(--font-body)' },
           success: { iconTheme: { primary: 'var(--success)', secondary: 'var(--black)' } },
           error: { iconTheme: { primary: 'var(--danger)', secondary: '#fff' } },
         }} />
@@ -36,6 +34,7 @@ export default function App() {
           <Route path="/track/:orderId" element={<TrackPage />} />
           <Route path="/portfolio" element={<PortfolioPage />} />
           <Route path="/owner/dashboard" element={<OwnerDashboard />} />
+          <Route path="/owner/data" element={<DataManagerPage />} />
           <Route path="/owner/portfolio" element={<ManagePortfolioPage />} />
           <Route path="/owner/qr-poster" element={<QRPosterPage />} />
           <Route path="/owner/settings" element={<SettingsPage />} />

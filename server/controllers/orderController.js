@@ -1,49 +1,77 @@
 const Order = require('../models/Order');
 const { uploadToCloudinary } = require('../config/cloudinary');
+const { Settings, DEFAULT_SERVICES } = require('./settingsController');
 const {
-  sendOrderConfirmationEmail,
-  sendOwnerNotificationEmail,
-  sendOrderConfirmationSMS,
-  sendOrderConfirmationWhatsApp,
+  sendOrderConfirmationEmail, sendOwnerNotificationEmail,
+  sendOrderConfirmationSMS, sendOrderConfirmationWhatsApp,
 } = require('../config/notifications');
 
-const SERVICE_PRICES = {
-  passport: 50,
-  print_4x6: 50,
-  print_a4: 30,
-  lamination: 150,
-  school_id: 50,
-  custom: 0,
+// Helper — fetch live services from DB
+const getLiveServices = async () => {
+  try {
+    const s = await Settings.findOne({ key: 'services' });
+    return s ? s.value : DEFAULT_SERVICES;
+  } catch { return DEFAULT_SERVICES; }
+};
+
+// @GET /api/orders/services  (public)
+const getServices = async (req, res) => {
+  const services = await getLiveServices();
+  res.json(services);
 };
 
 // @POST /api/orders/create
 const createOrder = async (req, res) => {
-  const { name, email, phone, serviceType, quantity, razorpayPaymentId, razorpayOrderId, notes } = req.body;
+  const { name, email, phone, notes, razorpayPaymentId, razorpayOrderId, items: itemsJson } = req.body;
   const files = req.files;
 
   if (!files || files.length === 0)
     return res.status(400).json({ message: 'At least one photo is required' });
 
-  // Upload all files to Cloudinary (or local if not configured)
+  // Upload photos
   const photos = await Promise.all(
     files.map(async (file) => {
       const result = await uploadToCloudinary(file.path);
-      return {
-        url: result.url,
-        publicId: result.publicId,
-        originalName: file.originalname,
-      };
+      return { url: result.url, publicId: result.publicId, originalName: file.originalname };
     })
   );
 
-  const pricePerUnit = SERVICE_PRICES[serviceType] || 0;
-  const totalAmount = pricePerUnit * parseInt(quantity);
+  // Parse items
+  let items = [];
+  try { items = JSON.parse(itemsJson); } catch { items = []; }
+
+  // Verify prices server-side
+  const liveServices = await getLiveServices();
+  const serviceMap = {};
+  liveServices.forEach(s => { serviceMap[s.id] = s; });
+
+  let totalAmount = 0;
+  const verifiedItems = items.map(item => {
+    const svc = serviceMap[item.serviceType];
+    const pricePerUnit = svc ? svc.price : 0;
+    const subtotal = pricePerUnit * item.quantity;
+    totalAmount += subtotal;
+    return {
+      serviceType: item.serviceType,
+      serviceLabel: svc ? svc.label : item.serviceType,
+      quantity: item.quantity,
+      pricePerUnit,
+      copies: svc?.copies || 1,
+      subtotal,
+      photoIndexes: item.photoIndexes || [],
+      note: item.note || '',
+    };
+  });
+
+  // Fallback for single-service orders
+  const primaryItem = verifiedItems[0] || {};
 
   const order = await Order.create({
-    customer: { name, email, phone },
+    customer: { name, email: email || '', phone },
     photos,
-    serviceType,
-    quantity: parseInt(quantity),
+    items: verifiedItems,
+    serviceType: primaryItem.serviceType || 'custom',
+    quantity: primaryItem.quantity || 1,
     totalAmount,
     paymentStatus: razorpayPaymentId ? 'paid' : 'pending',
     paymentId: razorpayPaymentId,
@@ -51,7 +79,6 @@ const createOrder = async (req, res) => {
     notes,
   });
 
-  // Send notifications (non-blocking)
   Promise.allSettled([
     sendOrderConfirmationEmail(order),
     sendOwnerNotificationEmail(order),
@@ -71,7 +98,7 @@ const createOrder = async (req, res) => {
 // @GET /api/orders/track/:orderId
 const trackOrder = async (req, res) => {
   const order = await Order.findOne({ orderId: req.params.orderId }).select(
-    'orderId queueNumber customer.name serviceType quantity totalAmount paymentStatus orderStatus createdAt'
+    'orderId queueNumber customer.name serviceType items quantity totalAmount paymentStatus orderStatus createdAt'
   );
   if (!order) return res.status(404).json({ message: 'Order not found' });
   res.json(order);
@@ -79,26 +106,10 @@ const trackOrder = async (req, res) => {
 
 // @GET /api/orders/price/:serviceType
 const getPrice = async (req, res) => {
-  const price = SERVICE_PRICES[req.params.serviceType];
-  if (price === undefined) return res.status(404).json({ message: 'Service not found' });
-  res.json({ serviceType: req.params.serviceType, pricePerUnit: price });
-};
-
-// @GET /api/orders/services
-const getServices = async (req, res) => {
-  const services = Object.entries(SERVICE_PRICES).map(([key, price]) => ({
-    id: key,
-    label: {
-      passport: 'Passport Size Photo',
-      print_4x6: 'Photo Print 4x6',
-      print_a4: 'Photo Print A4',
-      lamination: 'Lamination',
-      school_id: 'School ID Card Photo',
-      custom: 'Custom Order',
-    }[key],
-    price,
-  }));
-  res.json(services);
+  const services = await getLiveServices();
+  const svc = services.find(s => s.id === req.params.serviceType);
+  if (!svc) return res.status(404).json({ message: 'Service not found' });
+  res.json({ serviceType: svc.id, pricePerUnit: svc.price });
 };
 
 module.exports = { createOrder, trackOrder, getPrice, getServices };
