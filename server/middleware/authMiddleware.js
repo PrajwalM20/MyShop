@@ -3,9 +3,17 @@ const User = require('../models/User');
 
 const protect = async (req, res, next) => {
   let token;
+
+  // Check Authorization header
   if (req.headers.authorization?.startsWith('Bearer')) {
     token = req.headers.authorization.split(' ')[1];
   }
+
+  // Also accept token from query string (used for CSV export download)
+  if (!token && req.query.token) {
+    token = req.query.token;
+  }
+
   if (!token) return res.status(401).json({ message: 'Not authorized, no token' });
 
   try {

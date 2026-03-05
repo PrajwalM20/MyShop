@@ -247,7 +247,6 @@ export default function HomePage() {
           </p>
           <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
             <Link to="/order" className="btn btn-primary btn-lg">📸 Start Your Order Now</Link>
-            <Link to="/portfolio" className="btn btn-outline btn-lg">🖼️ View Our Work</Link>
           </div>
         </div>
       </section>
