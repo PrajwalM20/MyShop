@@ -209,3 +209,84 @@ select option { background: var(--surface2); }
   .btn-lg { width: 100%; justify-content: center; }
   .logo { font-size: 18px; }
 }
+
+/* ── Active Nav Link ─────────────────────────────────────── */
+.nav-link-active {
+  color: var(--gold) !important;
+  font-weight: 600 !important;
+  border-bottom: 2px solid var(--gold) !important;
+}
+
+/* ── Logo image in navbar ────────────────────────────────── */
+.navbar-logo-img {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--gold);
+  background: transparent;
+  flex-shrink: 0;
+}
+.navbar-logo-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+.navbar-logo-text {
+  font-family: var(--font-display);
+  font-size: 20px;
+  color: var(--gold);
+  font-weight: 900;
+  letter-spacing: -0.5px;
+}
+.navbar-logo-text span {
+  color: var(--text);
+  font-weight: 400;
+}
+
+/* ── Revenue PIN input ───────────────────────────────────── */
+.pin-input {
+  width: 80px !important;
+  text-align: center !important;
+  letter-spacing: 6px !important;
+  font-size: 20px !important;
+  padding: 8px 10px !important;
+}
+
+/* ── Feedback stars ──────────────────────────────────────── */
+.star-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 36px;
+  padding: 4px;
+  transition: transform 0.15s, filter 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.star-btn:hover { transform: scale(1.2); }
+
+/* ── Feedback tag pills ──────────────────────────────────── */
+.feedback-tag {
+  padding: 6px 14px;
+  border-radius: 100px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  transition: all 0.15s;
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  color: var(--text-muted);
+  -webkit-tap-highlight-color: transparent;
+}
+.feedback-tag.active {
+  background: var(--gold);
+  color: var(--black);
+  border-color: var(--gold);
+}
+
+@media (max-width: 768px) {
+  .navbar-logo-text { font-size: 16px; }
+  .navbar-logo-img  { width: 34px; height: 34px; }
+}

@@ -18,6 +18,11 @@ export default function OwnerDashboard() {
   const [countdown, setCountdown] = useState(30);
   const intervalRef = useRef(null);
   const countdownRef = useRef(null);
+  // Revenue lock
+  const [revenueLocked, setRevenueLocked] = useState(true);
+  const [revenuePin, setRevenuePin] = useState('');
+  const [pinError, setPinError] = useState('');
+  const REVENUE_PIN = '1234'; // Owner sets this pin
 
   useEffect(() => {
     if (!user || user.role !== 'owner') { navigate('/login'); return; }
@@ -204,12 +209,57 @@ export default function OwnerDashboard() {
             </div>
 
             <div className="grid-2 fade-in fade-in-delay-1" style={{ marginBottom: '32px' }}>
-              <div className="card" style={{ background: 'linear-gradient(135deg, rgba(212,175,55,0.1) 0%, transparent 100%)', border: '1px solid rgba(212,175,55,0.3)' }}>
-                <div style={{ fontSize: '13px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>Total Revenue</div>
-                <div style={{ fontFamily: 'var(--font-display)', fontSize: '48px', fontWeight: 900, color: 'var(--gold)', lineHeight: 1 }}>
-                  ₹{stats.totalRevenue?.toLocaleString('en-IN')}
+              <div className="card" style={{ background: 'linear-gradient(135deg, rgba(212,175,55,0.1) 0%, transparent 100%)', border: '1px solid rgba(212,175,55,0.3)', position: 'relative' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                  <div style={{ fontSize: '13px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '1px' }}>Total Revenue</div>
+                  <button onClick={() => { setRevenueLocked(l => !l); setRevenuePin(''); setPinError(''); }}
+                    style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '20px', lineHeight: 1 }}
+                    title={revenueLocked ? 'Unlock revenue' : 'Lock revenue'}
+                  >{revenueLocked ? '🔒' : '🔓'}</button>
                 </div>
-                <div style={{ color: 'var(--text-muted)', fontSize: '13px', marginTop: '8px' }}>{stats.completedOrders} orders completed</div>
+
+                {revenueLocked ? (
+                  <div>
+                    <div style={{ fontFamily: 'var(--font-display)', fontSize: '48px', fontWeight: 900, color: 'var(--border)', lineHeight: 1, letterSpacing: '6px', userSelect: 'none' }}>
+                      ₹ ••••••
+                    </div>
+                    <div style={{ marginTop: '16px' }}>
+                      <div style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '8px' }}>Enter PIN to view revenue</div>
+                      <div style={{ display: 'flex', gap: '8px' }}>
+                        <input
+                          type="password"
+                          value={revenuePin}
+                          onChange={e => { setRevenuePin(e.target.value); setPinError(''); }}
+                          onKeyDown={e => {
+                            if (e.key === 'Enter') {
+                              if (revenuePin === REVENUE_PIN) { setRevenueLocked(false); setRevenuePin(''); setPinError(''); }
+                              else { setPinError('Wrong PIN'); setRevenuePin(''); }
+                            }
+                          }}
+                          maxLength={6}
+                          placeholder="PIN"
+                          style={{ width: '80px', textAlign: 'center', letterSpacing: '4px', fontSize: '18px', padding: '8px' }}
+                        />
+                        <button
+                          onClick={() => {
+                            if (revenuePin === REVENUE_PIN) { setRevenueLocked(false); setRevenuePin(''); setPinError(''); }
+                            else { setPinError('Wrong PIN'); setRevenuePin(''); }
+                          }}
+                          className="btn btn-primary btn-sm"
+                        >Unlock</button>
+                      </div>
+                      {pinError && <div style={{ color: 'var(--danger)', fontSize: '12px', marginTop: '6px' }}>{pinError}</div>}
+                    </div>
+                  </div>
+                ) : (
+                  <div>
+                    <div style={{ fontFamily: 'var(--font-display)', fontSize: '48px', fontWeight: 900, color: 'var(--gold)', lineHeight: 1 }}>
+                      ₹{stats.totalRevenue?.toLocaleString('en-IN')}
+                    </div>
+                    <div style={{ color: 'var(--text-muted)', fontSize: '13px', marginTop: '8px' }}>{stats.completedOrders} orders completed</div>
+                    <div style={{ fontSize: '11px', color: 'var(--text-muted)', marginTop: '4px' }}>Click 🔓 to lock again</div>
+                  </div>
+                )}
               </div>
               <div className="card">
                 <div style={{ fontSize: '13px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '16px' }}>Revenue — Last 7 Days</div>

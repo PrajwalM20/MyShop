@@ -9,11 +9,17 @@ connectDB();
 
 const app = express();
 
+// Simple request debug logger
+app.use((req, res, next) => {
+  console.log(`➡️ ${req.method} ${req.originalUrl}`);
+  next();
+});
+
 app.use(cors({ origin: process.env.CLIENT_URL || 'http://localhost:3000', credentials: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Serve local uploads folder
+// Serve local uploads
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Routes
@@ -23,15 +29,23 @@ app.use('/api/payment', require('./routes/paymentRoutes'));
 app.use('/api/owner', require('./routes/ownerRoutes'));
 app.use('/api/qr', require('./routes/qrRoutes'));
 app.use('/api/settings', require('./routes/settingsRoutes'));
-app.use('/api/portfolio', require('./routes/portfolioRoutes')); // ← ADD THIS
+app.use("/api/portfolio", require("./routes/portfolioRoutes"));
+app.use("/api/feedback", require("./routes/feedbackRoutes"));
 
 app.get('/', (req, res) => res.json({ message: 'ClickQueue API Running 🚀' }));
 
-// Error handler
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ message: err.message || 'Server Error' });
 });
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));
+const server = app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));
+server.on('error', (err) => {
+  if (err.code === 'EADDRINUSE') {
+    console.error(` Port ${PORT} in use. Please stop any running server or set PORT to a different value.`);
+  } else {
+    console.error(' Server error:', err);
+  }
+  process.exit(1);
+});
