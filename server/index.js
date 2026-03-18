@@ -23,14 +23,16 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Routes
-app.use('/api/auth', require('./routes/authRoutes'));
-app.use('/api/orders', require('./routes/orderRoutes'));
-app.use('/api/payment', require('./routes/paymentRoutes'));
-app.use('/api/owner', require('./routes/ownerRoutes'));
-app.use('/api/qr', require('./routes/qrRoutes'));
-app.use('/api/settings', require('./routes/settingsRoutes'));
-app.use("/api/portfolio", require("./routes/portfolioRoutes"));
-app.use("/api/feedback", require("./routes/feedbackRoutes"));
+app.use('/api/auth',      require('./routes/authRoutes'));
+app.use('/api/orders',    require('./routes/orderRoutes'));
+app.use('/api/payment',   require('./routes/paymentRoutes'));
+app.use('/api/owner',     require('./routes/ownerRoutes'));
+app.use('/api/qr',        require('./routes/qrRoutes'));
+app.use('/api/settings',  require('./routes/settingsRoutes'));
+app.use('/api/portfolio', require('./routes/portfolioRoutes'));
+app.use('/api/feedback',  require('./routes/feedbackRoutes'));
+app.use('/api/bookings',  require('./routes/bookingRoutes'));
+app.use('/api/about',     require('./routes/aboutRoutes'));
 
 app.get('/', (req, res) => res.json({ message: 'ClickQueue API Running 🚀' }));
 
@@ -39,13 +41,18 @@ app.use((err, req, res, next) => {
   res.status(500).json({ message: err.message || 'Server Error' });
 });
 
-const PORT = process.env.PORT || 5000;
-const server = app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));
-server.on('error', (err) => {
-  if (err.code === 'EADDRINUSE') {
-    console.error(` Port ${PORT} in use. Please stop any running server or set PORT to a different value.`);
-  } else {
-    console.error(' Server error:', err);
-  }
-  process.exit(1);
-});
+const startServer = (port) => {
+  const server = app.listen(port, () => console.log(`✅ Server running on port ${port}`));
+  server.on('error', (err) => {
+    if (err.code === 'EADDRINUSE') {
+      console.warn(`⚠️ Port ${port} in use. Trying port ${port + 1}...`);
+      startServer(port + 1);
+    } else {
+      console.error('❌ Server error:', err);
+      process.exit(1);
+    }
+  });
+};
+
+const PORT = parseInt(process.env.PORT, 10) || 5000;
+startServer(PORT);

@@ -11,10 +11,15 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
   (res) => res,
   (err) => {
+    // Only redirect to login on 401 if NOT on a public page
     if (err.response?.status === 401) {
-      localStorage.removeItem('cq_token');
-      localStorage.removeItem('cq_user');
-      window.location.href = '/login';
+      const publicPaths = ['/', '/order', '/track', '/portfolio', '/calendar', '/about', '/login'];
+      const isPublic = publicPaths.some(p => window.location.pathname === p || window.location.pathname.startsWith(p + '/'));
+      if (!isPublic) {
+        localStorage.removeItem('cq_token');
+        localStorage.removeItem('cq_user');
+        window.location.href = '/login';
+      }
     }
     return Promise.reject(err);
   }

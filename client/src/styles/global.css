@@ -290,3 +290,44 @@ select option { background: var(--surface2); }
   .navbar-logo-text { font-size: 16px; }
   .navbar-logo-img  { width: 34px; height: 34px; }
 }
+
+/* ══════════════════════════════════════════════════════════
+   ZOOM BLOCKING — All devices, all browsers
+══════════════════════════════════════════════════════════ */
+
+/* Block browser zoom via CSS */
+html {
+  touch-action: pan-x pan-y;          /* Allow scrolling, block pinch zoom */
+  -ms-content-zooming: none;          /* IE/Edge */
+  -ms-touch-action: pan-x pan-y;      /* IE touch */
+}
+
+/* Prevent text size inflation on orientation change (iOS/Android) */
+html, body {
+  -webkit-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* Block double-tap zoom on buttons, links, interactive elements */
+a, button, input, select, textarea,
+.btn, .card, .card-hover, [role="button"] {
+  touch-action: manipulation;         /* Removes 300ms delay + blocks double-tap zoom */
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Prevent input focus zoom on iOS (must be 16px minimum) */
+input, select, textarea {
+  font-size: 16px !important;         /* iOS zooms if < 16px — this stops it */
+}
+
+/* Prevent layout shift / zoom from overflow on small screens */
+body {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+* {
+  box-sizing: border-box;
+}

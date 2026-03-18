@@ -2,13 +2,27 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="%PUBLIC_URL%/logo.png" />
+
+    <!-- ✅ THE KEY LINE — blocks pinch zoom on all devices -->
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, shrink-to-fit=no"
+    />
+
     <meta name="theme-color" content="#0D0D0D" />
-    <meta name="description" content="ClickQueue - Smart Photo Studio Order Management System" />
-    <title>ClickQueue 📸</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <meta name="description" content="Usha Photo Studio — Smart Photo Order Management. Order passport photos, prints, lamination online." />
+
+    <!-- iOS Safari specific -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Usha Studio" />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo.png" />
+
+    <!-- Prevent IE/Edge from zooming -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <title>Usha Photo Studio</title>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
