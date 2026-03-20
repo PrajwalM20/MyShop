@@ -1,6 +1,3 @@
-Here is your **clean, professional, emoji-free README.md** — polished and ready for GitHub, resume, or submission:
-
----
 
 # ClickQueue — Usha Photo Studio
 
@@ -305,9 +302,3 @@ Capturing Moments Forever
 
 ---
 
-If you want, I can next upgrade this with:
-
-* GitHub badges
-* Screenshots section
-* Demo video section
-* LinkedIn-ready project description
