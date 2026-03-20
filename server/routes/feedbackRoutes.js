@@ -26,13 +26,8 @@ router.post('/', async (req, res) => {
 // GET /api/feedback — owner only (view all feedback)
 const { protect, ownerOnly } = require('../middleware/authMiddleware');
 router.get('/', protect, ownerOnly, async (req, res) => {
-  try {
-    const feedbacks = await Feedback.find().sort({ createdAt: -1 }).limit(100);
-    res.json(feedbacks);
-  } catch (err) {
-    console.error('Failed to fetch feedbacks', err);
-    res.status(500).json({ message: 'Failed to fetch feedbacks' });
-  }
+  const feedbacks = await Feedback.find().sort({ createdAt: -1 }).limit(100);
+  res.json(feedbacks);
 });
 
 module.exports = router;

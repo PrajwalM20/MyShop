@@ -12,7 +12,7 @@ export default function OwnerDashboard() {
   const [orders, setOrders] = useState([]);
   const [filter, setFilter] = useState('all');
   const [loading, setLoading] = useState(true);
-  const [qrCode, setQrCode] = useState(null);
+  // QR moved to QR Poster page
   const [activeTab, setActiveTab] = useState('overview');
   const [lastRefresh, setLastRefresh] = useState(new Date());
   const [countdown, setCountdown] = useState(30);
@@ -22,7 +22,10 @@ export default function OwnerDashboard() {
   const [revenueLocked, setRevenueLocked] = useState(true);
   const [revenuePin, setRevenuePin] = useState('');
   const [pinError, setPinError] = useState('');
-  const REVENUE_PIN = '1234'; // Owner sets this pin
+  const REVENUE_PIN = '1234'; // Owner sets this pin — change this to your preferred PIN
+  // Photos & amount lock — same PIN as revenue
+  const [photosLocked,  setPhotosLocked]  = useState(true);
+  const [amountLocked,  setAmountLocked]  = useState(true);
 
   useEffect(() => {
     if (!user || user.role !== 'owner') { navigate('/login'); return; }
@@ -82,12 +85,7 @@ export default function OwnerDashboard() {
     } catch (err) { toast.error('Failed to update status'); }
   };
 
-  const generateQR = async () => {
-    try {
-      const { data } = await api.get('/qr/generate');
-      setQrCode(data.qrCode);
-    } catch (err) { toast.error('Failed to generate QR'); }
-  };
+
 
   const exportCSV = () => {
     const token = localStorage.getItem('cq_token');
@@ -150,28 +148,10 @@ export default function OwnerDashboard() {
 
         {/* Action buttons */}
         <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginBottom: '32px' }}>
-          <button onClick={generateQR} className="btn btn-outline btn-sm">📱 Get QR Code</button>
           <button onClick={exportCSV} className="btn btn-outline btn-sm">📤 Export CSV</button>
         </div>
 
-        {/* QR Modal */}
-        {qrCode && (
-          <div style={{
-            position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            zIndex: 200, padding: '24px',
-          }} onClick={() => setQrCode(null)}>
-            <div className="card" style={{ textAlign: 'center', maxWidth: '340px' }} onClick={e => e.stopPropagation()}>
-              <h3 style={{ marginBottom: '16px' }}>📱 Your Shop QR Code</h3>
-              <img src={qrCode} alt="QR" style={{ width: '100%', borderRadius: '8px', background: '#fff', padding: '8px' }} />
-              <p style={{ color: 'var(--text-muted)', fontSize: '13px', margin: '16px 0' }}>Print and paste outside your shop</p>
-              <div style={{ display: 'flex', gap: '10px' }}>
-                <a href="/api/qr/download" className="btn btn-primary" style={{ flex: 1 }}>⬇️ Download</a>
-                <button onClick={() => setQrCode(null)} className="btn btn-outline" style={{ flex: 1 }}>Close</button>
-              </div>
-            </div>
-          </div>
-        )}
+
 
         {/* Tabs */}
         <div style={{ display: 'flex', gap: '4px', background: 'var(--surface)', borderRadius: 'var(--radius)', padding: '4px', marginBottom: '32px', width: 'fit-content' }}>
@@ -225,29 +205,18 @@ export default function OwnerDashboard() {
                     </div>
                     <div style={{ marginTop: '16px' }}>
                       <div style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '8px' }}>Enter PIN to view revenue</div>
-                      <div style={{ display: 'flex', gap: '8px' }}>
+                      <form autoComplete="off" onSubmit={e => { e.preventDefault(); if (revenuePin === REVENUE_PIN) { setRevenueLocked(false); setRevenuePin(''); setPinError(''); } else { setPinError('Wrong PIN'); setRevenuePin(''); } }} style={{ display: 'flex', gap: '8px' }}>
                         <input
                           type="password"
                           value={revenuePin}
                           onChange={e => { setRevenuePin(e.target.value); setPinError(''); }}
-                          onKeyDown={e => {
-                            if (e.key === 'Enter') {
-                              if (revenuePin === REVENUE_PIN) { setRevenueLocked(false); setRevenuePin(''); setPinError(''); }
-                              else { setPinError('Wrong PIN'); setRevenuePin(''); }
-                            }
-                          }}
                           maxLength={6}
                           placeholder="PIN"
+                          autoComplete="one-time-code"
                           style={{ width: '80px', textAlign: 'center', letterSpacing: '4px', fontSize: '18px', padding: '8px' }}
                         />
-                        <button
-                          onClick={() => {
-                            if (revenuePin === REVENUE_PIN) { setRevenueLocked(false); setRevenuePin(''); setPinError(''); }
-                            else { setPinError('Wrong PIN'); setRevenuePin(''); }
-                          }}
-                          className="btn btn-primary btn-sm"
-                        >Unlock</button>
-                      </div>
+                        <button type="submit" className="btn btn-primary btn-sm">Unlock</button>
+                      </form>
                       {pinError && <div style={{ color: 'var(--danger)', fontSize: '12px', marginTop: '6px' }}>{pinError}</div>}
                     </div>
                   </div>
@@ -314,16 +283,42 @@ export default function OwnerDashboard() {
                       </td>
                       <td style={{ padding: '14px 16px', color: 'var(--text-muted)' }}>{order.serviceType} × {order.quantity}</td>
                       <td style={{ padding: '14px 16px' }}>
-                        <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap' }}>
-                          {order.photos?.slice(0, 3).map((p, i) => (
-                            <a key={i} href={p.url} target="_blank" rel="noreferrer">
-                              <img src={p.url} alt="" style={{ width: '32px', height: '32px', objectFit: 'cover', borderRadius: '4px', border: '1px solid var(--border)' }} />
-                            </a>
-                          ))}
-                          {order.photos?.length > 3 && <span style={{ color: 'var(--text-muted)', fontSize: '12px', padding: '8px 4px' }}>+{order.photos.length - 3}</span>}
-                        </div>
+                        {photosLocked ? (
+                          <button onClick={() => {
+                            const pin = window.prompt('Enter PIN to view photos:');
+                            if (pin === REVENUE_PIN) setPhotosLocked(false);
+                            else if (pin !== null) window.alert('Wrong PIN');
+                          }} style={{ background: 'var(--surface2)', border: '1px solid var(--border)', borderRadius: '6px', padding: '4px 10px', cursor: 'pointer', fontSize: '13px', color: 'var(--text-muted)' }}>
+                            🔒 Locked
+                          </button>
+                        ) : (
+                          <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap', alignItems: 'center' }}>
+                            {order.photos?.slice(0, 3).map((p, i) => (
+                              <a key={i} href={p.url} target="_blank" rel="noreferrer">
+                                <img src={p.url} alt="" style={{ width: '32px', height: '32px', objectFit: 'cover', borderRadius: '4px', border: '1px solid var(--border)' }} />
+                              </a>
+                            ))}
+                            {order.photos?.length > 3 && <span style={{ color: 'var(--text-muted)', fontSize: '12px' }}>+{order.photos.length - 3}</span>}
+                            <button onClick={() => setPhotosLocked(true)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '14px', color: 'var(--text-muted)', marginLeft: '2px' }} title="Lock photos">🔓</button>
+                          </div>
+                        )}
                       </td>
-                      <td style={{ padding: '14px 16px', fontWeight: 700, color: 'var(--gold)' }}>₹{order.totalAmount}</td>
+                      <td style={{ padding: '14px 16px', fontWeight: 700 }}>
+                        {amountLocked ? (
+                          <button onClick={() => {
+                            const pin = window.prompt('Enter PIN to view amount:');
+                            if (pin === REVENUE_PIN) setAmountLocked(false);
+                            else if (pin !== null) window.alert('Wrong PIN');
+                          }} style={{ background: 'var(--surface2)', border: '1px solid var(--border)', borderRadius: '6px', padding: '4px 10px', cursor: 'pointer', fontSize: '13px', color: 'var(--text-muted)' }}>
+                            🔒 ••••
+                          </button>
+                        ) : (
+                          <span style={{ color: 'var(--gold)' }}>
+                            ₹{order.totalAmount}
+                            <button onClick={() => setAmountLocked(true)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '12px', color: 'var(--text-muted)', marginLeft: '4px' }} title="Lock amount">🔓</button>
+                          </span>
+                        )}
+                      </td>
                       <td style={{ padding: '14px 16px' }}>
                         <span className={`badge badge-${order.paymentStatus}`}>{order.paymentStatus}</span>
                       </td>

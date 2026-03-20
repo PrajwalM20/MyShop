@@ -1,76 +1,82 @@
 /**
- * CREATE OWNER — Quick script to create your owner account
- * Run: node createOwner.js
+ * createOwner.js
+ * Run this ONCE from the server folder to create/fix the owner account:
+ *   cd server
+ *   node createOwner.js
+ *
+ * It will:
+ *   1. Create owner account if it doesn't exist
+ *   2. Fix existing account's role to 'owner' if it was set to 'customer'
  */
 
-const path = require('path');
-require('dotenv').config({ path: path.resolve(__dirname, '.env') });
-
+require('dotenv').config();
 const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
+const bcrypt   = require('bcryptjs');
 
-// ── YOUR DETAILS — CHANGE THESE ───────────────────────────────────────────────
-const OWNER_NAME     = 'Prajwal';
-const OWNER_EMAIL    = 'pm464582@gmail.com';
-const OWNER_PHONE    = '9353588862';
-const OWNER_PASSWORD = 'KING123';
-// ─────────────────────────────────────────────────────────────────────────────
+const OWNER_EMAIL    = 'pm464582@gmail.com';   // ← change if needed
+const OWNER_PASSWORD = 'Usha@2025';            // ← change to your preferred password
+const OWNER_NAME     = 'Prajwal';              // ← change to your name
 
-const userSchema = new mongoose.Schema({
-  name: String,
-  email: { type: String, unique: true },
-  phone: String,
-  password: String,
-  role: String,
-}, { timestamps: true });
+async function main() {
+  console.log('\n🔌 Connecting to MongoDB...');
+  await mongoose.connect(process.env.MONGO_URI);
+  console.log('✅ Connected\n');
 
-userSchema.pre('save', async function (next) {
-  if (!this.isModified('password')) return next();
-  this.password = await bcrypt.hash(this.password, 12);
-  next();
-});
+  // Inline User schema — avoids import issues
+  const userSchema = new mongoose.Schema({
+    name:     String,
+    email:    { type: String, unique: true },
+    phone:    String,
+    password: String,
+    role:     { type: String, enum: ['owner','customer'], default: 'customer' },
+  });
+  userSchema.methods.matchPassword = async function(p) {
+    return bcrypt.compare(p, this.password);
+  };
+  const User = mongoose.models.User || mongoose.model('User', userSchema);
 
-const User = mongoose.model('User', userSchema);
+  const existing = await User.findOne({ email: OWNER_EMAIL });
 
-const run = async () => {
-  if (!process.env.MONGO_URI) {
-    console.error('\nMONGO_URI not set in .env file!\n');
-    process.exit(1);
+  if (existing) {
+    if (existing.role === 'owner') {
+      console.log(`✅ Owner account already exists: ${existing.email} (role: owner)`);
+      console.log('   No changes needed.\n');
+    } else {
+      // Fix role
+      existing.role = 'owner';
+      await existing.save();
+      console.log(`✅ Fixed! Updated role to "owner" for: ${existing.email}\n`);
+    }
+  } else {
+    // Create fresh
+    const hashed = await bcrypt.hash(OWNER_PASSWORD, 12);
+    await User.create({
+      name:     OWNER_NAME,
+      email:    OWNER_EMAIL,
+      phone:    '9353588862',
+      password: hashed,
+      role:     'owner',
+    });
+    console.log(`✅ Owner account created!`);
+    console.log(`   Email:    ${OWNER_EMAIL}`);
+    console.log(`   Password: ${OWNER_PASSWORD}`);
+    console.log(`   Role:     owner\n`);
   }
 
-  console.log('Connecting to MongoDB...');
-  await mongoose.connect(process.env.MONGO_URI);
-  console.log('Connected!\n');
-
-  // Delete existing owner with same email if any
-  await User.deleteOne({ email: OWNER_EMAIL });
-
-  // Create fresh owner
-  const owner = new User({
-    name: OWNER_NAME,
-    email: OWNER_EMAIL,
-    phone: OWNER_PHONE,
-    password: OWNER_PASSWORD,
-    role: 'owner',
-  });
-
-  await owner.save();
-
-  console.log('===================================');
-  console.log('  Owner account created!');
-  console.log('===================================');
-  console.log('  Name:     ' + OWNER_NAME);
-  console.log('  Email:    ' + OWNER_EMAIL);
-  console.log('  Password: ' + OWNER_PASSWORD);
-  console.log('  Role:     owner');
-  console.log('===================================');
-  console.log('\n  Go to: http://localhost:3000/login');
-  console.log('  Use the email and password above\n');
+  // Verify final state
+  const verify = await User.findOne({ email: OWNER_EMAIL });
+  console.log('📋 Final account state:');
+  console.log(`   Name:  ${verify.name}`);
+  console.log(`   Email: ${verify.email}`);
+  console.log(`   Role:  ${verify.role}`);
+  console.log('\n🔑 Now login at http://localhost:3000/login');
+  console.log('   Use the email and password above.\n');
 
   await mongoose.disconnect();
-};
+  process.exit(0);
+}
 
-run().catch((err) => {
-  console.error('Failed: ' + err.message);
+main().catch(err => {
+  console.error('❌ Error:', err.message);
   process.exit(1);
 });

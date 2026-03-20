@@ -16,8 +16,11 @@ import DataManagerPage from './pages/DataManagerPage';
 import CalendarPage from './pages/CalendarPage';
 import AboutPage from './pages/AboutPage';
 import ManageAboutPage from './pages/ManageAboutPage';
+import FeedbackPage from './pages/FeedbackPage';
 import LoginPage from './pages/LoginPage';
+import OwnerFeedbackPage from './pages/OwnerFeedbackPage';
 import RegisterPage from './pages/RegisterPage';
+import ClientDashboard from './pages/ClientDashboard';
 import './styles/global.css';
 
 // Inner component so hook runs inside AuthProvider/BrowserRouter
@@ -40,6 +43,7 @@ function AppInner() {
         <Route path="/portfolio"             element={<PortfolioPage />} />
         <Route path="/calendar"              element={<CalendarPage />} />
         <Route path="/about"                 element={<AboutPage />} />
+        <Route path="/client-dashboard"        element={<ClientDashboard />} />
         <Route path="/owner/dashboard"       element={<OwnerDashboard />} />
         <Route path="/owner/data"            element={<DataManagerPage />} />
         <Route path="/owner/portfolio"       element={<ManagePortfolioPage />} />
@@ -47,6 +51,8 @@ function AppInner() {
         <Route path="/owner/calendar"        element={<CalendarPage />} />
         <Route path="/owner/qr-poster"       element={<QRPosterPage />} />
         <Route path="/owner/settings"        element={<SettingsPage />} />
+        <Route path="/owner/feedback"        element={<OwnerFeedbackPage />} />
+        <Route path="/feedback"              element={<FeedbackPage />} />
         <Route path="/login"                 element={<LoginPage />} />
         <Route path="/register"              element={<RegisterPage />} />
       </Routes>
@@ -57,7 +63,7 @@ function AppInner() {
 export default function App() {
   return (
     <AuthProvider>
-      <BrowserRouter>
+      <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <AppInner />
       </BrowserRouter>
     </AuthProvider>

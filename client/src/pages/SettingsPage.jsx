@@ -10,7 +10,7 @@ export default function SettingsPage() {
   const [services, setServices] = useState([]);
   const [shopInfo, setShopInfo] = useState({ name: '', phone: '', address: '', hours: '' });
   const [savingServices, setSavingServices] = useState(false);
-  const [savingShop, setSavingShop] = useState(false);
+  const [savingShop, setSavingShop]     = useState(false);
 
   useEffect(() => {
     if (!user || user.role !== 'owner') { navigate('/login'); return; }
@@ -28,15 +28,14 @@ export default function SettingsPage() {
     } catch { toast.error('Failed to load settings'); }
   };
 
-  const updateService = (id, field, value) => {
+  const updateService = (id, field, value) =>
     setServices(s => s.map(svc => svc.id === id ? { ...svc, [field]: value } : svc));
-  };
 
   const saveServices = async () => {
     setSavingServices(true);
     try {
       await api.put('/settings/services', { services });
-      toast.success('✅ Services & prices saved to database!');
+      toast.success('✅ Services & prices saved!');
     } catch { toast.error('Failed to save'); }
     finally { setSavingServices(false); }
   };
@@ -54,100 +53,131 @@ export default function SettingsPage() {
     <div className="page">
       <div className="container" style={{ maxWidth: '860px' }}>
 
-        <div className="fade-in" style={{ marginBottom: '36px' }}>
-          <h1 style={{ fontSize: '36px', marginBottom: '6px' }}>Shop <span className="text-gold">Settings</span></h1>
-          <p style={{ color: 'var(--text-muted)' }}>Changes save directly to the database and reflect everywhere instantly</p>
+        <div className="fade-in" style={{ marginBottom: '28px' }}>
+          <h1 style={{ fontSize: '34px', marginBottom: '6px' }}>
+            Shop <span className="text-gold">Settings</span>
+          </h1>
+          <p style={{ color: 'var(--text-muted)', fontSize: '15px' }}>
+            Changes save to database and reflect everywhere instantly
+          </p>
         </div>
 
-        {/* ── Services & Prices ─────────────────────────────────── */}
-        <div className="card fade-in" style={{ marginBottom: '24px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '6px', flexWrap: 'wrap', gap: '12px' }}>
+        {/* ── Services & Prices ──────────────────────────────── */}
+        <div className="card fade-in" style={{ marginBottom: '20px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '20px', flexWrap: 'wrap', gap: '12px' }}>
             <div>
               <h2 style={{ fontSize: '20px', marginBottom: '4px' }}>💰 Services & Pricing</h2>
-              <p style={{ color: 'var(--text-muted)', fontSize: '13px' }}>Changes apply to homepage, order page, and QR poster immediately</p>
+              <p style={{ color: 'var(--text-muted)', fontSize: '13px' }}>
+                Changes apply to homepage, order page, and QR poster immediately
+              </p>
             </div>
-            <button onClick={saveServices} className="btn btn-primary" disabled={savingServices} style={{ minWidth: '160px' }}>
+            <button onClick={saveServices} className="btn btn-primary" disabled={savingServices}
+              style={{ minWidth: '160px', flexShrink: 0 }}>
               {savingServices ? <span className="spinner" /> : '💾 Save to Database'}
             </button>
           </div>
 
-          <div style={{ marginTop: '24px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             {services.map(svc => (
               <div key={svc.id} style={{
-                display: 'grid', gridTemplateColumns: '40px 1fr 80px 80px 80px',
-                gap: '12px', alignItems: 'center',
-                padding: '14px 16px', background: 'var(--surface2)',
-                borderRadius: 'var(--radius)', border: '1px solid var(--border)',
+                background: 'var(--surface2)', borderRadius: 'var(--radius)',
+                border: '1px solid var(--border)', padding: '14px 16px',
               }}>
-                {/* Icon */}
-                <span style={{ fontSize: '24px', textAlign: 'center' }}>{svc.icon}</span>
-
-                {/* Name + desc */}
-                <div>
-                  <div style={{ fontWeight: 600, fontSize: '14px' }}>{svc.label}</div>
-                  <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
-                    {svc.unit} · {svc.copies > 1 ? `${svc.copies} copies/unit` : '1 piece/unit'}
+                {/* Top row — icon + name */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
+                  <span style={{ fontSize: '26px', flexShrink: 0 }}>{svc.icon}</span>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ fontWeight: 600, fontSize: '15px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                      {svc.label}
+                    </div>
+                    <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
+                      {svc.unit} · {svc.copies > 1 ? `${svc.copies} copies/unit` : '1 piece'}
+                    </div>
                   </div>
                 </div>
 
-                {/* Price */}
-                <div>
-                  <div style={{ fontSize: '10px', color: 'var(--text-muted)', marginBottom: '4px', textTransform: 'uppercase' }}>Price ₹</div>
-                  <input
-                    type="number" min={0} value={svc.price}
-                    onChange={e => updateService(svc.id, 'price', Number(e.target.value))}
-                    style={{ width: '100%', textAlign: 'center', fontWeight: 700, color: 'var(--gold)', fontSize: '15px', padding: '6px 8px' }}
-                  />
-                </div>
+                {/* Bottom row — price | copies | TBD toggle */}
+                <div style={{ display: 'flex', gap: '10px', alignItems: 'flex-end', flexWrap: 'wrap' }}>
 
-                {/* Copies */}
-                <div>
-                  <div style={{ fontSize: '10px', color: 'var(--text-muted)', marginBottom: '4px', textTransform: 'uppercase' }}>Copies</div>
-                  <input
-                    type="number" min={1} value={svc.copies}
-                    onChange={e => updateService(svc.id, 'copies', Number(e.target.value))}
-                    style={{ width: '100%', textAlign: 'center', fontSize: '14px', padding: '6px 8px' }}
-                  />
-                </div>
+                  {/* Price */}
+                  <div style={{ flex: '1 1 80px', minWidth: '70px' }}>
+                    <div style={{ fontSize: '11px', color: 'var(--text-muted)', marginBottom: '5px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                      Price ₹
+                    </div>
+                    <input
+                      type="number" min={0}
+                      value={svc.price}
+                      onChange={e => updateService(svc.id, 'price', Number(e.target.value))}
+                      style={{ width: '100%', textAlign: 'center', fontWeight: 700, color: 'var(--gold)', fontSize: '16px', padding: '8px 6px' }}
+                    />
+                  </div>
 
-                {/* TBD toggle */}
-                <div style={{ textAlign: 'center' }}>
-                  <div style={{ fontSize: '10px', color: 'var(--text-muted)', marginBottom: '4px', textTransform: 'uppercase' }}>Price TBD</div>
-                  <div onClick={() => updateService(svc.id, 'priceTBD', !svc.priceTBD)} style={{
-                    width: '40px', height: '22px', borderRadius: '100px', cursor: 'pointer',
-                    background: svc.priceTBD ? 'var(--warning)' : 'var(--border)',
-                    position: 'relative', transition: 'all 0.2s', margin: '0 auto',
-                  }}>
-                    <div style={{
-                      position: 'absolute', top: '3px',
-                      left: svc.priceTBD ? '21px' : '3px',
-                      width: '16px', height: '16px', borderRadius: '50%',
-                      background: '#fff', transition: 'all 0.2s',
-                    }} />
+                  {/* Copies */}
+                  <div style={{ flex: '1 1 70px', minWidth: '60px' }}>
+                    <div style={{ fontSize: '11px', color: 'var(--text-muted)', marginBottom: '5px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                      Copies
+                    </div>
+                    <input
+                      type="number" min={1}
+                      value={svc.copies}
+                      onChange={e => updateService(svc.id, 'copies', Number(e.target.value))}
+                      style={{ width: '100%', textAlign: 'center', fontSize: '15px', padding: '8px 6px' }}
+                    />
+                  </div>
+
+                  {/* Price TBD toggle */}
+                  <div style={{ flexShrink: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '5px' }}>
+                    <div style={{ fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                      TBD
+                    </div>
+                    <div
+                      onClick={() => updateService(svc.id, 'priceTBD', !svc.priceTBD)}
+                      style={{
+                        width: '46px', height: '26px', borderRadius: '100px', cursor: 'pointer',
+                        background: svc.priceTBD ? 'var(--warning)' : 'var(--border)',
+                        position: 'relative', transition: 'background 0.2s', flexShrink: 0,
+                      }}>
+                      <div style={{
+                        position: 'absolute', top: '4px',
+                        left: svc.priceTBD ? '23px' : '4px',
+                        width: '18px', height: '18px', borderRadius: '50%',
+                        background: '#fff', transition: 'left 0.2s', boxShadow: '0 1px 3px rgba(0,0,0,0.3)',
+                      }} />
+                    </div>
                   </div>
                 </div>
+
+                {/* TBD hint */}
+                {svc.priceTBD && (
+                  <div style={{ marginTop: '8px', fontSize: '12px', color: 'var(--warning)', fontStyle: 'italic' }}>
+                    Price shown as "To Be Decided" to customers
+                  </div>
+                )}
               </div>
             ))}
           </div>
 
-          <div style={{ marginTop: '16px', padding: '12px 16px', background: 'rgba(212,175,55,0.06)', borderRadius: 'var(--radius)', border: '1px solid rgba(212,175,55,0.2)', fontSize: '12px', color: 'var(--text-muted)' }}>
-            💡 <strong style={{ color: 'var(--gold)' }}>Price TBD</strong> = customer can select the service but price shown as "To Be Decided". Good for Flex banners where size determines price.
+          <div style={{ marginTop: '16px', padding: '12px 14px', background: 'rgba(212,175,55,0.06)', borderRadius: 'var(--radius)', border: '1px solid rgba(212,175,55,0.2)', fontSize: '13px', color: 'var(--text-muted)' }}>
+            💡 Toggle <strong style={{ color: 'var(--gold)' }}>TBD</strong> for services like Flex banners where price depends on size.
           </div>
         </div>
 
-        {/* ── Shop Info ─────────────────────────────────────────── */}
+        {/* ── Shop Info ──────────────────────────────────────── */}
         <div className="card fade-in">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '24px', flexWrap: 'wrap', gap: '12px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '20px', flexWrap: 'wrap', gap: '12px' }}>
             <div>
               <h2 style={{ fontSize: '20px', marginBottom: '4px' }}>🏪 Shop Information</h2>
-              <p style={{ color: 'var(--text-muted)', fontSize: '13px' }}>Shown on homepage, notifications, and QR poster</p>
+              <p style={{ color: 'var(--text-muted)', fontSize: '13px' }}>
+                Shown on homepage, notifications, and QR poster
+              </p>
             </div>
-            <button onClick={saveShop} className="btn btn-primary" disabled={savingShop} style={{ minWidth: '160px' }}>
+            <button onClick={saveShop} className="btn btn-primary" disabled={savingShop}
+              style={{ minWidth: '160px', flexShrink: 0 }}>
               {savingShop ? <span className="spinner" /> : '💾 Save Shop Info'}
             </button>
           </div>
 
-          <div className="grid-2" style={{ gap: '16px' }}>
+          <div className="grid-2" style={{ gap: '14px' }}>
             <div className="input-group">
               <label>Shop Name</label>
               <input value={shopInfo.name || ''} onChange={e => setShopInfo(s => ({ ...s, name: e.target.value }))} placeholder="e.g. Usha Photo Studio" />
