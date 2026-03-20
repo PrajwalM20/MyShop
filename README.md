@@ -1,255 +1,395 @@
-# 📸 ClickQueue — Smart Photo Studio Order Management System
+<div align="center">
 
-> Skip the queue. Not the photos.
+# ClickQueue — Usha Photo Studio
 
-A full-stack digital order management system for photo studios. Customers scan a QR code, upload photos, pay via UPI/GPay/PhonePe, and receive WhatsApp + SMS + Email notifications when their order is ready.
+### Smart Photo Order Management System
+
+**Skip the Queue. Not the Photos.**
+---
+
+##  What is ClickQueue?
+
+ClickQueue is a **full-stack digital order management system** built for **Usha Photo Studio, Nanjangud, Karnataka**. It eliminates physical queues by letting customers order online via QR code.
+
+**How it works:**
+1. Customer scans QR code outside the shop
+2. Uploads photos from their phone
+3. Selects services (passport photos, prints, lamination, etc.)
+4. Pays via UPI (GPay / PhonePe / Paytm)
+5. Gets WhatsApp notification when order is ready
+6. Picks up without waiting in queue
 
 ---
 
-## 🏗️ Tech Stack
+##  Features
 
-| Layer | Tech |
-|-------|------|
-| Frontend | React.js + React Router |
+###  Customer Side
+-  **Online Orders** — Upload photos, select services, pay via UPI
+-  **Order Tracking** — Real-time status with timeline
+-  **Event Booking** — Book sessions for weddings, ceremonies, outdoor shoots
+-  **Portfolio Gallery** — Browse studio work by category
+-  **Feedback System** — Star ratings, tags, comments
+-  **Client Dashboard** — All services in one place with shareable QR
+-  **WhatsApp Alerts** — Instant notification when order is ready
+
+###  Owner Side
+-  **Dashboard** — Today's orders, pending count, revenue chart
+-  **PIN Lock** — Revenue and amount columns locked by default
+-  **Order Management** — View, update, filter, bulk delete, export CSV
+-  **Booking Calendar** — Morning / Afternoon / Evening time slots
+-  **Accept / Decline** — Approve pending booking requests
+-  **Feedback Viewer** — Rating breakdown, tag cloud, individual reviews
+-  **Portfolio Manager** — Upload, feature, delete portfolio photos
+-  **About Us Editor** — Studio info, owner profile, logo, contact details
+-  **Settings** — Live service pricing, shop info
+-  **Dual QR Codes** — Separate QR for clients and owners
+
+---
+
+##  Tech Stack
+
+| Layer | Technology |
+|-------|-----------|
+| Frontend | React 18 + React Router v6 |
 | Backend | Node.js + Express.js |
-| Database | MongoDB (Mongoose) |
+| Database | MongoDB Atlas + Mongoose |
+| Authentication | JWT + bcrypt |
 | File Storage | Cloudinary |
-| Payments | Razorpay (UPI, GPay, PhonePe) |
-| Email | Nodemailer (Gmail) |
-| SMS | Twilio |
-| WhatsApp | Twilio WhatsApp API |
-| Auth | JWT + bcrypt |
+| Payments | Razorpay (UPI / GPay / PhonePe / Paytm) |
+| Notifications | Nodemailer (Email) + Twilio (SMS + WhatsApp) |
+| Charts | Recharts |
+| QR Codes | qrcode npm package |
+| Design | Custom Black & Gold — Playfair Display + DM Sans |
 
 ---
 
-## 📂 Project Structure
+##  Project Structure
 
 ```
-clickqueue/
-├── server/                    # Node.js + Express Backend
+MyShop/
+├── package.json              ← Root — run npm run dev from here
+├── server/
+│   ├── index.js              ← Express server (port 5000)
+│   ├── .env                  ← Environment variables (never commit)
+│   ├── createOwner.js        ← One-time owner account setup
 │   ├── config/
-│   │   ├── db.js              # MongoDB connection
-│   │   ├── cloudinary.js      # Cloudinary + Multer setup
-│   │   └── notifications.js   # Email + SMS + WhatsApp
-│   ├── controllers/
-│   │   ├── authController.js  # Register, Login, GetMe
-│   │   ├── orderController.js # Create, Track orders
-│   │   ├── ownerController.js # Dashboard, Update status
-│   │   ├── paymentController.js # Razorpay integration
-│   │   └── qrController.js   # QR code generation
+│   │   ├── db.js             ← MongoDB connection
+│   │   ├── cloudinary.js     ← File upload config
+│   │   └── notifications.js  ← Email + SMS + WhatsApp
 │   ├── middleware/
-│   │   └── authMiddleware.js  # JWT + Owner auth
+│   │   └── authMiddleware.js ← JWT + role-based access
 │   ├── models/
-│   │   ├── User.js            # User schema
-│   │   └── Order.js           # Order schema
-│   ├── routes/
-│   │   ├── authRoutes.js
-│   │   ├── orderRoutes.js
-│   │   ├── ownerRoutes.js
-│   │   ├── paymentRoutes.js
-│   │   └── qrRoutes.js
-│   ├── .env.example           # Copy to .env and fill values
-│   └── index.js               # Server entry point
-│
-└── client/                    # React Frontend
+│   │   ├── Order.js
+│   │   └── Portfolio.js
+│   ├── controllers/
+│   │   ├── authController.js
+│   │   ├── orderController.js
+│   │   ├── ownerController.js
+│   │   ├── paymentController.js
+│   │   ├── portfolioController.js
+│   │   ├── qrController.js
+│   │   └── settingsController.js
+│   └── routes/
+│       ├── authRoutes.js
+│       ├── orderRoutes.js
+│       ├── ownerRoutes.js
+│       ├── paymentRoutes.js
+│       ├── portfolioRoutes.js
+│       ├── feedbackRoutes.js
+│       ├── bookingRoutes.js
+│       ├── aboutRoutes.js
+│       ├── settingsRoutes.js
+│       └── qrRoutes.js
+└── client/
+    ├── package.json
     ├── public/
-    │   └── index.html         # HTML template (Razorpay script included)
+    │   ├── index.html
+    │   └── logo.svg
     └── src/
-        ├── components/
-        │   └── Navbar.jsx
+        ├── App.jsx
+        ├── setupProxy.js
         ├── context/
         │   └── AuthContext.jsx
-        ├── pages/
-        │   ├── HomePage.jsx        # Landing page with services
-        │   ├── OrderPage.jsx       # 3-step order form + payment
-        │   ├── ConfirmationPage.jsx
-        │   ├── TrackPage.jsx       # Order tracking
-        │   ├── OwnerDashboard.jsx  # Full dashboard + analytics
-        │   ├── LoginPage.jsx
-        │   └── RegisterPage.jsx
-        ├── styles/
-        │   └── global.css          # Black/Gold design system
         ├── utils/
-        │   └── api.js             # Axios with JWT interceptor
-        └── App.jsx                # Router setup
+        │   ├── api.js
+        │   └── useBlockZoom.js
+        ├── components/
+        │   └── Navbar.jsx
+        ├── styles/
+        │   └── global.css
+        └── pages/
+            ├── HomePage.jsx
+            ├── OrderPage.jsx
+            ├── ConfirmationPage.jsx
+            ├── TrackPage.jsx
+            ├── CalendarPage.jsx
+            ├── PortfolioPage.jsx
+            ├── AboutPage.jsx
+            ├── FeedbackPage.jsx
+            ├── ClientDashboard.jsx
+            ├── LoginPage.jsx
+            ├── RegisterPage.jsx
+            ├── OwnerDashboard.jsx
+            ├── DataManagerPage.jsx
+            ├── ManagePortfolioPage.jsx
+            ├── ManageAboutPage.jsx
+            ├── OwnerFeedbackPage.jsx
+            ├── SettingsPage.jsx
+            └── QRPosterPage.jsx
 ```
 
 ---
 
-## 🚀 Setup Instructions
+##  Getting Started
 
-### Step 1: Clone & Install
+### Prerequisites
+- Node.js v16+
+- MongoDB Atlas account
+- Cloudinary account
+- Razorpay account
 
-```bash
-# Install all dependencies (root + server + client)
-npm run install:all
-```
-
-### Step 2: Configure Environment Variables
-
-```bash
-cd server
-cp .env.example .env
-```
-
-Open `.env` and fill in your keys:
-
-#### MongoDB
-1. Create free cluster at [mongodb.com](https://www.mongodb.com)
-2. Get connection string → paste as `MONGO_URI`
-
-#### Cloudinary
-1. Sign up at [cloudinary.com](https://cloudinary.com)
-2. Get Cloud Name, API Key, API Secret from dashboard
-
-#### Razorpay (UPI/GPay/PhonePe)
-1. Sign up at [razorpay.com](https://razorpay.com)
-2. Go to Settings → API Keys → Generate Key
-3. Add `RAZORPAY_KEY_ID` and `RAZORPAY_KEY_SECRET`
-
-#### Gmail (Nodemailer)
-1. Enable 2FA on your Gmail
-2. Go to Google Account → Security → App Passwords
-3. Generate password for "Mail" → use as `EMAIL_PASS`
-
-#### Twilio (SMS + WhatsApp)
-1. Sign up at [twilio.com](https://www.twilio.com)
-2. Get Account SID and Auth Token
-3. For WhatsApp: join Twilio Sandbox → [twilio.com/console/sms/whatsapp/sandbox](https://www.twilio.com/console/sms/whatsapp/sandbox)
-
-### Step 3: Run the App
+### Installation
 
 ```bash
-# Run both server and client together (from root)
+# 1. Clone the repository
+git clone https://github.com/yourusername/clickqueue.git
+cd clickqueue
+
+# 2. Install dependencies
+cd server && npm install
+cd ../client && npm install
+cd ..
+
+# 3. Set up environment variables
+cp server/.env.example server/.env
+# Fill in your keys in server/.env
+
+# 4. Create owner account
+cd server && node createOwner.js
+# Edit createOwner.js with your details first
+
+# 5. Start the app
 npm run dev
+```
 
-# Or run separately:
-npm run server    # Backend on :5000
-npm run client    # Frontend on :3000
+### Available Scripts
+
+```bash
+npm run dev      # Kill ports + start server & client together
+npm run kill     # Kill ports 3000 and 5000
 ```
 
 ---
 
-## 📡 API Reference
+##  All Routes
+
+### Public Pages
+| Route | Page |
+|-------|------|
+| `/` | Homepage |
+| `/order` | Place Order |
+| `/track` | Track Order |
+| `/calendar` | Booking Calendar |
+| `/portfolio` | Our Work |
+| `/about` | About Us |
+| `/feedback` | Give Feedback |
+| `/client-dashboard` | Client Dashboard |
+
+### Owner Pages (authentication required)
+| Route | Page |
+|-------|------|
+| `/owner/dashboard` | Dashboard & Analytics |
+| `/owner/data` | Data Manager |
+| `/owner/portfolio` | Portfolio Manager |
+| `/owner/about` | About Us Editor |
+| `/owner/calendar` | Manage Bookings |
+| `/owner/feedback` | Feedback Viewer |
+| `/owner/settings` | Settings & Pricing |
+| `/owner/qr-poster` | QR Code Posters |
+
+---
+
+## 🔌 API Reference
 
 ### Auth
-| Method | Endpoint | Auth | Description |
-|--------|----------|------|-------------|
-| POST | `/api/auth/register` | ❌ | Register user |
-| POST | `/api/auth/login` | ❌ | Login |
-| GET | `/api/auth/me` | ✅ | Get current user |
+```
+POST   /api/auth/login          Login
+POST   /api/auth/register       Register
+GET    /api/auth/me             Current user
+```
 
 ### Orders
-| Method | Endpoint | Auth | Description |
-|--------|----------|------|-------------|
-| GET | `/api/orders/services` | ❌ | Get all services + prices |
-| POST | `/api/orders/create` | ❌ | Create order (multipart) |
-| GET | `/api/orders/track/:orderId` | ❌ | Track order by ID |
+```
+GET    /api/orders/services     Get services & prices
+POST   /api/orders/create       Create order (multipart)
+GET    /api/orders/track/:id    Track order
+```
 
-### Payment
-| Method | Endpoint | Auth | Description |
-|--------|----------|------|-------------|
-| POST | `/api/payment/create-order` | ❌ | Create Razorpay order |
-| POST | `/api/payment/verify` | ❌ | Verify payment |
-| POST | `/api/payment/webhook` | ❌ | Razorpay webhook |
+### Payments
+```
+POST   /api/payment/create-order   Create Razorpay order
+POST   /api/payment/verify         Verify payment
+```
 
-### Owner (Protected)
-| Method | Endpoint | Auth | Description |
-|--------|----------|------|-------------|
-| GET | `/api/owner/dashboard` | 👑 | Stats + chart data |
-| GET | `/api/owner/orders` | 👑 | All orders (filterable) |
-| GET | `/api/owner/orders/export` | 👑 | Export CSV |
-| GET | `/api/owner/orders/:id` | 👑 | Order detail |
-| PUT | `/api/owner/orders/:id/status` | 👑 | Update status |
+### Bookings
+```
+GET    /api/bookings               Get month bookings
+POST   /api/bookings               Book a slot (→ pending)
+PUT    /api/bookings/:date/:slot   Owner: accept / block
+DELETE /api/bookings/:date/:slot   Owner: clear slot
+```
 
-### QR
-| Method | Endpoint | Auth | Description |
-|--------|----------|------|-------------|
-| GET | `/api/qr/generate` | 👑 | Generate QR (base64) |
-| GET | `/api/qr/download` | 👑 | Download QR as PNG |
+### Owner (protected)
+```
+GET    /api/owner/dashboard          Stats + chart
+GET    /api/owner/orders             All orders
+GET    /api/owner/orders/export      Export CSV
+PUT    /api/owner/orders/:id/status  Update status
+```
 
----
-
-## 💰 Service Pricing
-
-| Service | Price |
-|---------|-------|
-| Passport Size Photo | ₹40/pc |
-| Photo Print 4×6 | ₹15/pc |
-| Photo Print A4 | ₹30/pc |
-| Lamination | ₹50/pc |
-| School ID Card Photo | ₹60/pc |
-
-> To change prices, edit `SERVICE_PRICES` in `server/controllers/orderController.js`
+### Settings & Content
+```
+GET    /api/settings/services     Live services & prices
+GET    /api/settings/shop-info    Shop name, hours, phone
+GET    /api/about                 Studio + owner + contact
+GET    /api/portfolio             Portfolio items
+POST   /api/feedback              Submit feedback
+GET    /api/qr/client             Client QR code
+GET    /api/qr/generate           Owner QR code
+```
 
 ---
 
-## 🔄 Customer Workflow
+##  Booking Flow
 
-1. **Scan QR** outside shop → opens `yoursite.com/order`
-2. **Fill contact info** (name, email, phone)
-3. **Upload photos** (drag & drop, up to 20 files)
-4. **Select service** + quantity
-5. **Pay via UPI** (GPay, PhonePe, Paytm)
-6. **Receive** Order ID + Queue Number
-7. **Get notified** via WhatsApp + SMS + Email when ready
-8. **Pickup** photos at counter with Order ID
-
----
-
-## 👑 Owner Workflow
-
-1. **Register** at `/register` with role = "Owner"
-2. **Login** at `/login`
-3. **Dashboard** at `/owner/dashboard`:
-   - View stats (today's orders, pending, revenue)
-   - Bar chart of last 7 days revenue
-   - Filter orders by status
-   - Update order status (Pending → Processing → Ready → Completed)
-   - When marked "Ready" → customer auto-notified via all channels
-4. **Generate QR** code → print & paste outside shop
-5. **Export CSV** for accounting
+```
+Client selects date
+    ↓
+Picks time slot → Morning (8AM–12PM) / Afternoon (12–4PM) / Evening (4–8PM)
+    ↓
+Fills details → Name · Phone · Address · Event Type · Notes
+    ↓
+Reviews & submits → Status: PENDING 
+    ↓
+Owner sees pending request on calendar
+Owner clicks  Accept → Status: BOOKED
+         or   Decline → Slot: FREE 
+```
 
 ---
 
-## 🔒 Security
+##  Services Offered
 
-- JWT authentication with 30-day expiry
-- bcrypt password hashing (12 rounds)
-- Razorpay payment signature verification (HMAC SHA256)
-- File type + size validation (JPG/PNG only, max 10MB)
-- Role-based access control (owner vs customer)
+### Photo Services (Order Online)
+| Service | Unit |
+|---------|------|
+| Passport Size Photo | Set of 8 |
+| Photo Print 4×6 | Set of 4 |
+| Photo Print 5×7 | Per piece |
+| Photo Print A4 | Per piece |
+| Lamination (Normal) | Per piece |
+| Lamination (Fiber) | Per piece |
+| School ID Photo | Per piece |
+| Flex Banner | Per sq.ft |
 
----
+### Event Photography (Booking Required)
+| Event |
+|-------|
+|  Wedding Photography |
+|  House Warming / Seremani |
+|  Baby Shower / Simantha |
+|  Outdoor Shoot |
+|  Pre-Wedding Shoot |
+|  Birthday Party |
+|  Graduation |
+|  Portrait Session |
 
-## 📱 Pages
-
-| URL | Page | Access |
-|-----|------|--------|
-| `/` | Home / Landing | Public |
-| `/order` | Place Order | Public |
-| `/confirmation/:orderId` | Order Confirmation | Public |
-| `/track` | Track Order | Public |
-| `/track/:orderId` | Track Specific Order | Public |
-| `/owner/dashboard` | Owner Dashboard | Owner only |
-| `/login` | Login | Public |
-| `/register` | Register | Public |
-
----
-
-## 🎨 Design
-
-- **Theme**: Luxury Black + Gold (photo studio aesthetic)
-- **Fonts**: Playfair Display (headings) + DM Sans (body)
-- **Mobile**: Fully responsive
-- **Animations**: Smooth fade-in transitions
+> All prices are managed live from Owner Tools → Settings
 
 ---
 
-## 📊 Resume Description
+##  Dual QR Code System
 
-> **ClickQueue** — Built a full-stack QR-based Digital Order Management System for Photography Studios using React.js, Node.js, Express, MongoDB, and Cloudinary. Integrated Razorpay UPI payment gateway (GPay, PhonePe) with HMAC signature verification. Implemented multi-channel customer notifications via Nodemailer (Email), Twilio (SMS), and WhatsApp API. Features real-time order tracking, queue management, owner analytics dashboard with revenue charts, CSV export, and JWT-based role authentication.
+| QR Type | Destination | Purpose |
+|---------|-------------|---------|
+|  Client QR | `/client-dashboard` | Print outside shop — customers scan |
+|  Owner QR | `/order` | Direct order page link |
 
 ---
 
-Built with ❤️ | ClickQueue — Smart Photo Queue System
+##  Design System
+
+- **Theme:** Luxury Black (`#0D0D1A`) + Gold (`#D4AF37`)
+- **Headings:** Playfair Display
+- **Body:** DM Sans
+- **Fully responsive** — optimized for mobile (primary device for customers)
+- **Zoom locked** — prevents accidental pinch zoom on touch devices
+- **Font size minimum 16px** on inputs (prevents iOS auto-zoom)
+
+---
+
+##  Architecture Highlights
+
+- **Role-based access** — `protect` + `ownerOnly` middleware on all owner routes
+- **Dynamic logo** — loaded from Cloudinary via `/api/about`, inline SVG fallback
+- **Per-route error handling** — one broken route doesn't crash the server
+- **Port 5000 hardcoded** — prevents silent port jumping that breaks the proxy
+- **Proxy setup** — `setupProxy.js` forwards all `/api` calls to port 5000
+- **Auto-refresh dashboard** — polls every 30 seconds, shows last refresh time
+- **Pending booking state** — client requests go pending, owner must accept
+
+---
+
+##  Environment Variables
+
+Create `server/.env` from `server/.env.example`:
+
+```env
+PORT=5000
+MONGO_URI=             # MongoDB Atlas connection string
+JWT_SECRET=            # Any long random string
+CLOUDINARY_CLOUD_NAME= # From cloudinary.com
+CLOUDINARY_API_KEY=    # From cloudinary.com
+CLOUDINARY_API_SECRET= # From cloudinary.com
+EMAIL_USER=            # Gmail address
+EMAIL_PASS=            # Gmail App Password
+RAZORPAY_KEY_ID=       # From razorpay.com
+RAZORPAY_KEY_SECRET=   # From razorpay.com
+CLIENT_URL=http://localhost:3000
+SHOP_NAME=Usha Photo Studio
+```
+
+---
+
+##  Deployment
+
+| Service | Platform |
+|---------|----------|
+| Backend | Railway |
+| Frontend | Vercel |
+| Database | MongoDB Atlas |
+| Images | Cloudinary |
+
+> Update `CLIENT_URL` and `SHOP_QR_URL` in `.env` to your production URLs before deploying.
+
+---
+
+##  .gitignore
+
+Make sure these are never committed:
+```
+.env
+node_modules/
+client/build/
+server/uploads/
+```
+
+---
+
+<div align="center">
+
+Built with  for **Usha Photo Studio**, Nanjangud, Karnataka 🇮🇳
+
+*Capturing Moments Forever*
+
+</div>
