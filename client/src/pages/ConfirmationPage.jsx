@@ -33,7 +33,7 @@ export default function ConfirmationPage() {
       // Store feedback — gracefully fails if endpoint not set up yet
       await api.post('/feedback', { orderId, rating, tags, comment }).catch(() => {});
       setFeedbackStep('done');
-      toast.success('Thank you for your feedback! 🙏');
+      toast.success('Thank you for your feedback! ');
     } finally {
       setSubmitting(false);
     }
@@ -52,7 +52,7 @@ export default function ConfirmationPage() {
           border: '1px solid rgba(45,216,130,0.25)', borderRadius: 'var(--radius-lg)',
           marginBottom: '24px',
         }}>
-          <div style={{ fontSize: '72px', marginBottom: '16px', lineHeight: 1 }}>🎉</div>
+          <div style={{ fontSize: '72px', marginBottom: '16px', lineHeight: 1 }}></div>
           <h1 style={{ fontSize: '32px', marginBottom: '8px', color: 'var(--success)' }}>Order Placed!</h1>
           <p style={{ color: 'var(--text-muted)', fontSize: '16px', marginBottom: '24px' }}>
             Your payment was successful. You'll get a WhatsApp notification when your photos are ready.
@@ -71,7 +71,7 @@ export default function ConfirmationPage() {
           </div>
 
           <div style={{ marginTop: '20px', padding: '12px 20px', background: 'rgba(45,216,130,0.08)', borderRadius: 'var(--radius)', fontSize: '13px', color: 'var(--success)' }}>
-            📱 WhatsApp + SMS notification will be sent when ready
+             WhatsApp + SMS notification will be sent when ready
           </div>
         </div>
 
@@ -82,7 +82,7 @@ export default function ConfirmationPage() {
             <div style={{ fontWeight: 700, fontSize: '18px', letterSpacing: '1px', color: 'var(--gold)' }}>{orderId}</div>
             <div style={{ fontSize: '12px', color: 'var(--text-muted)', marginTop: '4px' }}>Save this to track your order</div>
           </div>
-          <Link to={`/track/${orderId}`} className="btn btn-outline btn-sm">🔍 Track Order</Link>
+          <Link to={`/track/${orderId}`} className="btn btn-outline btn-sm"> Track Order</Link>
         </div>
 
         {/* ── FEEDBACK SECTION ──────────────────────────────────── */}
@@ -172,7 +172,7 @@ export default function ConfirmationPage() {
             <div style={{ display: 'flex', gap: '10px' }}>
               <button onClick={() => setFeedbackStep('prompt')} className="btn btn-outline" style={{ flex: 1 }}>← Back</button>
               <button onClick={submitFeedback} className="btn btn-primary" disabled={submitting} style={{ flex: 2 }}>
-                {submitting ? <span className="spinner" /> : '🙏 Submit Feedback'}
+                {submitting ? <span className="spinner" /> : ' Submit Feedback'}
               </button>
             </div>
           </div>
@@ -183,7 +183,7 @@ export default function ConfirmationPage() {
             textAlign: 'center', marginBottom: '24px',
             background: 'rgba(45,216,130,0.06)', border: '1px solid rgba(45,216,130,0.3)',
           }}>
-            <div style={{ fontSize: '48px', marginBottom: '12px' }}>🙏</div>
+            <div style={{ fontSize: '48px', marginBottom: '12px' }}></div>
             <h3 style={{ fontSize: '20px', color: 'var(--success)', marginBottom: '6px' }}>Thank You!</h3>
             <p style={{ color: 'var(--text-muted)', fontSize: '13px' }}>
               Your {rating}-star feedback has been recorded. It helps us serve you better!
@@ -193,8 +193,8 @@ export default function ConfirmationPage() {
 
         {/* Bottom actions */}
         <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-          <Link to="/" className="btn btn-outline" style={{ flex: 1, justifyContent: 'center' }}>🏠 Home</Link>
-          <Link to="/order" className="btn btn-primary" style={{ flex: 1, justifyContent: 'center' }}>📸 New Order</Link>
+          <Link to="/" className="btn btn-outline" style={{ flex: 1, justifyContent: 'center' }}> Home</Link>
+          <Link to="/order" className="btn btn-primary" style={{ flex: 1, justifyContent: 'center' }}> New Order</Link>
         </div>
 
       </div>

@@ -1,4 +1,4 @@
-# 🚀 ClickQueue Deployment Guide
+#  ClickQueue Deployment Guide
 
 ## Deploy Backend → Railway (Free)
 

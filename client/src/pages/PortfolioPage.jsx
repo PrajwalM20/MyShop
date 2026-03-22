@@ -43,7 +43,7 @@ export default function PortfolioPage() {
             borderRadius: '100px', padding: '6px 16px', fontSize: '13px',
             color: 'var(--gold)', marginBottom: '16px',
           }}>
-            ✨ Our Work
+             Our Work
           </div>
           <h1 style={{ fontSize: '48px', marginBottom: '12px' }}>
             Work We've <span className="text-gold">Done</span>
@@ -72,7 +72,7 @@ export default function PortfolioPage() {
           </div>
         ) : items.length === 0 ? (
           <div style={{ textAlign: 'center', padding: '80px', color: 'var(--text-muted)' }}>
-            <div style={{ fontSize: '48px', marginBottom: '16px' }}>📷</div>
+            <div style={{ fontSize: '48px', marginBottom: '16px' }}></div>
             <p>No portfolio items yet. Check back soon!</p>
           </div>
         ) : (
@@ -165,7 +165,7 @@ export default function PortfolioPage() {
               <div style={{ textAlign: 'center', marginTop: '20px' }}>
                 <h2 style={{ fontSize: '24px', marginBottom: '8px' }}>{selected.title}</h2>
                 {selected.description && <p style={{ color: 'var(--text-muted)' }}>{selected.description}</p>}
-                <button onClick={() => setSelected(null)} className="btn btn-outline" style={{ marginTop: '16px' }}>✕ Close</button>
+                <button onClick={() => setSelected(null)} className="btn btn-outline" style={{ marginTop: '16px' }}> Close</button>
               </div>
             </div>
           </div>

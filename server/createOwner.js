@@ -18,9 +18,9 @@ const OWNER_PASSWORD = 'Usha@2025';            // ← change to your preferred p
 const OWNER_NAME     = 'Prajwal';              // ← change to your name
 
 async function main() {
-  console.log('\n🔌 Connecting to MongoDB...');
+  console.log('\n Connecting to MongoDB...');
   await mongoose.connect(process.env.MONGO_URI);
-  console.log('✅ Connected\n');
+  console.log(' Connected\n');
 
   // Inline User schema — avoids import issues
   const userSchema = new mongoose.Schema({
@@ -39,13 +39,13 @@ async function main() {
 
   if (existing) {
     if (existing.role === 'owner') {
-      console.log(`✅ Owner account already exists: ${existing.email} (role: owner)`);
+      console.log(` Owner account already exists: ${existing.email} (role: owner)`);
       console.log('   No changes needed.\n');
     } else {
       // Fix role
       existing.role = 'owner';
       await existing.save();
-      console.log(`✅ Fixed! Updated role to "owner" for: ${existing.email}\n`);
+      console.log(` Fixed! Updated role to "owner" for: ${existing.email}\n`);
     }
   } else {
     // Create fresh
@@ -57,7 +57,7 @@ async function main() {
       password: hashed,
       role:     'owner',
     });
-    console.log(`✅ Owner account created!`);
+    console.log(` Owner account created!`);
     console.log(`   Email:    ${OWNER_EMAIL}`);
     console.log(`   Password: ${OWNER_PASSWORD}`);
     console.log(`   Role:     owner\n`);
@@ -65,11 +65,11 @@ async function main() {
 
   // Verify final state
   const verify = await User.findOne({ email: OWNER_EMAIL });
-  console.log('📋 Final account state:');
+  console.log(' Final account state:');
   console.log(`   Name:  ${verify.name}`);
   console.log(`   Email: ${verify.email}`);
   console.log(`   Role:  ${verify.role}`);
-  console.log('\n🔑 Now login at http://localhost:3000/login');
+  console.log('\n Now login at http://localhost:3000/login');
   console.log('   Use the email and password above.\n');
 
   await mongoose.disconnect();
@@ -77,6 +77,6 @@ async function main() {
 }
 
 main().catch(err => {
-  console.error('❌ Error:', err.message);
+  console.error(' Error:', err.message);
   process.exit(1);
 });

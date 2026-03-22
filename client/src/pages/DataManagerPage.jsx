@@ -10,9 +10,9 @@ const STATUS_COLORS = {
 };
 
 const TABS = [
-  { id: 'orders',    label: '📋 Orders',    desc: 'View, edit, delete orders' },
-  { id: 'customers', label: '👥 Customers',  desc: 'All unique customers' },
-  { id: 'cleanup',   label: '🧹 Cleanup',    desc: 'Bulk delete by status' },
+  { id: 'orders',    label: ' Orders',    desc: 'View, edit, delete orders' },
+  { id: 'customers', label: ' Customers',  desc: 'All unique customers' },
+  { id: 'cleanup',   label: ' Cleanup',    desc: 'Bulk delete by status' },
 ];
 
 export default function DataManagerPage() {
@@ -87,7 +87,7 @@ export default function DataManagerPage() {
   const saveEdit = async () => {
     try {
       await api.put(`/owner/orders/${editOrder._id}`, editForm);
-      toast.success('✅ Order updated!');
+      toast.success(' Order updated!');
       setEditOrder(null);
       loadOrders();
     } catch { toast.error('Failed to update'); }
@@ -170,7 +170,7 @@ export default function DataManagerPage() {
             <div style={{ display: 'flex', gap: '12px', marginBottom: '20px', flexWrap: 'wrap', alignItems: 'center' }}>
               <input
                 value={search} onChange={e => setSearch(e.target.value)}
-                placeholder="🔍 Search by name, phone, order ID..."
+                placeholder=" Search by name, phone, order ID..."
                 style={{ flex: '1', minWidth: '200px', maxWidth: '360px' }}
               />
               <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
@@ -193,7 +193,7 @@ export default function DataManagerPage() {
                 borderRadius: 'var(--radius)', marginBottom: '16px', flexWrap: 'wrap',
               }}>
                 <span style={{ color: 'var(--gold)', fontWeight: 700 }}>{selected.size} selected</span>
-                <button onClick={bulkDelete} className="btn btn-sm btn-danger">🗑 Delete Selected</button>
+                <button onClick={bulkDelete} className="btn btn-sm btn-danger"> Delete Selected</button>
                 <button onClick={() => setSelected(new Set())} className="btn btn-sm btn-outline" style={{ fontSize: '12px' }}>Clear</button>
               </div>
             )}
@@ -249,11 +249,11 @@ export default function DataManagerPage() {
                         <td style={{ padding: '12px 16px' }}>
                           <div style={{ display: 'flex', gap: '6px' }}>
                             {/* View */}
-                            <button onClick={() => setViewOrder(order)} title="View Details" style={{ background: 'rgba(75,158,255,0.1)', border: '1px solid rgba(75,158,255,0.3)', borderRadius: '6px', padding: '5px 8px', cursor: 'pointer', fontSize: '13px' }}>👁</button>
+                            <button onClick={() => setViewOrder(order)} title="View Details" style={{ background: 'rgba(75,158,255,0.1)', border: '1px solid rgba(75,158,255,0.3)', borderRadius: '6px', padding: '5px 8px', cursor: 'pointer', fontSize: '13px' }}></button>
                             {/* Edit */}
-                            <button onClick={() => openEdit(order)} title="Edit Order" style={{ background: 'rgba(212,175,55,0.1)', border: '1px solid rgba(212,175,55,0.3)', borderRadius: '6px', padding: '5px 8px', cursor: 'pointer', fontSize: '13px' }}>✏️</button>
+                            <button onClick={() => openEdit(order)} title="Edit Order" style={{ background: 'rgba(212,175,55,0.1)', border: '1px solid rgba(212,175,55,0.3)', borderRadius: '6px', padding: '5px 8px', cursor: 'pointer', fontSize: '13px' }}>️</button>
                             {/* Delete */}
-                            <button onClick={() => deleteOne(order._id, order.customer?.name)} title="Delete Order" style={{ background: 'rgba(255,75,75,0.1)', border: '1px solid rgba(255,75,75,0.3)', borderRadius: '6px', padding: '5px 8px', cursor: 'pointer', fontSize: '13px' }}>🗑</button>
+                            <button onClick={() => deleteOne(order._id, order.customer?.name)} title="Delete Order" style={{ background: 'rgba(255,75,75,0.1)', border: '1px solid rgba(255,75,75,0.3)', borderRadius: '6px', padding: '5px 8px', cursor: 'pointer', fontSize: '13px' }}></button>
                           </div>
                         </td>
                       </tr>
@@ -263,7 +263,7 @@ export default function DataManagerPage() {
               </div>
               <div style={{ padding: '12px 16px', borderTop: '1px solid var(--border)', fontSize: '12px', color: 'var(--text-muted)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}>
                 <span>{orders.length} orders shown</span>
-                <button onClick={() => { const token = localStorage.getItem('cq_token'); window.open(`http://localhost:5000/api/owner/orders/export?token=${token}`, '_blank'); }} className="btn btn-sm btn-outline">📤 Export CSV</button>
+                <button onClick={() => { const token = localStorage.getItem('cq_token'); window.open(`http://localhost:5000/api/owner/orders/export?token=${token}`, '_blank'); }} className="btn btn-sm btn-outline"> Export CSV</button>
               </div>
             </div>
           </div>
@@ -299,10 +299,10 @@ export default function DataManagerPage() {
                         onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
                         <td style={{ padding: '14px 16px', fontWeight: 600 }}>{c.name}</td>
                         <td style={{ padding: '14px 16px' }}>
-                          <a href={`tel:${c.phone}`} style={{ color: 'var(--gold)' }}>📞 {c.phone}</a>
+                          <a href={`tel:${c.phone}`} style={{ color: 'var(--gold)' }}> {c.phone}</a>
                         </td>
                         <td style={{ padding: '14px 16px', color: 'var(--text-muted)', fontSize: '12px' }}>
-                          {c.email ? <a href={`mailto:${c.email}`} style={{ color: 'var(--info)' }}>✉️ {c.email}</a> : <span style={{ color: 'var(--border)' }}>—</span>}
+                          {c.email ? <a href={`mailto:${c.email}`} style={{ color: 'var(--info)' }}>️ {c.email}</a> : <span style={{ color: 'var(--border)' }}>—</span>}
                         </td>
                         <td style={{ padding: '14px 16px', textAlign: 'center' }}>
                           <span style={{ background: 'rgba(212,175,55,0.1)', color: 'var(--gold)', borderRadius: '100px', padding: '3px 10px', fontWeight: 700 }}>{c.totalOrders}</span>
@@ -324,7 +324,7 @@ export default function DataManagerPage() {
         {tab === 'cleanup' && (
           <div className="fade-in">
             <div style={{ background: 'rgba(255,75,75,0.06)', border: '1px solid rgba(255,75,75,0.2)', borderRadius: 'var(--radius)', padding: '16px 20px', marginBottom: '28px', display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
-              <span style={{ fontSize: '20px' }}>⚠️</span>
+              <span style={{ fontSize: '20px' }}>️</span>
               <div>
                 <div style={{ fontWeight: 700, color: 'var(--danger)', marginBottom: '4px' }}>Danger Zone</div>
                 <div style={{ color: 'var(--text-muted)', fontSize: '13px' }}>These actions permanently delete data from the database. This cannot be undone.</div>
@@ -333,8 +333,8 @@ export default function DataManagerPage() {
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '16px' }}>
               {[
-                { status: 'completed', label: 'Completed Orders', icon: '✅', color: 'var(--gold)', desc: 'Remove old completed orders to free up space' },
-                { status: 'cancelled', label: 'Cancelled Orders', icon: '❌', color: 'var(--danger)', desc: 'Remove all cancelled orders' },
+                { status: 'completed', label: 'Completed Orders', icon: '', color: 'var(--gold)', desc: 'Remove old completed orders to free up space' },
+                { status: 'cancelled', label: 'Cancelled Orders', icon: '', color: 'var(--danger)', desc: 'Remove all cancelled orders' },
                 { status: 'pending',   label: 'Pending Orders',   icon: '⏳', color: 'var(--warning)', desc: 'Remove stuck pending orders' },
               ].map(({ status, label, icon, color, desc }) => (
                 <div key={status} className="card" style={{ borderColor: 'rgba(255,75,75,0.15)' }}>
@@ -342,7 +342,7 @@ export default function DataManagerPage() {
                   <h3 style={{ fontSize: '16px', marginBottom: '6px', color }}>{label}</h3>
                   <p style={{ color: 'var(--text-muted)', fontSize: '13px', marginBottom: '16px' }}>{desc}</p>
                   <button onClick={() => clearByStatus(status)} className="btn btn-sm btn-danger" style={{ width: '100%' }}>
-                    🗑 Delete All {label}
+                     Delete All {label}
                   </button>
                 </div>
               ))}
@@ -350,7 +350,7 @@ export default function DataManagerPage() {
 
             {/* Manual select delete from orders tab note */}
             <div style={{ marginTop: '24px', padding: '16px', background: 'var(--surface)', borderRadius: 'var(--radius)', border: '1px solid var(--border)', color: 'var(--text-muted)', fontSize: '13px' }}>
-              💡 To delete specific orders — go to the <strong style={{ color: 'var(--gold)' }}>Orders tab</strong>, check the boxes, then click <strong>Delete Selected</strong>.
+               To delete specific orders — go to the <strong style={{ color: 'var(--gold)' }}>Orders tab</strong>, check the boxes, then click <strong>Delete Selected</strong>.
             </div>
           </div>
         )}
@@ -363,7 +363,7 @@ export default function DataManagerPage() {
           <div className="card" style={{ maxWidth: '500px', width: '100%', maxHeight: '80vh', overflowY: 'auto' }} onClick={e => e.stopPropagation()}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
               <h3 style={{ fontSize: '20px' }}>Order <span className="text-gold">#{viewOrder.queueNumber}</span></h3>
-              <button onClick={() => setViewOrder(null)} style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', fontSize: '20px' }}>✕</button>
+              <button onClick={() => setViewOrder(null)} style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', fontSize: '20px' }}></button>
             </div>
             {[
               ['Order ID', viewOrder.orderId],
@@ -396,8 +396,8 @@ export default function DataManagerPage() {
               </div>
             )}
             <div style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
-              <button onClick={() => { setViewOrder(null); openEdit(viewOrder); }} className="btn btn-outline" style={{ flex: 1 }}>✏️ Edit</button>
-              <button onClick={() => { deleteOne(viewOrder._id, viewOrder.customer?.name); setViewOrder(null); }} className="btn btn-sm btn-danger" style={{ flex: 1 }}>🗑 Delete</button>
+              <button onClick={() => { setViewOrder(null); openEdit(viewOrder); }} className="btn btn-outline" style={{ flex: 1 }}>️ Edit</button>
+              <button onClick={() => { deleteOne(viewOrder._id, viewOrder.customer?.name); setViewOrder(null); }} className="btn btn-sm btn-danger" style={{ flex: 1 }}> Delete</button>
             </div>
           </div>
         </div>
@@ -410,10 +410,10 @@ export default function DataManagerPage() {
           <div className="card" style={{ maxWidth: '480px', width: '100%', maxHeight: '85vh', overflowY: 'auto' }} onClick={e => e.stopPropagation()}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
               <h3 style={{ fontSize: '20px' }}>Edit Order <span className="text-gold">#{editOrder.queueNumber}</span></h3>
-              <button onClick={() => setEditOrder(null)} style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', fontSize: '20px' }}>✕</button>
+              <button onClick={() => setEditOrder(null)} style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', fontSize: '20px' }}></button>
             </div>
             <div style={{ background: 'rgba(212,175,55,0.06)', border: '1px solid rgba(212,175,55,0.2)', borderRadius: 'var(--radius)', padding: '10px 14px', marginBottom: '20px', fontSize: '12px', color: 'var(--text-muted)' }}>
-              ✏️ Changes save directly to the database
+              ️ Changes save directly to the database
             </div>
             {[
               { label: 'Customer Name', key: 'customerName', type: 'text' },
@@ -432,7 +432,7 @@ export default function DataManagerPage() {
             </div>
             <div style={{ display: 'flex', gap: '10px', marginTop: '8px' }}>
               <button onClick={() => setEditOrder(null)} className="btn btn-outline" style={{ flex: 1 }}>Cancel</button>
-              <button onClick={saveEdit} className="btn btn-primary" style={{ flex: 1 }}>💾 Save to DB</button>
+              <button onClick={saveEdit} className="btn btn-primary" style={{ flex: 1 }}> Save to DB</button>
             </div>
           </div>
         </div>

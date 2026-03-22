@@ -65,7 +65,7 @@ export default function ManagePortfolioPage() {
       formData.append('featured', form.featured);
 
       await api.post('/portfolio', formData, { headers: { 'Content-Type': 'multipart/form-data' } });
-      toast.success('✅ Portfolio item added!');
+      toast.success(' Portfolio item added!');
       setFile(null);
       setPreview(null);
       setForm({ title: '', category: 'other', description: '', featured: false });
@@ -111,7 +111,7 @@ export default function ManagePortfolioPage() {
 
         {/* Upload Form */}
         <div className="card fade-in" style={{ marginBottom: '32px' }}>
-          <h3 style={{ marginBottom: '24px', fontSize: '18px' }}>➕ Add New Work</h3>
+          <h3 style={{ marginBottom: '24px', fontSize: '18px' }}> Add New Work</h3>
           <div className="grid-2">
             {/* Dropzone */}
             <div>
@@ -130,7 +130,7 @@ export default function ManagePortfolioPage() {
                   <img src={preview} alt="preview" style={{ width: '100%', borderRadius: '8px', maxHeight: '240px', objectFit: 'cover' }} />
                 ) : (
                   <div>
-                    <div style={{ fontSize: '40px', marginBottom: '8px' }}>📸</div>
+                    <div style={{ fontSize: '40px', marginBottom: '8px' }}></div>
                     <p style={{ color: 'var(--text-muted)', fontSize: '14px' }}>Drop photo here or click to browse</p>
                   </div>
                 )}
@@ -163,12 +163,12 @@ export default function ManagePortfolioPage() {
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   fontSize: '12px', transition: 'all 0.2s',
                 }}>
-                  {form.featured ? '✓' : ''}
+                  {form.featured ? '' : ''}
                 </div>
                 <span style={{ fontSize: '14px' }}>Mark as Featured ⭐</span>
               </div>
               <button onClick={handleUpload} className="btn btn-primary" style={{ width: '100%' }} disabled={uploading}>
-                {uploading ? <span className="spinner" /> : '📤 Upload to Portfolio'}
+                {uploading ? <span className="spinner" /> : ' Upload to Portfolio'}
               </button>
             </div>
           </div>
@@ -177,7 +177,7 @@ export default function ManagePortfolioPage() {
         {/* Existing Portfolio */}
         <div className="fade-in fade-in-delay-1">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-            <h3 style={{ fontSize: '18px' }}>📁 Your Portfolio ({items.length} items)</h3>
+            <h3 style={{ fontSize: '18px' }}> Your Portfolio ({items.length} items)</h3>
           </div>
 
           {loading ? (
@@ -186,7 +186,7 @@ export default function ManagePortfolioPage() {
             </div>
           ) : items.length === 0 ? (
             <div className="card" style={{ textAlign: 'center', padding: '48px', color: 'var(--text-muted)' }}>
-              <div style={{ fontSize: '48px', marginBottom: '12px' }}>📷</div>
+              <div style={{ fontSize: '48px', marginBottom: '12px' }}></div>
               <p>No portfolio items yet. Upload your first work above!</p>
             </div>
           ) : (
@@ -209,10 +209,10 @@ export default function ManagePortfolioPage() {
                     <div style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '10px', textTransform: 'capitalize' }}>{item.category}</div>
                     <div style={{ display: 'flex', gap: '8px' }}>
                       <button onClick={() => toggleFeatured(item)} className="btn btn-sm btn-outline" style={{ flex: 1, fontSize: '11px' }}>
-                        {item.featured ? '★ Unfeature' : '☆ Feature'}
+                        {item.featured ? ' Unfeature' : ' Feature'}
                       </button>
                       <button onClick={() => handleDelete(item._id)} className="btn btn-sm" style={{ background: 'rgba(255,75,75,0.1)', color: 'var(--danger)', border: '1px solid rgba(255,75,75,0.3)', flex: 1, fontSize: '11px' }}>
-                        🗑 Delete
+                         Delete
                       </button>
                     </div>
                   </div>

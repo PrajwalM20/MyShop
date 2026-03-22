@@ -62,7 +62,7 @@ export default function OwnerDashboard() {
       ]);
       setStats(statsRes.data);
       setOrders(ordersRes.data.orders);
-      if (silent) toast.success('Dashboard refreshed', { duration: 1500, icon: '🔄' });
+      if (silent) toast.success('Dashboard refreshed', { duration: 1500, icon: '' });
     } catch (err) {
       if (!silent) toast.error('Failed to load dashboard');
     } finally {
@@ -138,7 +138,7 @@ export default function OwnerDashboard() {
                 background: 'none', border: 'none', cursor: 'pointer',
                 color: 'var(--gold)', fontSize: '16px', padding: '0 0 0 4px',
                 lineHeight: 1,
-              }} title="Refresh now">🔄</button>
+              }} title="Refresh now"></button>
             </div>
             <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
               Last: {lastRefresh.toLocaleTimeString()}
@@ -148,7 +148,7 @@ export default function OwnerDashboard() {
 
         {/* Action buttons */}
         <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginBottom: '32px' }}>
-          <button onClick={exportCSV} className="btn btn-outline btn-sm">📤 Export CSV</button>
+          <button onClick={exportCSV} className="btn btn-outline btn-sm"> Export CSV</button>
         </div>
 
 
@@ -164,7 +164,7 @@ export default function OwnerDashboard() {
               fontFamily: 'var(--font-body)', fontSize: '14px',
               textTransform: 'capitalize', transition: 'all 0.2s',
             }}>
-              {tab === 'overview' ? '📊 Overview' : '📋 Orders'}
+              {tab === 'overview' ? ' Overview' : ' Orders'}
             </button>
           ))}
         </div>
@@ -173,10 +173,10 @@ export default function OwnerDashboard() {
           <>
             <div className="grid-4 fade-in" style={{ marginBottom: '32px' }}>
               {[
-                { icon: '📦', label: "Today's Orders", value: stats.todayOrders, bg: 'rgba(212,175,55,0.1)' },
+                { icon: '', label: "Today's Orders", value: stats.todayOrders, bg: 'rgba(212,175,55,0.1)' },
                 { icon: '⏳', label: 'Pending', value: stats.pendingOrders, bg: 'rgba(255,179,71,0.1)' },
-                { icon: '🖨️', label: 'Processing', value: stats.processingOrders, bg: 'rgba(75,158,255,0.1)' },
-                { icon: '✅', label: 'Ready', value: stats.readyOrders, bg: 'rgba(45,216,130,0.1)' },
+                { icon: '️', label: 'Processing', value: stats.processingOrders, bg: 'rgba(75,158,255,0.1)' },
+                { icon: '', label: 'Ready', value: stats.readyOrders, bg: 'rgba(45,216,130,0.1)' },
               ].map(s => (
                 <div key={s.label} className="stat-card">
                   <div className="stat-icon" style={{ background: s.bg, fontSize: '24px' }}>{s.icon}</div>
@@ -195,7 +195,7 @@ export default function OwnerDashboard() {
                   <button onClick={() => { setRevenueLocked(l => !l); setRevenuePin(''); setPinError(''); }}
                     style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '20px', lineHeight: 1 }}
                     title={revenueLocked ? 'Unlock revenue' : 'Lock revenue'}
-                  >{revenueLocked ? '🔒' : '🔓'}</button>
+                  >{revenueLocked ? '' : ''}</button>
                 </div>
 
                 {revenueLocked ? (
@@ -226,7 +226,7 @@ export default function OwnerDashboard() {
                       ₹{stats.totalRevenue?.toLocaleString('en-IN')}
                     </div>
                     <div style={{ color: 'var(--text-muted)', fontSize: '13px', marginTop: '8px' }}>{stats.completedOrders} orders completed</div>
-                    <div style={{ fontSize: '11px', color: 'var(--text-muted)', marginTop: '4px' }}>Click 🔓 to lock again</div>
+                    <div style={{ fontSize: '11px', color: 'var(--text-muted)', marginTop: '4px' }}>Click  to lock again</div>
                   </div>
                 )}
               </div>
@@ -289,7 +289,7 @@ export default function OwnerDashboard() {
                             if (pin === REVENUE_PIN) setPhotosLocked(false);
                             else if (pin !== null) window.alert('Wrong PIN');
                           }} style={{ background: 'var(--surface2)', border: '1px solid var(--border)', borderRadius: '6px', padding: '4px 10px', cursor: 'pointer', fontSize: '13px', color: 'var(--text-muted)' }}>
-                            🔒 Locked
+                             Locked
                           </button>
                         ) : (
                           <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap', alignItems: 'center' }}>
@@ -299,7 +299,7 @@ export default function OwnerDashboard() {
                               </a>
                             ))}
                             {order.photos?.length > 3 && <span style={{ color: 'var(--text-muted)', fontSize: '12px' }}>+{order.photos.length - 3}</span>}
-                            <button onClick={() => setPhotosLocked(true)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '14px', color: 'var(--text-muted)', marginLeft: '2px' }} title="Lock photos">🔓</button>
+                            <button onClick={() => setPhotosLocked(true)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '14px', color: 'var(--text-muted)', marginLeft: '2px' }} title="Lock photos"></button>
                           </div>
                         )}
                       </td>
@@ -310,12 +310,12 @@ export default function OwnerDashboard() {
                             if (pin === REVENUE_PIN) setAmountLocked(false);
                             else if (pin !== null) window.alert('Wrong PIN');
                           }} style={{ background: 'var(--surface2)', border: '1px solid var(--border)', borderRadius: '6px', padding: '4px 10px', cursor: 'pointer', fontSize: '13px', color: 'var(--text-muted)' }}>
-                            🔒 ••••
+                             ••••
                           </button>
                         ) : (
                           <span style={{ color: 'var(--gold)' }}>
                             ₹{order.totalAmount}
-                            <button onClick={() => setAmountLocked(true)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '12px', color: 'var(--text-muted)', marginLeft: '4px' }} title="Lock amount">🔓</button>
+                            <button onClick={() => setAmountLocked(true)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '12px', color: 'var(--text-muted)', marginLeft: '4px' }} title="Lock amount"></button>
                           </span>
                         )}
                       </td>

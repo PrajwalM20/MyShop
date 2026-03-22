@@ -7,10 +7,10 @@ const STATUS_STEPS = ['pending', 'processing', 'ready', 'completed'];
 
 const STATUS_INFO = {
   pending:    { icon: '⏳', label: 'Order Received',    color: 'var(--warning)', desc: 'Your order has been received and is in queue' },
-  processing: { icon: '🖨️', label: 'Being Processed',  color: 'var(--info)',    desc: 'We are working on your photos right now' },
-  ready:      { icon: '✅', label: 'Ready for Pickup',  color: 'var(--success)', desc: 'Your photos are ready! Please visit the shop' },
-  completed:  { icon: '🎉', label: 'Completed',         color: 'var(--gold)',    desc: 'Order completed. Thank you for visiting!' },
-  cancelled:  { icon: '❌', label: 'Cancelled',         color: 'var(--danger)',  desc: 'This order was cancelled' },
+  processing: { icon: '️', label: 'Being Processed',  color: 'var(--info)',    desc: 'We are working on your photos right now' },
+  ready:      { icon: '', label: 'Ready for Pickup',  color: 'var(--success)', desc: 'Your photos are ready! Please visit the shop' },
+  completed:  { icon: '', label: 'Completed',         color: 'var(--gold)',    desc: 'Order completed. Thank you for visiting!' },
+  cancelled:  { icon: '', label: 'Cancelled',         color: 'var(--danger)',  desc: 'This order was cancelled' },
 };
 
 export default function TrackPage() {
@@ -61,7 +61,7 @@ export default function TrackPage() {
             />
           </div>
           <button onClick={() => trackOrder()} className="btn btn-primary" style={{ width: '100%' }} disabled={loading}>
-            {loading ? <span className="spinner" /> : '🔍 Track Order'}
+            {loading ? <span className="spinner" /> : ' Track Order'}
           </button>
         </div>
 
@@ -96,7 +96,7 @@ export default function TrackPage() {
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
                       fontSize: '14px', transition: 'all 0.3s',
                     }}>
-                      {done ? '✓' : <span style={{ color: 'var(--text-muted)', fontSize: '11px' }}>{i + 1}</span>}
+                      {done ? '' : <span style={{ color: 'var(--text-muted)', fontSize: '11px' }}>{i + 1}</span>}
                     </div>
                     <div style={{ fontSize: '11px', color: done ? 'var(--gold)' : 'var(--text-muted)', fontWeight: done ? 700 : 400, textTransform: 'capitalize' }}>{s}</div>
                   </div>
@@ -124,7 +124,7 @@ export default function TrackPage() {
 
             {order.orderStatus === 'ready' && (
               <div style={{ background: 'rgba(45,216,130,0.1)', border: '1px solid rgba(45,216,130,0.3)', borderRadius: 'var(--radius)', padding: '16px', marginTop: '20px', textAlign: 'center' }}>
-                <div style={{ fontSize: '24px', marginBottom: '6px' }}>🎉</div>
+                <div style={{ fontSize: '24px', marginBottom: '6px' }}></div>
                 <div style={{ color: 'var(--success)', fontWeight: 700 }}>Your photos are ready!</div>
                 <div style={{ color: 'var(--text-muted)', fontSize: '13px', marginTop: '4px' }}>Please visit the shop and show your Order ID: <strong>{order.orderId}</strong></div>
               </div>

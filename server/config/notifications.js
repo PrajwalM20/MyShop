@@ -71,7 +71,7 @@ const sendOrderConfirmationEmail = async (order) => {
     order.customer.email,
     `Order Confirmed - ${order.orderId}`,
     `<div style="font-family:sans-serif;max-width:480px;margin:auto">
-      <h2 style="color:#D4AF37">Order Confirmed! 📸</h2>
+      <h2 style="color:#D4AF37">Order Confirmed! </h2>
       <p>Hi <strong>${order.customer.name}</strong>,</p>
       <p>Your order has been placed successfully.</p>
       <table style="width:100%;border-collapse:collapse;margin:16px 0">
@@ -95,7 +95,7 @@ const sendOrderConfirmationSMS = async (order) => {
 const sendOrderConfirmationWhatsApp = async (order) => {
   await sendWhatsApp(
     order.customer.phone,
-    `Hi ${order.customer.name}! 👋\n\nYour order is confirmed!\n\n📋 Order ID: ${order.orderId}\n🔢 Queue No: #${order.queueNumber}\n📸 Service: ${order.serviceType}\n💰 Amount: Rs.${order.totalAmount}\n\nWe will message you here when your order is ready! ✅`
+    `Hi ${order.customer.name}! \n\nYour order is confirmed!\n\n Order ID: ${order.orderId}\n Queue No: #${order.queueNumber}\n Service: ${order.serviceType}\n Amount: Rs.${order.totalAmount}\n\nWe will message you here when your order is ready! `
   );
 };
 
@@ -105,7 +105,7 @@ const sendOwnerNotificationEmail = async (order) => {
     process.env.OWNER_EMAIL,
     `New Order #${order.queueNumber} - ${order.orderId}`,
     `<div style="font-family:sans-serif">
-      <h2>New Order Received! 📦</h2>
+      <h2>New Order Received! </h2>
       <p><strong>Customer:</strong> ${order.customer.name}</p>
       <p><strong>Phone:</strong> ${order.customer.phone}</p>
       <p><strong>Email:</strong> ${order.customer.email || 'Not provided'}</p>
@@ -123,7 +123,7 @@ const sendOrderReadyEmail = async (order) => {
     order.customer.email,
     `Your Order is Ready! - ${order.orderId}`,
     `<div style="font-family:sans-serif;max-width:480px;margin:auto">
-      <h2 style="color:#D4AF37">Your Order is Ready! ✅</h2>
+      <h2 style="color:#D4AF37">Your Order is Ready! </h2>
       <p>Hi <strong>${order.customer.name}</strong>,</p>
       <p>Your order <strong>${order.orderId}</strong> (Queue #${order.queueNumber}) is ready for pickup!</p>
       <p>Please visit the shop and show your Order ID.</p>
@@ -141,7 +141,7 @@ const sendOrderReadySMS = async (order) => {
 const sendOrderReadyWhatsApp = async (order) => {
   await sendWhatsApp(
     order.customer.phone,
-    `Hi ${order.customer.name}! 🎉\n\nYour order is READY for pickup!\n\n📋 Order ID: ${order.orderId}\n🔢 Queue: #${order.queueNumber}\n\nPlease visit the shop and show your Order ID. Thank you! 🙏`
+    `Hi ${order.customer.name}! \n\nYour order is READY for pickup!\n\n Order ID: ${order.orderId}\n Queue: #${order.queueNumber}\n\nPlease visit the shop and show your Order ID. Thank you! `
   );
 };
 

@@ -23,7 +23,7 @@ export default function AboutPage() {
         {/* Header */}
         <div className="fade-in" style={{ textAlign:'center', marginBottom:'56px' }}>
           <div style={{ display:'inline-flex', alignItems:'center', gap:'8px', background:'rgba(212,175,55,0.1)', border:'1px solid rgba(212,175,55,0.3)', borderRadius:'100px', padding:'6px 20px', fontSize:'14px', color:'var(--gold)', marginBottom:'20px' }}>
-            ℹ️ About Us
+             About Us
           </div>
           <h1 style={{ fontSize:'clamp(34px,6vw,58px)', marginBottom:'14px' }}>
             {about?.title || 'About Usha Photo Studio'}
@@ -55,13 +55,13 @@ export default function AboutPage() {
               )}
               {about?.location && (
                 <div style={{ display:'flex', alignItems:'center', gap:'10px', color:'var(--text-muted)', fontSize:'16px' }}>
-                  <span style={{ fontSize:'28px' }}>📍</span><span>{about.location}</span>
+                  <span style={{ fontSize:'28px' }}> </span><span>{about.location}</span>
                 </div>
               )}
             </div>
             <div style={{ display:'flex', gap:'12px', flexWrap:'wrap' }}>
-              <Link to="/calendar" className="btn btn-primary">📅 Book a Session</Link>
-              <Link to="/order"    className="btn btn-outline">📤 Place an Order</Link>
+              <Link to="/calendar" className="btn btn-primary"> Book a Session</Link>
+              <Link to="/order"    className="btn btn-outline"> Place an Order</Link>
             </div>
           </div>
         </div>
@@ -71,7 +71,7 @@ export default function AboutPage() {
           <div className="fade-in" style={{ marginBottom:'72px' }}>
             <div style={{ textAlign:'center', marginBottom:'36px' }}>
               <div style={{ display:'inline-flex', alignItems:'center', gap:'8px', background:'rgba(212,175,55,0.1)', border:'1px solid rgba(212,175,55,0.3)', borderRadius:'100px', padding:'5px 16px', fontSize:'13px', color:'var(--gold)', marginBottom:'12px' }}>
-                👤 Meet the Team
+                 Meet the Team
               </div>
               <h2 style={{ fontSize:'clamp(26px,4vw,38px)' }}>The Person Behind the Lens</h2>
             </div>
@@ -100,7 +100,7 @@ export default function AboutPage() {
                   onMouseEnter={e=>e.currentTarget.style.borderColor='var(--gold)'}
                   onMouseLeave={e=>e.currentTarget.style.borderColor='var(--border)'}
                 >
-                  <span style={{ fontSize:'26px' }}>📞</span>
+                  <span style={{ fontSize:'26px' }}> </span>
                   <div><div style={{ fontSize:'12px', color:'var(--text-muted)' }}>Call Us</div><div style={{ fontWeight:700, fontSize:'16px' }}>{about.phone}</div></div>
                 </a>
               )}
@@ -110,7 +110,7 @@ export default function AboutPage() {
                   onMouseEnter={e=>e.currentTarget.style.borderColor='#25D366'}
                   onMouseLeave={e=>e.currentTarget.style.borderColor='var(--border)'}
                 >
-                  <span style={{ fontSize:'26px' }}>💬</span>
+                  <span style={{ fontSize:'26px' }}> </span>
                   <div><div style={{ fontSize:'12px', color:'var(--text-muted)' }}>WhatsApp</div><div style={{ fontWeight:700, fontSize:'16px' }}>Chat Now</div></div>
                 </a>
               )}
@@ -120,7 +120,7 @@ export default function AboutPage() {
                   onMouseEnter={e=>e.currentTarget.style.borderColor='var(--info)'}
                   onMouseLeave={e=>e.currentTarget.style.borderColor='var(--border)'}
                 >
-                  <span style={{ fontSize:'26px' }}>✉️</span>
+                  <span style={{ fontSize:'26px' }}>️</span>
                   <div><div style={{ fontSize:'12px', color:'var(--text-muted)' }}>Email</div><div style={{ fontWeight:700, fontSize:'15px' }}>{about.email}</div></div>
                 </a>
               )}
@@ -130,7 +130,7 @@ export default function AboutPage() {
                   onMouseEnter={e=>e.currentTarget.style.borderColor='#E4405F'}
                   onMouseLeave={e=>e.currentTarget.style.borderColor='var(--border)'}
                 >
-                  <span style={{ fontSize:'26px' }}>📸</span>
+                  <span style={{ fontSize:'26px' }}> </span>
                   <div><div style={{ fontSize:'12px', color:'var(--text-muted)' }}>Instagram</div><div style={{ fontWeight:700, fontSize:'15px' }}>{about.instagram}</div></div>
                 </a>
               )}
@@ -143,12 +143,12 @@ export default function AboutPage() {
           <h2 style={{ fontSize:'clamp(24px,4vw,36px)', textAlign:'center', marginBottom:'32px' }}>Why Choose Us?</h2>
           <div className="grid-3" style={{ gap:'20px' }}>
             {[
-              { icon:'📸', title:'Professional Quality',   desc:'Every photo printed and processed with care and precision' },
-              { icon:'⚡', title:'Fast Turnaround',        desc:'Get notified on WhatsApp the moment your order is ready' },
-              { icon:'💳', title:'Easy Payments',          desc:'Pay via GPay, PhonePe, Paytm or any UPI app' },
-              { icon:'📅', title:'Event Bookings',         desc:'Book us for weddings, ceremonies, and special occasions' },
-              { icon:'💰', title:'Honest Prices',          desc:'Transparent pricing with no hidden charges, always' },
-              { icon:'🏆', title:'Trusted Local Studio',   desc:`Serving ${about?.location||'our community'} since ${about?.founded||'years'}` },
+              { icon:'', title:'Professional Quality',   desc:'Every photo printed and processed with care and precision' },
+              { icon:'', title:'Fast Turnaround',        desc:'Get notified on WhatsApp the moment your order is ready' },
+              { icon:'', title:'Easy Payments',          desc:'Pay via GPay, PhonePe, Paytm or any UPI app' },
+              { icon:'', title:'Event Bookings',         desc:'Book us for weddings, ceremonies, and special occasions' },
+              { icon:'', title:'Honest Prices',          desc:'Transparent pricing with no hidden charges, always' },
+              { icon:'', title:'Trusted Local Studio',   desc:`Serving ${about?.location||'our community'} since ${about?.founded||'years'}` },
             ].map(v => (
               <div key={v.title} className="card" style={{ textAlign:'center', padding:'28px 20px' }}>
                 <div style={{ fontSize:'36px', marginBottom:'12px' }}>{v.icon}</div>

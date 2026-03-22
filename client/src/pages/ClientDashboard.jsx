@@ -16,10 +16,10 @@ export default function ClientDashboard() {
   }, []);
 
   const CLIENT_MENU = [
-    { icon: '📤', label: 'Place Order',       sub: 'Upload photos & pay via UPI',        to: '/order',     color: 'var(--gold)',    bg: 'rgba(212,175,55,0.1)'  },
-    { icon: '🔍', label: 'Track Order',        sub: 'Check your order status',            to: '/track',     color: 'var(--info)',    bg: 'rgba(75,158,255,0.1)'  },
-    { icon: '📅', label: 'Book a Session',     sub: 'Weddings, events & more',            to: '/calendar',  color: '#9b59b6',        bg: 'rgba(155,89,182,0.1)'  },
-    { icon: '🖼️', label: 'Our Work',           sub: 'Browse our portfolio',               to: '/portfolio', color: 'var(--success)', bg: 'rgba(45,216,130,0.1)'  },
+    { icon: '', label: 'Place Order',       sub: 'Upload photos & pay via UPI',        to: '/order',     color: 'var(--gold)',    bg: 'rgba(212,175,55,0.1)'  },
+    { icon: '', label: 'Track Order',        sub: 'Check your order status',            to: '/track',     color: 'var(--info)',    bg: 'rgba(75,158,255,0.1)'  },
+    { icon: '', label: 'Book a Session',     sub: 'Weddings, events & more',            to: '/calendar',  color: '#9b59b6',        bg: 'rgba(155,89,182,0.1)'  },
+    { icon: '️', label: 'Our Work',           sub: 'Browse our portfolio',               to: '/portfolio', color: 'var(--success)', bg: 'rgba(45,216,130,0.1)'  },
     { icon: 'ℹ️',  label: 'About Us',           sub: 'Meet our team & studio',             to: '/about',     color: 'var(--warning)', bg: 'rgba(255,179,71,0.1)'  },
     { icon: '⭐', label: 'Give Feedback',      sub: 'Rate your experience',               to: '/feedback',  color: '#e74c3c',        bg: 'rgba(231,76,60,0.1)'   },
   ];
@@ -43,8 +43,8 @@ export default function ClientDashboard() {
           </p>
           {shopInfo.hours && (
             <div style={{ marginTop: '8px', fontSize: '13px', color: 'var(--text-muted)' }}>
-              🕐 {shopInfo.hours}
-              {shopInfo.phone && <span style={{ marginLeft: '14px' }}>📞 {shopInfo.phone}</span>}
+               {shopInfo.hours}
+              {shopInfo.phone && <span style={{ marginLeft: '14px' }}> {shopInfo.phone}</span>}
             </div>
           )}
         </div>
@@ -67,7 +67,7 @@ export default function ClientDashboard() {
               className="btn btn-primary btn-sm"
               style={{ flexShrink: 0 }}
             >
-              🔍 Track
+               Track
             </Link>
           </div>
         </div>
@@ -102,7 +102,7 @@ export default function ClientDashboard() {
         {qrCode && (
           <div className="card fade-in" style={{ textAlign: 'center', border: '1px solid rgba(212,175,55,0.2)', padding: '24px' }}>
             <div style={{ fontSize: '13px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '14px' }}>
-              📱 Share With Friends
+               Share With Friends
             </div>
             <div style={{ display: 'inline-block', padding: '12px', background: '#fff', borderRadius: '12px', marginBottom: '12px' }}>
               <img src={qrCode} alt="Client QR" style={{ width: '140px', height: '140px', display: 'block' }} />
@@ -117,7 +117,7 @@ export default function ClientDashboard() {
         <div style={{ textAlign: 'center', marginTop: '24px', padding: '16px 0', borderTop: '1px solid var(--border)' }}>
           <p style={{ color: 'var(--text-muted)', fontSize: '13px' }}>
             © {new Date().getFullYear()} {shopInfo.name}
-            {shopInfo.address && <span style={{ marginLeft: '10px' }}>📍 {shopInfo.address}</span>}
+            {shopInfo.address && <span style={{ marginLeft: '10px' }}> {shopInfo.address}</span>}
           </p>
         </div>
 

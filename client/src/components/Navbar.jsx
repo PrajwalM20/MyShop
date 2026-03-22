@@ -143,16 +143,16 @@ export default function Navbar() {
           {(!user || user.role !== 'owner') && (
             <>
               <Dropdown label="Services" isActive={isServicesActive}>
-                <DropItem to="/order"     icon="📤" label="Place Order"    onClick={close} />
-                <DropItem to="/track"     icon="🔍" label="Track Order"    onClick={close} />
-                <DropItem to="/calendar"  icon="📅" label="Book a Session" onClick={close} />
+                <DropItem to="/order"     icon="" label="Place Order"    onClick={close} />
+                <DropItem to="/track"     icon="" label="Track Order"    onClick={close} />
+                <DropItem to="/calendar"  icon="" label="Book a Session" onClick={close} />
               </Dropdown>
 
               <Dropdown label="Menu" isActive={isMenuActive}>
-                <DropItem to="/portfolio" icon="🖼️" label="Our Work"     onClick={close} />
+                <DropItem to="/portfolio" icon="️" label="Our Work"     onClick={close} />
                 <DropItem to="/about"     icon="ℹ️"  label="About Us"     onClick={close} />
                 <DropItem to="/feedback"  icon="⭐" label="Feedback"     onClick={close} />
-                <DropItem to="/track"     icon="🔍" label="Track Order"  onClick={close} />
+                <DropItem to="/track"     icon="" label="Track Order"  onClick={close} />
               </Dropdown>
             </>
           )}
@@ -165,21 +165,21 @@ export default function Navbar() {
                     background: isDashActive ? 'var(--gold)' : 'transparent',
                     color: isDashActive ? 'var(--black)' : 'var(--gold)',
                     border: '1px solid var(--gold)', fontSize: '13px',
-                  }}>📊 Dashboard</Link>
+                  }}> Dashboard</Link>
 
                   <Dropdown label="Services" isActive={isServicesActive}>
-                    <DropItem to="/order"     icon="📤" label="Place Order"    onClick={close} />
-                    <DropItem to="/track"     icon="🔍" label="Track Order"    onClick={close} />
-                    <DropItem to="/calendar"  icon="📅" label="Bookings"       onClick={close} />
+                    <DropItem to="/order"     icon="" label="Place Order"    onClick={close} />
+                    <DropItem to="/track"     icon="" label="Track Order"    onClick={close} />
+                    <DropItem to="/calendar"  icon="" label="Bookings"       onClick={close} />
                   </Dropdown>
 
                   <Dropdown label="Owner Tools" isActive={isOwnerActive}>
-                    <DropItem to="/owner/data"      icon="🗄"  label="Data Manager"    onClick={close} />
-                    <DropItem to="/owner/portfolio" icon="📁"  label="Portfolio"       onClick={close} />
+                    <DropItem to="/owner/data"      icon=""  label="Data Manager"    onClick={close} />
+                    <DropItem to="/owner/portfolio" icon=""  label="Portfolio"       onClick={close} />
                     <DropItem to="/owner/about"     icon="ℹ️"   label="About Us Editor" onClick={close} />
                     <DropItem to="/owner/feedback"  icon="⭐"  label="Feedback"        onClick={close} />
-                    <DropItem to="/owner/settings"  icon="⚙️"  label="Settings"        onClick={close} />
-                    <DropItem to="/owner/qr-poster" icon="📱"  label="QR Poster"       onClick={close} />
+                    <DropItem to="/owner/settings"  icon="️"  label="Settings"        onClick={close} />
+                    <DropItem to="/owner/qr-poster" icon=""  label="QR Poster"       onClick={close} />
                   </Dropdown>
                 </>
               )}

@@ -11,7 +11,7 @@ const app = express();
 
 // ── Request logger ─────────────────────────────────────────────
 app.use((req, res, next) => {
-  console.log(`➡️  ${req.method} ${req.originalUrl}`);
+  console.log(`️  ${req.method} ${req.originalUrl}`);
   next();
 });
 
@@ -43,19 +43,19 @@ const routes = [
 for (const [routePath, file] of routes) {
   try {
     app.use(routePath, require(file));
-    console.log(`✅ Route loaded: ${routePath}`);
+    console.log(` Route loaded: ${routePath}`);
   } catch (err) {
-    console.error(`❌ Route FAILED: ${routePath} — ${err.message}`);
+    console.error(` Route FAILED: ${routePath} — ${err.message}`);
   }
 }
 
 // ── Health checks ──────────────────────────────────────────────
-app.get('/',    (req, res) => res.json({ message: 'ClickQueue API Running 🚀', status: 'ok' }));
-app.get('/api', (req, res) => res.json({ message: 'API OK ✅', status: 'ok' }));
+app.get('/',    (req, res) => res.json({ message: 'ClickQueue API Running ', status: 'ok' }));
+app.get('/api', (req, res) => res.json({ message: 'API OK ', status: 'ok' }));
 
 // ── Global error handler ───────────────────────────────────────
 app.use((err, req, res, next) => {
-  console.error('❌ Error:', err.message);
+  console.error(' Error:', err.message);
   res.status(500).json({ message: err.message || 'Server Error' });
 });
 
@@ -64,19 +64,19 @@ const PORT = 5000;   // fixed — never reads from .env so it can't jump
 
 const server = app.listen(PORT, () => {
   console.log('');
-  console.log('✅ ══════════════════════════════════════');
-  console.log(`✅  Server  →  http://localhost:${PORT}`);
-  console.log(`✅  API     →  http://localhost:${PORT}/api`);
-  console.log('✅ ══════════════════════════════════════');
+  console.log(' ══════════════════════════════════════');
+  console.log(`  Server  →  http://localhost:${PORT}`);
+  console.log(`  API     →  http://localhost:${PORT}/api`);
+  console.log(' ══════════════════════════════════════');
   console.log('');
 });
 
 server.on('error', (err) => {
   if (err.code === 'EADDRINUSE') {
     console.error('');
-    console.error('❌ ══════════════════════════════════════');
-    console.error(`❌  Port ${PORT} is already in use!`);
-    console.error('❌ ══════════════════════════════════════');
+    console.error(' ══════════════════════════════════════');
+    console.error(`  Port ${PORT} is already in use!`);
+    console.error(' ══════════════════════════════════════');
     console.error('');
     console.error('  Open a NEW terminal and run:');
     console.error('');
@@ -85,7 +85,7 @@ server.on('error', (err) => {
     console.error('  Then come back and run:  npm run dev');
     console.error('');
   } else {
-    console.error('❌ Server error:', err.message);
+    console.error(' Server error:', err.message);
   }
   process.exit(1);
 });

@@ -5,21 +5,21 @@ import api from '../utils/api';
 import toast from 'react-hot-toast';
 
 const TIME_SLOTS = [
-  { id: 'morning',   label: '🌅 Morning',   time: '8:00 AM – 12:00 PM', color: '#f39c12' },
-  { id: 'afternoon', label: '☀️ Afternoon', time: '12:00 PM – 4:00 PM',  color: '#e67e22' },
-  { id: 'evening',   label: '🌇 Evening',   time: '4:00 PM – 8:00 PM',   color: '#8e44ad' },
+  { id: 'morning',   label: ' Morning',   time: '8:00 AM – 12:00 PM', color: '#f39c12' },
+  { id: 'afternoon', label: ' Afternoon', time: '12:00 PM – 4:00 PM',  color: '#e67e22' },
+  { id: 'evening',   label: ' Evening',   time: '4:00 PM – 8:00 PM',   color: '#8e44ad' },
 ];
 
 const EVENT_TYPES = [
-  { id: 'wedding',      label: '💍 Wedding',                  color: '#e74c3c' },
-  { id: 'baby_shower',  label: '👶 Baby Shower / Simantha',   color: '#9b59b6' },
-  { id: 'housewarming', label: '🏠 House Warming / Seremani', color: '#e67e22' },
-  { id: 'prewedding',   label: '💕 Pre-Wedding Shoot',        color: '#e91e8c' },
-  { id: 'outdoor',      label: '🌅 Outdoor Shoot',            color: '#27ae60' },
-  { id: 'birthday',     label: '🎂 Birthday Party',           color: '#3498db' },
-  { id: 'graduation',   label: '🎓 Graduation',               color: '#1abc9c' },
-  { id: 'portrait',     label: '📸 Portrait Session',         color: '#d4af37' },
-  { id: 'other',        label: '✨ Other',                     color: '#7f8c8d' },
+  { id: 'wedding',      label: ' Wedding',                  color: '#e74c3c' },
+  { id: 'baby_shower',  label: ' Baby Shower / Simantha',   color: '#9b59b6' },
+  { id: 'housewarming', label: ' House Warming / Seremani', color: '#e67e22' },
+  { id: 'prewedding',   label: ' Pre-Wedding Shoot',        color: '#e91e8c' },
+  { id: 'outdoor',      label: ' Outdoor Shoot',            color: '#27ae60' },
+  { id: 'birthday',     label: ' Birthday Party',           color: '#3498db' },
+  { id: 'graduation',   label: ' Graduation',               color: '#1abc9c' },
+  { id: 'portrait',     label: ' Portrait Session',         color: '#d4af37' },
+  { id: 'other',        label: ' Other',                     color: '#7f8c8d' },
 ];
 
 const DAYS   = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
@@ -147,7 +147,7 @@ export default function CalendarPage() {
       setConfirmedBooking(data.booking);
       setSubmitted(true);
       setFormStep(0);
-      toast.success('📅 Booking submitted! We will contact you to confirm.');
+      toast.success(' Booking submitted! We will contact you to confirm.');
       loadMonth();
     } catch (err) {
       toast.error(err.response?.data?.message || 'Failed to submit booking');
@@ -184,7 +184,7 @@ export default function CalendarPage() {
         {/* Header */}
         <div className="fade-in" style={{ marginBottom: '28px' }}>
           <h1 style={{ fontSize: '34px', marginBottom: '6px' }}>
-            📅 Booking <span className="text-gold">Calendar</span>
+               Booking <span className="text-gold">Calendar</span>
           </h1>
           <p style={{ color: 'var(--text-muted)', fontSize: '15px' }}>
             {isOwner
@@ -264,15 +264,14 @@ export default function CalendarPage() {
                   <h3 style={{ fontSize:'20px', marginBottom:'4px' }}>
                     {new Date(selected+'T00:00:00').toLocaleDateString('en-IN',{ weekday:'long', day:'numeric', month:'long', year:'numeric' })}
                   </h3>
-                  {isPast && <span style={{ color:'var(--danger)', fontSize:'13px' }}>⚠️ This date has already passed</span>}
+                  {isPast && <span style={{ color:'var(--danger)', fontSize:'13px' }}> This date has already passed</span>}
                 </div>
-                <button onClick={() => { setSelected(null); setFormStep(0); }} style={{ background:'none', border:'none', color:'var(--text-muted)', cursor:'pointer', fontSize:'22px', lineHeight:1 }}>✕</button>
+                <button onClick={() => { setSelected(null); setFormStep(0); }} style={{ background:'none', border:'none', color:'var(--text-muted)', cursor:'pointer', fontSize:'22px', lineHeight:1 }}>×</button>
               </div>
 
               {/* ── SUCCESS STATE ─────────────────────────────── */}
               {submitted && confirmedBooking && (
                 <div style={{ textAlign:'center', padding:'32px 20px', background:'rgba(45,216,130,0.06)', border:'1px solid rgba(45,216,130,0.25)', borderRadius:'var(--radius)', marginBottom:'16px' }}>
-                  <div style={{ fontSize:'52px', marginBottom:'12px' }}>🎉</div>
                   <h3 style={{ fontSize:'22px', color:'var(--success)', marginBottom:'8px' }}>Booking Request Sent!</h3>
                   <p style={{ color:'var(--text-muted)', fontSize:'15px', marginBottom:'16px' }}>
                     Thank you <strong>{confirmedBooking.clientName || form.clientName}</strong>!<br/>
@@ -338,12 +337,12 @@ export default function CalendarPage() {
                           {/* Pending state */}
                           {isPending && slotData && (
                             <div style={{ fontSize:'13px', borderTop:'1px solid var(--border)', paddingTop:'10px', marginBottom:'10px' }}>
-                              <div style={{ fontWeight:600, marginBottom:'4px', color:'var(--info)' }}>⏳ Pending Request</div>
+                              <div style={{ fontWeight:600, marginBottom:'4px', color:'var(--info)' }}>Pending Request</div>
                               {isOwner && (
                                 <>
                                   <div style={{ fontWeight:600, color:'var(--text)', marginBottom:'2px' }}>{slotData.clientName}</div>
-                                  <div style={{ color:'var(--text-muted)' }}>📞 {slotData.clientPhone}</div>
-                                  {slotData.clientAddress && <div style={{ color:'var(--text-muted)', fontSize:'12px' }}>📍 {slotData.clientAddress}</div>}
+                                  <div style={{ color:'var(--text-muted)' }}>  {slotData.clientPhone}</div>
+                                  {slotData.clientAddress && <div style={{ color:'var(--text-muted)', fontSize:'12px' }}>  {slotData.clientAddress}</div>}
                                   {EVENT_TYPES.find(e=>e.id===slotData.eventType) && <div style={{ color:EVENT_TYPES.find(e=>e.id===slotData.eventType).color, marginTop:'4px', fontWeight:600 }}>{EVENT_TYPES.find(e=>e.id===slotData.eventType).label}</div>}
                                   {slotData.notes && <div style={{ color:'var(--text-muted)', fontStyle:'italic', marginTop:'4px' }}>"{slotData.notes}"</div>}
                                 </>
@@ -360,8 +359,8 @@ export default function CalendarPage() {
                               {isOwner && (
                                 <>
                                   <div style={{ fontWeight:600, marginBottom:'4px' }}>{slotData.clientName}</div>
-                                  <div style={{ color:'var(--text-muted)' }}>📞 {slotData.clientPhone}</div>
-                                  {slotData.clientAddress && <div style={{ color:'var(--text-muted)', fontSize:'12px' }}>📍 {slotData.clientAddress}</div>}
+                                  <div style={{ color:'var(--text-muted)' }}>  {slotData.clientPhone}</div>
+                                  {slotData.clientAddress && <div style={{ color:'var(--text-muted)', fontSize:'12px' }}> {slotData.clientAddress}</div>}
                                   {evtInfo && <div style={{ color:evtInfo.color, marginTop:'4px', fontWeight:600 }}>{evtInfo.label}</div>}
                                   {slotData.notes && <div style={{ color:'var(--text-muted)', fontStyle:'italic', marginTop:'4px' }}>"{slotData.notes}"</div>}
                                 </>
@@ -384,7 +383,7 @@ export default function CalendarPage() {
                             <button onClick={() => startBooking(slot.id)}
                               className="btn btn-primary btn-sm"
                               style={{ width:'100%', marginTop:'8px', fontSize:'14px' }}>
-                              📅 Book This Slot
+                              Book This Slot
                             </button>
                           )}
 
@@ -396,27 +395,26 @@ export default function CalendarPage() {
                                 <>
                                   <button onClick={() => ownerUpdateSlot(slot.id,'booked')}
                                     style={{ fontSize:'12px', padding:'6px 12px', background:'rgba(45,216,130,0.15)', border:'1px solid var(--success)', borderRadius:'6px', cursor:'pointer', color:'var(--success)', fontWeight:700 }}
-                                    disabled={submitting}>✅ Accept Booking</button>
+                                    disabled={submitting}>Accept Booking</button>
                                   <button onClick={() => ownerClearSlot(slot.id)}
                                     style={{ fontSize:'12px', padding:'6px 12px', background:'rgba(255,75,75,0.1)', border:'1px solid var(--danger)', borderRadius:'6px', cursor:'pointer', color:'var(--danger)' }}
-                                    disabled={submitting}>❌ Decline</button>
+                                    disabled={submitting}>Decline</button>
                                 </>
                               )}
-                              {/* FREE — can block */}
                               {isFree && (
                                 <button onClick={() => ownerUpdateSlot(slot.id,'blocked')}
                                   style={{ fontSize:'12px', padding:'5px 10px', background:'rgba(52,73,94,0.4)', border:'1px solid #7f8c8d', borderRadius:'6px', cursor:'pointer', color:'#ecf0f1' }}
-                                  disabled={submitting}>⛔ Block</button>
+                                  disabled={submitting}>Block</button>
                               )}
                               {/* BOOKED or BLOCKED — can free or clear */}
                               {(isBooked || isBlocked) && (
                                 <>
                                   <button onClick={() => ownerUpdateSlot(slot.id,'available')}
                                     style={{ fontSize:'12px', padding:'5px 10px', background:'rgba(45,216,130,0.1)', border:'1px solid var(--success)', borderRadius:'6px', cursor:'pointer', color:'var(--success)' }}
-                                    disabled={submitting}>✅ Mark Free</button>
+                                    disabled={submitting}>Mark Free</button>
                                   <button onClick={() => ownerClearSlot(slot.id)}
                                     style={{ fontSize:'12px', padding:'5px 10px', background:'rgba(255,75,75,0.1)', border:'1px solid var(--danger)', borderRadius:'6px', cursor:'pointer', color:'var(--danger)' }}
-                                    disabled={submitting}>🗑 Clear</button>
+                                    disabled={submitting}>Clear</button>
                                 </>
                               )}
                             </div>
@@ -450,7 +448,7 @@ export default function CalendarPage() {
                   </div>
 
                   <div style={{ background:'rgba(212,175,55,0.06)', border:'1px solid rgba(212,175,55,0.2)', borderRadius:'var(--radius)', padding:'12px 16px', marginBottom:'20px', fontSize:'14px' }}>
-                    📅 <strong>{new Date(selected+'T00:00:00').toLocaleDateString('en-IN',{ weekday:'long', day:'numeric', month:'long' })}</strong>
+                    <strong>{new Date(selected+'T00:00:00').toLocaleDateString('en-IN',{ weekday:'long', day:'numeric', month:'long' })}</strong>
                     &nbsp;—&nbsp;
                     <span style={{ color:'var(--gold)' }}>{slotInfo?.label} ({slotInfo?.time})</span>
                   </div>
@@ -486,7 +484,7 @@ export default function CalendarPage() {
                   {/* Stepper */}
                   <div style={{ display:'flex', alignItems:'center', gap:'8px', marginBottom:'24px', flexWrap:'wrap' }}>
                     <div style={{ display:'flex', alignItems:'center', gap:'6px' }}>
-                      <div style={{ width:'28px', height:'28px', borderRadius:'50%', background:'rgba(45,216,130,0.2)', border:'2px solid var(--success)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'13px', color:'var(--success)', fontWeight:700 }}>✓</div>
+                      <div style={{ width:'28px', height:'28px', borderRadius:'50%', background:'rgba(45,216,130,0.2)', border:'2px solid var(--success)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'13px', color:'var(--success)', fontWeight:700 }}></div>
                       <span style={{ fontSize:'14px', color:'var(--text-muted)' }}>Your Details</span>
                     </div>
                     <div style={{ flex:1, height:'2px', background:'var(--gold)', minWidth:'20px' }} />
@@ -540,7 +538,7 @@ export default function CalendarPage() {
                     {['Your Details','Choose Service','Confirm'].map((label,i) => (
                       <div key={label} style={{ display:'flex', alignItems:'center', gap:'6px', flex: i<2 ? '0 0 auto' : undefined }}>
                         <div style={{ width:'28px', height:'28px', borderRadius:'50%', background: i<2 ? 'rgba(45,216,130,0.2)' : 'var(--gold)', border: i<2 ? '2px solid var(--success)' : 'none', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'13px', color: i<2 ? 'var(--success)' : 'var(--black)', fontWeight:700 }}>
-                          {i < 2 ? '✓' : '3'}
+                          {i < 2 ? '' : '3'}
                         </div>
                         <span style={{ fontSize:'14px', color: i<2 ? 'var(--text-muted)' : 'var(--gold)', fontWeight: i===2 ? 600 : 400 }}>{label}</span>
                         {i < 2 && <div style={{ width:'24px', height:'2px', background:'var(--gold)', marginLeft:'4px' }} />}
@@ -567,13 +565,13 @@ export default function CalendarPage() {
                   </div>
 
                   <div style={{ background:'rgba(212,175,55,0.08)', border:'1px solid rgba(212,175,55,0.2)', borderRadius:'var(--radius)', padding:'12px 16px', marginBottom:'20px', fontSize:'14px', color:'var(--text-muted)' }}>
-                    📞 After submitting, we will call you on <strong>+91 {form.clientPhone}</strong> to confirm your booking and discuss pricing.
+                    After submitting, we will call you on <strong>+91 {form.clientPhone}</strong> to confirm your booking and discuss pricing.
                   </div>
 
                   <div style={{ display:'flex', gap:'10px' }}>
                     <button onClick={() => setFormStep(2)} className="btn btn-outline" style={{ flex:1 }}>← Edit</button>
                     <button onClick={submitBooking} className="btn btn-primary" disabled={submitting} style={{ flex:2, fontSize:'15px' }}>
-                      {submitting ? <span className="spinner" /> : '📅 Confirm Booking Request'}
+                      {submitting ? <span className="spinner" /> : 'Confirm Booking Request'}
                     </button>
                   </div>
                 </div>
@@ -583,7 +581,7 @@ export default function CalendarPage() {
 
           {/* ── CONTACT SECTION ────────────────────────────────── */}
           <div className="card fade-in" style={{ border:'1px solid rgba(212,175,55,0.15)' }}>
-            <h3 style={{ fontSize:'18px', marginBottom:'8px' }}>📞 Contact Us Directly</h3>
+            <h3 style={{ fontSize:'18px', marginBottom:'8px' }}>Contact Us Directly</h3>
             <p style={{ color:'var(--text-muted)', fontSize:'14px', marginBottom:'16px' }}>
               Have questions about booking? Reach us directly:
             </p>
@@ -592,7 +590,7 @@ export default function CalendarPage() {
                 <a href={`tel:${contactInfo.phone}`} style={{ display:'flex', alignItems:'center', gap:'10px', padding:'12px 14px', background:'var(--surface2)', borderRadius:'var(--radius)', border:'1px solid var(--border)', textDecoration:'none', color:'var(--text)', transition:'all 0.2s' }}
                   onMouseEnter={e=>e.currentTarget.style.borderColor='var(--gold)'}
                   onMouseLeave={e=>e.currentTarget.style.borderColor='var(--border)'}>
-                  <span style={{ fontSize:'22px' }}>📞</span>
+                  <span style={{ fontSize:'22px' }}></span>
                   <div><div style={{ fontSize:'11px', color:'var(--text-muted)', textTransform:'uppercase', letterSpacing:'1px' }}>Call</div><div style={{ fontWeight:700, fontSize:'15px' }}>{contactInfo.phone}</div></div>
                 </a>
               )}
@@ -601,7 +599,7 @@ export default function CalendarPage() {
                   style={{ display:'flex', alignItems:'center', gap:'10px', padding:'12px 14px', background:'var(--surface2)', borderRadius:'var(--radius)', border:'1px solid var(--border)', textDecoration:'none', color:'var(--text)', transition:'all 0.2s' }}
                   onMouseEnter={e=>e.currentTarget.style.borderColor='#25D366'}
                   onMouseLeave={e=>e.currentTarget.style.borderColor='var(--border)'}>
-                  <span style={{ fontSize:'22px' }}>💬</span>
+                  <span style={{ fontSize:'22px' }}></span>
                   <div><div style={{ fontSize:'11px', color:'var(--text-muted)', textTransform:'uppercase', letterSpacing:'1px' }}>WhatsApp</div><div style={{ fontWeight:700, fontSize:'15px' }}>Chat Now</div></div>
                 </a>
               )}
@@ -610,7 +608,7 @@ export default function CalendarPage() {
                   style={{ display:'flex', alignItems:'center', gap:'10px', padding:'12px 14px', background:'var(--surface2)', borderRadius:'var(--radius)', border:'1px solid var(--border)', textDecoration:'none', color:'var(--text)', transition:'all 0.2s' }}
                   onMouseEnter={e=>e.currentTarget.style.borderColor='var(--info)'}
                   onMouseLeave={e=>e.currentTarget.style.borderColor='var(--border)'}>
-                  <span style={{ fontSize:'22px' }}>✉️</span>
+                  <span style={{ fontSize:'22px' }}></span>
                   <div><div style={{ fontSize:'11px', color:'var(--text-muted)', textTransform:'uppercase', letterSpacing:'1px' }}>Email</div><div style={{ fontWeight:700, fontSize:'14px' }}>{contactInfo.email}</div></div>
                 </a>
               )}

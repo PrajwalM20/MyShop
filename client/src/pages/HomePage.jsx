@@ -49,7 +49,7 @@ export default function HomePage() {
   const marqueeItems = [...portfolio, ...portfolio];
 
   // Separate photo services and event services
-  const photoServices = services.filter(s => s.category === 'photo' || (!s.category && !s.bookingRequired));
+  const photoServices = services.filter(s => s.category === 'photo' || s.category === 'print' || (!s.category && !s.bookingRequired));
   const eventServices = services.filter(s => s.bookingRequired || s.category === 'event');
 
   return (
@@ -89,15 +89,15 @@ export default function HomePage() {
           </p>
 
           <div className="fade-in fade-in-delay-3" style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <Link to="/order"    className="btn btn-primary btn-lg">📤 Place Your Order</Link>
-            <Link to="/track"    className="btn btn-outline btn-lg">🔍 Track Order</Link>
+            <Link to="/order"    className="btn btn-primary btn-lg"> Place Your Order</Link>
+            <Link to="/track"    className="btn btn-outline btn-lg"> Track Order</Link>
           </div>
 
           {(shopInfo.phone || shopInfo.hours || shopInfo.address) && (
             <div className="fade-in" style={{ marginTop: '28px', color: 'var(--text-muted)', fontSize: '15px', display: 'flex', gap: '20px', justifyContent: 'center', flexWrap: 'wrap' }}>
-              {shopInfo.phone   && <span>📞 {shopInfo.phone}</span>}
-              {shopInfo.hours   && <span>🕐 {shopInfo.hours}</span>}
-              {shopInfo.address && <span>📍 {shopInfo.address}</span>}
+              {shopInfo.phone   && <span> {shopInfo.phone}</span>}
+              {shopInfo.hours   && <span> {shopInfo.hours}</span>}
+              {shopInfo.address && <span> {shopInfo.address}</span>}
             </div>
           )}
 
@@ -149,12 +149,12 @@ export default function HomePage() {
 
                   {about.location && (
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--text-muted)', fontSize: '15px', marginBottom: '24px' }}>
-                      📍 {about.location}
+                       {about.location}
                       {about.founded && <span style={{ marginLeft: '16px' }}>🗓 Est. {about.founded}</span>}
                     </div>
                   )}
                   <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-                    <Link to="/calendar" className="btn btn-primary">📅 Book a Session</Link>
+                    <Link to="/calendar" className="btn btn-primary"> Book a Session</Link>
                     <Link to="/about"    className="btn btn-outline">Read More →</Link>
                   </div>
                 </div>
@@ -169,7 +169,7 @@ export default function HomePage() {
         <div className="container">
           <div style={{ textAlign: 'center', marginBottom: '48px' }}>
             <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(212,175,55,0.1)', border: '1px solid rgba(212,175,55,0.3)', borderRadius: '100px', padding: '5px 16px', fontSize: '13px', color: 'var(--gold)', marginBottom: '16px' }}>
-              💰 Transparent Pricing
+               Transparent Pricing
             </div>
             <h2 style={{ fontSize: '40px', marginBottom: '12px' }}>Photo Services</h2>
             <p style={{ color: 'var(--text-muted)', fontSize: '16px' }}>Prices are always live from our system</p>
@@ -190,12 +190,13 @@ export default function HomePage() {
                   <h3 style={{ fontSize: '14px', marginBottom: '4px', lineHeight: 1.3 }}>{s.label}</h3>
                   <p style={{ color: 'var(--text-muted)', fontSize: '11px', marginBottom: '10px' }}>{s.desc}</p>
                   {s.priceTBD ? (
-                    <div style={{ color: 'var(--warning)', fontWeight: 700, fontSize: '14px' }}>Price TBD</div>
+                    <div style={{ color: 'var(--warning)', fontWeight: 700, fontSize: '14px' }}>Contact for Price</div>
                   ) : (
                     <div>
                       <div style={{ color: 'var(--gold)', fontFamily: 'var(--font-display)', fontSize: '26px', fontWeight: 700 }}>₹{s.price}</div>
                       <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
-                        per {s.unit}{s.copies > 1 && <span style={{ color: 'var(--success)', marginLeft: '4px' }}>· {s.copies} copies</span>}
+                        per {s.unit}
+                        {s.copies > 1 && s.unit !== 'piece' && <span style={{ color: 'var(--success)', marginLeft: '4px' }}>· {s.copies} copies</span>}
                       </div>
                     </div>
                   )}
@@ -204,7 +205,7 @@ export default function HomePage() {
             </div>
           )}
           <div style={{ textAlign: 'center', marginTop: '28px' }}>
-            <Link to="/order" className="btn btn-primary">📤 Order Now →</Link>
+            <Link to="/order" className="btn btn-primary"> Order Now →</Link>
           </div>
         </div>
       </section>
@@ -215,7 +216,7 @@ export default function HomePage() {
           <div className="container">
             <div style={{ textAlign: 'center', marginBottom: '48px' }}>
               <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(212,175,55,0.1)', border: '1px solid rgba(212,175,55,0.3)', borderRadius: '100px', padding: '5px 16px', fontSize: '13px', color: 'var(--gold)', marginBottom: '16px' }}>
-                📅 Event Photography
+                 Event Photography
               </div>
               <h2 style={{ fontSize: '40px', marginBottom: '12px' }}>Book Us for Your Event</h2>
               <p style={{ color: 'var(--text-muted)', fontSize: '16px' }}>Check calendar availability and book your special day</p>
@@ -231,14 +232,14 @@ export default function HomePage() {
                   <h3 style={{ fontSize: '16px', marginBottom: '6px' }}>{s.label}</h3>
                   <p style={{ color: 'var(--text-muted)', fontSize: '13px', lineHeight: 1.6, marginBottom: '16px' }}>{s.desc}</p>
                   <Link to="/calendar" className="btn btn-outline btn-sm" style={{ width: '100%', justifyContent: 'center', fontSize: '12px' }}>
-                    📅 Check Availability
+                     Check Availability
                   </Link>
                 </div>
               ))}
             </div>
 
             <div style={{ textAlign: 'center', padding: '32px', background: 'rgba(212,175,55,0.04)', border: '1px solid rgba(212,175,55,0.2)', borderRadius: 'var(--radius-lg)' }}>
-              <div style={{ fontSize: '36px', marginBottom: '12px' }}>📅</div>
+              <div style={{ fontSize: '36px', marginBottom: '12px' }}> </div>
               <h3 style={{ fontSize: '22px', marginBottom: '8px' }}>Planning a Special Event?</h3>
               <p style={{ color: 'var(--text-muted)', fontSize: '15px', marginBottom: '20px' }}>Check our calendar for available dates and book your session</p>
               <Link to="/calendar" className="btn btn-primary btn-lg">Check Calendar & Book →</Link>
@@ -309,8 +310,8 @@ export default function HomePage() {
             No queues. No cash. Scan &amp; order from your phone.
           </p>
           <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <Link to="/order"    className="btn btn-primary btn-lg">📸 Start Your Order</Link>
-            <Link to="/calendar" className="btn btn-outline btn-lg">📅 Book an Event</Link>
+            <Link to="/order"    className="btn btn-primary btn-lg"> Start Your Order</Link>
+            <Link to="/calendar" className="btn btn-outline btn-lg">  Book an Event</Link>
           </div>
         </div>
       </section>
@@ -320,7 +321,7 @@ export default function HomePage() {
         <div className="container">
           <p style={{ color: 'var(--text-muted)', fontSize: '14px' }}>
             © {new Date().getFullYear()} {shopInfo.name} — Smart Photo Order Management
-            {shopInfo.address && <span style={{ marginLeft: '12px' }}>📍 {shopInfo.address}</span>}
+            {shopInfo.address && <span style={{ marginLeft: '12px' }}> {shopInfo.address}</span>}
           </p>
           <div style={{ marginTop: '10px', display: 'flex', gap: '20px', justifyContent: 'center', flexWrap: 'wrap' }}>
             <Link to="/about"     style={{ color: 'var(--text-muted)', fontSize: '13px' }}>About Us</Link>

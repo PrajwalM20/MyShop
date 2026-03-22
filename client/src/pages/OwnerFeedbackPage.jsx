@@ -94,7 +94,7 @@ export default function OwnerFeedbackPage() {
               All feedback submitted by clients — from orders and the feedback page
             </p>
           </div>
-          <button onClick={loadFeedback} className="btn btn-outline btn-sm">🔄 Refresh</button>
+          <button onClick={loadFeedback} className="btn btn-outline btn-sm"> Refresh</button>
         </div>
 
         {total === 0 ? (
@@ -113,9 +113,9 @@ export default function OwnerFeedbackPage() {
             {/* ── STATS ROW ─────────────────────────────────── */}
             <div className="grid-4 fade-in" style={{ marginBottom:'28px', gap:'16px' }}>
               <StatCard icon="⭐" label="Average Rating" value={avgRating} sub={`out of 5`} color="var(--gold)" />
-              <StatCard icon="💬" label="Total Reviews"  value={total}     sub="all time"  color="var(--info)" />
-              <StatCard icon="🏆" label="5-Star Reviews" value={`${fiveStarPct}%`} sub={`${ratingCounts[5]} reviews`} color="var(--success)" />
-              <StatCard icon="📅" label="Latest"         value={feedbacks[0] ? new Date(feedbacks[0].createdAt).toLocaleDateString('en-IN',{day:'numeric',month:'short'}) : '—'} sub="most recent" color="var(--text-muted)" />
+              <StatCard icon="" label="Total Reviews"  value={total}     sub="all time"  color="var(--info)" />
+              <StatCard icon="" label="5-Star Reviews" value={`${fiveStarPct}%`} sub={`${ratingCounts[5]} reviews`} color="var(--success)" />
+              <StatCard icon="" label="Latest"         value={feedbacks[0] ? new Date(feedbacks[0].createdAt).toLocaleDateString('en-IN',{day:'numeric',month:'short'}) : '—'} sub="most recent" color="var(--text-muted)" />
             </div>
 
             {/* ── RATING BREAKDOWN ──────────────────────────── */}

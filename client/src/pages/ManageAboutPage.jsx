@@ -28,7 +28,7 @@ function ImageUploader({ label, hint, currentUrl, endpoint, onUploaded, round })
       const { data } = await api.post(endpoint, fd, { headers: { 'Content-Type': 'multipart/form-data' } });
       setFile(null);
       onUploaded(data.imageUrl || data.logoUrl);
-      toast.success('✅ Photo uploaded!');
+      toast.success(' Photo uploaded!');
     } catch { toast.error('Upload failed'); }
     finally { setUploading(false); }
   };
@@ -44,7 +44,7 @@ function ImageUploader({ label, hint, currentUrl, endpoint, onUploaded, round })
           cursor: 'pointer', background: isDragActive ? 'rgba(212,175,55,0.05)' : 'var(--surface2)', transition: 'all 0.2s',
         }}>
           <input {...getInputProps()} />
-          <div style={{ fontSize: '28px', marginBottom: '6px' }}>🖼️</div>
+          <div style={{ fontSize: '28px', marginBottom: '6px' }}>️</div>
           <p style={{ fontSize: '12px', color: 'var(--text-muted)' }}>{isDragActive ? 'Drop here!' : 'Tap or drag to select'}</p>
         </div>
         {preview && (
@@ -89,7 +89,7 @@ export default function ManageAboutPage() {
         phone: about.phone, whatsapp: about.whatsapp, email: about.email,
         instagram: about.instagram, facebook: about.facebook,
       });
-      toast.success('✅ Saved to database!');
+      toast.success(' Saved to database!');
     } catch { toast.error('Failed to save'); }
     finally { setSaving(false); }
   };
@@ -97,10 +97,10 @@ export default function ManageAboutPage() {
   const f = (field) => ({ value: about[field] || '', onChange: e => setAbout(a => ({ ...a, [field]: e.target.value })) });
 
   const TABS = [
-    { id: 'studio',  label: '🏪 Studio Info' },
-    { id: 'owner',   label: '👤 Owner / Team' },
-    { id: 'photos',  label: '📸 Photos & Logo' },
-    { id: 'contact', label: '📞 Contact & Social' },
+    { id: 'studio',  label: ' Studio Info' },
+    { id: 'owner',   label: ' Owner / Team' },
+    { id: 'photos',  label: ' Photos & Logo' },
+    { id: 'contact', label: ' Contact & Social' },
   ];
 
   return (
@@ -127,7 +127,7 @@ export default function ManageAboutPage() {
         {/* ── STUDIO INFO ── */}
         {activeTab === 'studio' && (
           <div className="card fade-in">
-            <h3 style={{ fontSize: '18px', marginBottom: '20px' }}>🏪 Studio Information</h3>
+            <h3 style={{ fontSize: '18px', marginBottom: '20px' }}> Studio Information</h3>
             <div className="input-group">
               <label>Studio / Section Title</label>
               <input {...f('title')} placeholder="e.g. About Usha Photo Studio" />
@@ -151,7 +151,7 @@ export default function ManageAboutPage() {
               </div>
             </div>
             <button onClick={save} className="btn btn-primary" disabled={saving} style={{ width: '100%' }}>
-              {saving ? <span className="spinner" /> : '💾 Save to Database'}
+              {saving ? <span className="spinner" /> : ' Save to Database'}
             </button>
           </div>
         )}
@@ -159,7 +159,7 @@ export default function ManageAboutPage() {
         {/* ── OWNER / TEAM ── */}
         {activeTab === 'owner' && (
           <div className="card fade-in">
-            <h3 style={{ fontSize: '18px', marginBottom: '6px' }}>👤 Owner / Photographer</h3>
+            <h3 style={{ fontSize: '18px', marginBottom: '6px' }}> Owner / Photographer</h3>
             <p style={{ color: 'var(--text-muted)', fontSize: '13px', marginBottom: '20px' }}>This appears in the About Us section on the homepage</p>
             <div className="grid-2" style={{ gap: '16px' }}>
               <div className="input-group">
@@ -176,7 +176,7 @@ export default function ManageAboutPage() {
               <textarea {...f('ownerBio')} rows={4} placeholder="e.g. With over 15 years of experience in photography, I specialize in capturing life's most precious moments..." style={{ resize: 'vertical' }} />
             </div>
             <button onClick={save} className="btn btn-primary" disabled={saving} style={{ width: '100%' }}>
-              {saving ? <span className="spinner" /> : '💾 Save Owner Info'}
+              {saving ? <span className="spinner" /> : ' Save Owner Info'}
             </button>
           </div>
         )}
@@ -220,32 +220,32 @@ export default function ManageAboutPage() {
         {/* ── CONTACT & SOCIAL ── */}
         {activeTab === 'contact' && (
           <div className="card fade-in">
-            <h3 style={{ fontSize: '18px', marginBottom: '6px' }}>📞 Contact & Social Media</h3>
+            <h3 style={{ fontSize: '18px', marginBottom: '6px' }}> Contact & Social Media</h3>
             <p style={{ color: 'var(--text-muted)', fontSize: '13px', marginBottom: '20px' }}>Shown in About Us page and contact section</p>
             <div className="grid-2" style={{ gap: '16px' }}>
               <div className="input-group">
-                <label>📞 Phone</label>
+                <label> Phone</label>
                 <input {...f('phone')} placeholder="e.g. 9353588862" />
               </div>
               <div className="input-group">
-                <label>💬 WhatsApp</label>
+                <label> WhatsApp</label>
                 <input {...f('whatsapp')} placeholder="e.g. 9353588862" />
               </div>
               <div className="input-group">
-                <label>✉️ Email</label>
+                <label>️ Email</label>
                 <input {...f('email')} placeholder="your@email.com" />
               </div>
               <div className="input-group">
-                <label>📸 Instagram</label>
+                <label> Instagram</label>
                 <input {...f('instagram')} placeholder="e.g. @ushastudio" />
               </div>
               <div className="input-group">
-                <label>👤 Facebook</label>
+                <label> Facebook</label>
                 <input {...f('facebook')} placeholder="e.g. facebook.com/ushastudio" />
               </div>
             </div>
             <button onClick={save} className="btn btn-primary" disabled={saving} style={{ width: '100%' }}>
-              {saving ? <span className="spinner" /> : '💾 Save Contact Info'}
+              {saving ? <span className="spinner" /> : ' Save Contact Info'}
             </button>
           </div>
         )}

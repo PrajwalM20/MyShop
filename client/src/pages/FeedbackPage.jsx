@@ -6,17 +6,17 @@ import toast from 'react-hot-toast';
 const STARS = [1, 2, 3, 4, 5];
 
 const FEEDBACK_TAGS = [
-  '😊 Friendly Staff',
-  '⚡ Fast Service',
-  '🖼️ Great Quality',
-  '📱 Easy to Order',
-  '💰 Good Prices',
-  '📋 Clear Instructions',
-  '🔔 Quick Notification',
-  '🔄 Will Visit Again',
+  'Friendly Staff',
+  'Fast Service',
+  'Great Quality',
+  'Easy to Order',
+  'Good Prices',
+  'Clear Instructions',
+  'Quick Notification',
+  'Will Visit Again',
 ];
 
-const STAR_LABELS = ['', 'Poor 😕', 'Fair 😐', 'Good 🙂', 'Great 😄', 'Excellent! 🤩'];
+const STAR_LABELS = ['', 'Poor', 'Fair', 'Good', 'Great', 'Excellent!'];
 
 export default function FeedbackPage() {
   const [searchParams] = useSearchParams();
@@ -44,7 +44,7 @@ export default function FeedbackPage() {
         comment,
       });
       setSubmitted(true);
-      toast.success('🙏 Thank you for your feedback!');
+      toast.success('Thank you for your feedback!');
     } catch (err) {
       toast.error(err.response?.data?.message || 'Failed to submit. Please try again.');
     } finally {
@@ -58,7 +58,6 @@ export default function FeedbackPage() {
       <div className="page" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '80vh' }}>
         <div className="container" style={{ maxWidth: '520px', textAlign: 'center' }}>
           <div className="card fade-in" style={{ padding: '48px 32px', border: '1px solid rgba(45,216,130,0.3)', background: 'rgba(45,216,130,0.04)' }}>
-            <div style={{ fontSize: '72px', marginBottom: '16px', lineHeight: 1 }}>🙏</div>
             <h2 style={{ fontSize: '28px', marginBottom: '10px', color: 'var(--success)' }}>Thank You!</h2>
             <p style={{ color: 'var(--text-muted)', fontSize: '16px', lineHeight: 1.8, marginBottom: '8px' }}>
               Your {rating}-star feedback has been recorded.
@@ -67,8 +66,8 @@ export default function FeedbackPage() {
               It helps us serve you better every time. We appreciate your trust in <strong style={{ color: 'var(--gold)' }}>Usha Photo Studio</strong>.
             </p>
             <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
-              <Link to="/" className="btn btn-outline">🏠 Home</Link>
-              <Link to="/order" className="btn btn-primary">📸 Place New Order</Link>
+              <Link to="/" className="btn btn-outline">Home</Link>
+              <Link to="/order" className="btn btn-primary">Place New Order</Link>
             </div>
           </div>
         </div>
@@ -88,7 +87,7 @@ export default function FeedbackPage() {
             borderRadius: '100px', padding: '6px 20px', fontSize: '14px',
             color: 'var(--gold)', marginBottom: '20px',
           }}>
-            ⭐ Share Your Experience
+            Share Your Experience
           </div>
           <h1 style={{ fontSize: 'clamp(28px,6vw,40px)', marginBottom: '10px' }}>
             Your <span className="text-gold">Feedback</span>
@@ -200,7 +199,7 @@ export default function FeedbackPage() {
             disabled={submitting || rating === 0}
             style={{ width: '100%', fontSize: '16px', padding: '16px' }}
           >
-            {submitting ? <span className="spinner" /> : '🙏 Submit Feedback'}
+            {submitting ? <span className="spinner" /> : 'Submit Feedback'}
           </button>
 
           {rating === 0 && (

@@ -105,7 +105,7 @@ export default function OrderPage() {
         key: rpOrder.keyId,
         amount: rpOrder.amount,
         currency: rpOrder.currency,
-        name: 'Usha Photo Studio 📸',
+        name: 'Usha Photo Studio',
         description: cart.map(i => i.serviceLabel).join(', '),
         order_id: rpOrder.orderId,
         prefill: { name: info.name, email: info.email || '', contact: `+91${info.phone}` },
@@ -132,7 +132,7 @@ export default function OrderPage() {
             headers: { 'Content-Type': 'multipart/form-data' },
           });
 
-          toast.success('🎉 Order placed!');
+          toast.success('Order placed!');
           navigate(`/confirmation/${order.orderId}?queue=${order.queueNumber}&amount=${order.totalAmount}`);
         },
         modal: { ondismiss: () => { setLoading(false); toast.error('Payment cancelled'); } },
@@ -169,7 +169,7 @@ export default function OrderPage() {
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   color: i <= step ? 'var(--black)' : 'var(--text-muted)',
                   fontWeight: 700, fontSize: '13px', transition: 'all 0.3s',
-                }}>{i < step ? '✓' : i + 1}</div>
+                }}>{i < step ? '' : i + 1}</div>
                 <span style={{ fontSize: '10px', color: i === step ? 'var(--gold)' : 'var(--text-muted)', whiteSpace: 'nowrap', textAlign: 'center' }}>{s}</span>
               </div>
               {i < STEPS.length - 1 && (
@@ -210,7 +210,7 @@ export default function OrderPage() {
                   <span style={{ marginLeft: '8px', background: 'rgba(212,175,55,0.1)', color: 'var(--gold)', fontSize: '10px', padding: '2px 8px', borderRadius: '100px', fontWeight: 600 }}>Optional</span>
                 </label>
                 <input type="email" value={info.email} onChange={e => setInfo(f => ({ ...f, email: e.target.value }))} placeholder="your@email.com" />
-                <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>📱 No email? We'll notify you via WhatsApp!</span>
+                <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}> No email? We'll notify you via WhatsApp!</span>
               </div>
             </div>
           )}
@@ -229,7 +229,7 @@ export default function OrderPage() {
                 cursor: 'pointer', background: isDragActive ? 'rgba(212,175,55,0.05)' : 'var(--surface2)', transition: 'all 0.2s',
               }}>
                 <input {...getInputProps()} />
-                <div style={{ fontSize: '44px', marginBottom: '10px' }}>📤</div>
+                <div style={{ fontSize: '44px', marginBottom: '10px' }}></div>
                 <p style={{ fontSize: '15px', marginBottom: '4px' }}>{isDragActive ? 'Drop here!' : 'Drag & drop photos here'}</p>
                 <p style={{ color: 'var(--text-muted)', fontSize: '12px' }}>or tap to browse · JPG/PNG · max 10MB · up to 30 files</p>
               </div>
@@ -244,7 +244,7 @@ export default function OrderPage() {
                       <div key={i} style={{ position: 'relative', aspectRatio: '1', borderRadius: '8px', overflow: 'hidden', border: '2px solid var(--border)' }}>
                         <img src={src} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                         <div style={{ position: 'absolute', bottom: '2px', left: '2px', background: 'rgba(0,0,0,0.7)', color: '#fff', borderRadius: '4px', fontSize: '10px', padding: '1px 5px' }}>P{i + 1}</div>
-                        <button onClick={() => removeFile(i)} style={{ position: 'absolute', top: '3px', right: '3px', background: 'rgba(255,75,75,0.9)', border: 'none', borderRadius: '50%', width: '20px', height: '20px', color: '#fff', cursor: 'pointer', fontSize: '11px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>✕</button>
+                        <button onClick={() => removeFile(i)} style={{ position: 'absolute', top: '3px', right: '3px', background: 'rgba(255,75,75,0.9)', border: 'none', borderRadius: '50%', width: '20px', height: '20px', color: '#fff', cursor: 'pointer', fontSize: '11px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>×</button>
                       </div>
                     ))}
                   </div>
@@ -274,7 +274,7 @@ export default function OrderPage() {
                         cursor: 'pointer', transition: 'all 0.2s', position: 'relative',
                       }}>
                       {inCart && (
-                        <div style={{ position: 'absolute', top: '8px', right: '8px', background: 'var(--gold)', color: 'var(--black)', borderRadius: '50%', width: '20px', height: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', fontWeight: 700 }}>✓</div>
+                        <div style={{ position: 'absolute', top: '8px', right: '8px', background: 'var(--gold)', color: 'var(--black)', borderRadius: '50%', width: '20px', height: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', fontWeight: 700 }}></div>
                       )}
                       <div style={{ fontSize: '28px', marginBottom: '6px' }}>{svc.icon}</div>
                       <div style={{ fontWeight: 600, fontSize: '13px', marginBottom: '3px' }}>{svc.label}</div>
@@ -296,7 +296,7 @@ export default function OrderPage() {
               {cart.length > 0 && (
                 <div>
                   <h4 style={{ fontSize: '15px', marginBottom: '14px', color: 'var(--gold)' }}>
-                    🛒 Your Selection ({cart.length} service{cart.length > 1 ? 's' : ''})
+                     Your Selection ({cart.length} service{cart.length > 1 ? 's' : ''})
                   </h4>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                     {cart.map((item, idx) => (
@@ -337,8 +337,8 @@ export default function OrderPage() {
                               fontSize: '12px', fontWeight: 600, textAlign: 'left',
                             }}>
                               {item.photoIndexes.length > 0
-                                ? `📷 Photo ${item.photoIndexes.map(i => i + 1).join(', ')}`
-                                : '📷 Assign photos'}
+                                ? ` Photo ${item.photoIndexes.map(i => i + 1).join(', ')}`
+                                : ' Assign photos'}
                             </button>
                           </div>
                         </div>
@@ -380,10 +380,10 @@ export default function OrderPage() {
               <div style={{ background: 'var(--surface2)', borderRadius: 'var(--radius)', padding: '16px', marginBottom: '16px', border: '1px solid var(--border)' }}>
                 <div style={{ fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '10px' }}>Customer</div>
                 <div style={{ fontWeight: 700 }}>{info.name}</div>
-                <div style={{ color: 'var(--text-muted)', fontSize: '13px' }}>📞 +91 {info.phone}</div>
-                {info.email && <div style={{ color: 'var(--text-muted)', fontSize: '13px' }}>✉️ {info.email}</div>}
+                <div style={{ color: 'var(--text-muted)', fontSize: '13px' }}>+91 {info.phone}</div>
+                {info.email && <div style={{ color: 'var(--text-muted)', fontSize: '13px' }}>{info.email}</div>}
                 <div style={{ color: 'var(--success)', fontSize: '12px', marginTop: '6px' }}>
-                  🔔 {info.email ? 'WhatsApp + SMS + Email' : 'WhatsApp + SMS'} notification when ready
+                  {info.email ? 'WhatsApp + SMS + Email' : 'WhatsApp + SMS'} notification when ready
                 </div>
               </div>
 
@@ -411,8 +411,8 @@ export default function OrderPage() {
                       <span style={{ fontWeight: 600, fontSize: '13px' }}>{item.serviceLabel}</span>
                       {item.copies > 1 && <span style={{ color: 'var(--text-muted)', fontSize: '12px' }}> ({item.copies} copies/{item.unit})</span>}
                       <span style={{ color: 'var(--text-muted)', fontSize: '12px' }}> × {item.quantity}</span>
-                      {item.photoIndexes.length > 0 && <div style={{ fontSize: '11px', color: 'var(--gold)', marginTop: '2px' }}>📷 Photo {item.photoIndexes.map(i => i + 1).join(', ')}</div>}
-                      {item.note && <div style={{ fontSize: '11px', color: 'var(--text-muted)', marginTop: '2px' }}>📝 {item.note}</div>}
+                      {item.photoIndexes.length > 0 && <div style={{ fontSize: '11px', color: 'var(--gold)', marginTop: '2px' }}> Photo {item.photoIndexes.map(i => i + 1).join(', ')}</div>}
+                      {item.note && <div style={{ fontSize: '11px', color: 'var(--text-muted)', marginTop: '2px' }}> {item.note}</div>}
                     </div>
                     <span style={{ fontWeight: 700, color: 'var(--gold)' }}>₹{item.pricePerUnit * item.quantity}</span>
                   </div>
@@ -446,7 +446,7 @@ export default function OrderPage() {
                 </button>
               ) : (
                 <button className="btn btn-primary btn-lg" onClick={initiatePayment} disabled={loading || totalAmount === 0} style={{ minWidth: '200px' }}>
-                  {loading ? <span className="spinner" /> : `💳 Pay ₹${totalAmount} via UPI`}
+                  {loading ? <span className="spinner" /> : ` Pay ₹${totalAmount} via UPI`}
                 </button>
               )}
             </div>
@@ -468,7 +468,7 @@ export default function OrderPage() {
                   Select which photos to use for this service
                 </p>
               </div>
-              <button onClick={() => setAssignModal(null)} style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', fontSize: '20px' }}>✕</button>
+              <button onClick={() => setAssignModal(null)} style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', fontSize: '20px' }}>×</button>
             </div>
 
             {previews.length === 0 ? (
@@ -494,7 +494,7 @@ export default function OrderPage() {
                       <div style={{ position: 'absolute', bottom: '3px', left: '3px', background: 'rgba(0,0,0,0.7)', color: '#fff', borderRadius: '4px', fontSize: '10px', padding: '1px 5px' }}>P{i + 1}</div>
                       {isSelected && (
                         <div style={{ position: 'absolute', inset: 0, background: 'rgba(212,175,55,0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                          <div style={{ background: 'var(--gold)', color: 'var(--black)', borderRadius: '50%', width: '28px', height: '28px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: '14px' }}>✓</div>
+                          <div style={{ background: 'var(--gold)', color: 'var(--black)', borderRadius: '50%', width: '28px', height: '28px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: '14px' }}></div>
                         </div>
                       )}
                     </div>
@@ -512,7 +512,7 @@ export default function OrderPage() {
                 const item = cart[assignModal];
                 updateCartItem(item.serviceType, 'photoIndexes', []);
               }} className="btn btn-sm btn-outline" style={{ flex: 1 }}>Clear</button>
-              <button onClick={() => setAssignModal(null)} className="btn btn-primary btn-sm" style={{ flex: 1 }}>Done ✓</button>
+              <button onClick={() => setAssignModal(null)} className="btn btn-primary btn-sm" style={{ flex: 1 }}>Done </button>
             </div>
           </div>
         </div>

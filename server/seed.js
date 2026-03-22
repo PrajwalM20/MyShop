@@ -13,7 +13,7 @@ const connectDB = async () => {
   const uri = process.env.MONGO_URI;
 
   if (!uri) {
-    console.error('\n❌ MONGO_URI is not set!\n');
+    console.error('\n MONGO_URI is not set!\n');
     console.error('Fix steps:');
     console.error('  1. Make sure server/.env file exists');
     console.error('  2. Open it with: notepad .env');

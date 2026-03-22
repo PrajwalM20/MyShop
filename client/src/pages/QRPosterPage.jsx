@@ -56,10 +56,10 @@ export default function QRPosterPage() {
   const currentQR = activeQR === 'client' ? clientQR : ownerQR;
 
   const steps = [
-    ['📤', 'Upload Photos', 'Share photos instantly'],
-    ['💳', 'Pay via UPI',   'GPay, PhonePe, Paytm'],
-    ['🔢', 'Get Queue No.', 'Skip the line'],
-    ['📱', 'Get Notified',  'WhatsApp when ready'],
+    ['', 'Upload Photos', 'Share photos instantly'],
+    ['', 'Pay via UPI',   'GPay, PhonePe, Paytm'],
+    ['', 'Get Queue No.', 'Skip the line'],
+    ['', 'Get Notified',  'WhatsApp when ready'],
   ];
 
   return (
@@ -79,7 +79,7 @@ export default function QRPosterPage() {
 
           {/* Controls */}
           <div className="no-print fade-in" style={{ marginBottom: '32px' }}>
-            <h1 style={{ fontSize: '32px', marginBottom: '8px' }}>🖨️ QR <span className="text-gold">Posters</span></h1>
+            <h1 style={{ fontSize: '32px', marginBottom: '8px' }}>️ QR <span className="text-gold">Posters</span></h1>
             <p style={{ color: 'var(--text-muted)', marginBottom: '20px', fontSize: '15px' }}>
               Two separate QR codes — one for clients, one for full access.
             </p>
@@ -87,8 +87,8 @@ export default function QRPosterPage() {
             {/* QR Type Selector */}
             <div style={{ display: 'flex', gap: '12px', marginBottom: '20px', flexWrap: 'wrap' }}>
               {[
-                { id: 'client', label: '👥 Client QR', sub: 'Opens client dashboard — order, track, book, feedback', color: 'var(--success)' },
-                { id: 'owner',  label: '🔑 Owner QR',  sub: 'Opens Owner page — full site access',                  color: 'var(--gold)'    },
+                { id: 'client', label: ' Client QR', sub: 'Opens client dashboard — order, track, book, feedback', color: 'var(--success)' },
+                { id: 'owner',  label: ' Owner QR',  sub: 'Opens Owner page — full site access',                  color: 'var(--gold)'    },
               ].map(opt => (
                 <div key={opt.id} onClick={() => setActiveQR(opt.id)} style={{
                   flex: '1 1 220px', padding: '16px 18px', borderRadius: 'var(--radius-lg)',
@@ -104,7 +104,7 @@ export default function QRPosterPage() {
 
             {/* Customise */}
             <div className="card" style={{ marginBottom: '20px' }}>
-              <h3 style={{ marginBottom: '14px', fontSize: '15px' }}>✏️ Customise Poster</h3>
+              <h3 style={{ marginBottom: '14px', fontSize: '15px' }}>️ Customise Poster</h3>
               <div className="grid-2" style={{ gap: '14px' }}>
                 <div className="input-group">
                   <label>Shop Name</label>
@@ -122,11 +122,11 @@ export default function QRPosterPage() {
             </div>
 
             <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-              <button onClick={handlePrint} className="btn btn-primary">🖨️ Print Poster</button>
+              <button onClick={handlePrint} className="btn btn-primary">️ Print Poster</button>
               <button onClick={() => downloadQR(activeQR)} className="btn btn-outline" disabled={!currentQR}>
                 ⬇️ Download {activeQR === 'client' ? 'Client' : 'Owner'} QR
               </button>
-              <button onClick={loadAll} className="btn btn-outline">🔄 Refresh</button>
+              <button onClick={loadAll} className="btn btn-outline"> Refresh</button>
             </div>
           </div>
 
@@ -140,15 +140,15 @@ export default function QRPosterPage() {
               {/* Header */}
               <div style={{ background: 'linear-gradient(135deg, #0d0d1a 0%, #1a1a2e 100%)', padding: '32px 32px 24px', textAlign: 'center' }}>
                 <div style={{ color: '#D4AF37', fontSize: '11px', letterSpacing: '5px', textTransform: 'uppercase', marginBottom: '12px', fontFamily: 'DM Sans, sans-serif', fontWeight: 600 }}>
-                  {activeQR === 'client' ? '📸 Professional Photo Studio' : '🔑 Owner / Staff Access'}
+                  {activeQR === 'client' ? ' Professional Photo Studio' : ' Owner / Staff Access'}
                 </div>
                 <div style={{ color: '#ffffff', fontSize: '32px', fontWeight: 900, lineHeight: 1.15, fontFamily: "'Playfair Display', serif" }}>
                   {shopName}
                 </div>
-                {phone && <div style={{ color: '#D4AF37', fontSize: '14px', fontFamily: 'DM Sans, sans-serif', marginTop: '8px', fontWeight: 600 }}>📞 {phone}</div>}
+                {phone && <div style={{ color: '#D4AF37', fontSize: '14px', fontFamily: 'DM Sans, sans-serif', marginTop: '8px', fontWeight: 600 }}> {phone}</div>}
                 {activeQR === 'client' && (
                   <div style={{ marginTop: '10px', background: 'rgba(45,216,130,0.2)', borderRadius: '100px', padding: '4px 14px', display: 'inline-block', fontSize: '12px', color: '#2DD882', fontWeight: 700 }}>
-                    👥 CLIENT ACCESS
+                     CLIENT ACCESS
                   </div>
                 )}
               </div>
@@ -169,7 +169,7 @@ export default function QRPosterPage() {
                 </div>
 
                 <div style={{ color: '#1a1a2e', fontSize: '19px', fontWeight: 800, marginBottom: '6px', fontFamily: "'Playfair Display', serif" }}>
-                  {activeQR === 'client' ? '📱 Scan to Order & Book' : '📱 Scan for Full Access'}
+                  {activeQR === 'client' ? ' Scan to Order & Book' : ' Scan for Full Access'}
                 </div>
                 <div style={{ color: '#666', fontSize: '13px', fontFamily: 'DM Sans, sans-serif', lineHeight: 1.6, marginBottom: '20px' }}>
                   {activeQR === 'client' ? tagline : 'Opens full ordering and management site'}

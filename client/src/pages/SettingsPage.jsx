@@ -35,7 +35,8 @@ export default function SettingsPage() {
     setSavingServices(true);
     try {
       await api.put('/settings/services', { services });
-      toast.success('✅ Services & prices saved!');
+      toast.success(' Services & prices saved!');
+      await loadAll();
     } catch { toast.error('Failed to save'); }
     finally { setSavingServices(false); }
   };
@@ -44,7 +45,7 @@ export default function SettingsPage() {
     setSavingShop(true);
     try {
       await api.put('/settings/shop-info', shopInfo);
-      toast.success('✅ Shop info saved!');
+      toast.success(' Shop info saved!');
     } catch { toast.error('Failed to save shop info'); }
     finally { setSavingShop(false); }
   };
@@ -66,14 +67,14 @@ export default function SettingsPage() {
         <div className="card fade-in" style={{ marginBottom: '20px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '20px', flexWrap: 'wrap', gap: '12px' }}>
             <div>
-              <h2 style={{ fontSize: '20px', marginBottom: '4px' }}>💰 Services & Pricing</h2>
+              <h2 style={{ fontSize: '20px', marginBottom: '4px' }}> Services & Pricing</h2>
               <p style={{ color: 'var(--text-muted)', fontSize: '13px' }}>
                 Changes apply to homepage, order page, and QR poster immediately
               </p>
             </div>
             <button onClick={saveServices} className="btn btn-primary" disabled={savingServices}
               style={{ minWidth: '160px', flexShrink: 0 }}>
-              {savingServices ? <span className="spinner" /> : '💾 Save to Database'}
+              {savingServices ? <span className="spinner" /> : ' Save to Database'}
             </button>
           </div>
 
@@ -158,7 +159,7 @@ export default function SettingsPage() {
           </div>
 
           <div style={{ marginTop: '16px', padding: '12px 14px', background: 'rgba(212,175,55,0.06)', borderRadius: 'var(--radius)', border: '1px solid rgba(212,175,55,0.2)', fontSize: '13px', color: 'var(--text-muted)' }}>
-            💡 Toggle <strong style={{ color: 'var(--gold)' }}>TBD</strong> for services like Flex banners where price depends on size.
+             Toggle <strong style={{ color: 'var(--gold)' }}>TBD</strong> for services like Flex banners where price depends on size.
           </div>
         </div>
 
@@ -166,14 +167,14 @@ export default function SettingsPage() {
         <div className="card fade-in">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '20px', flexWrap: 'wrap', gap: '12px' }}>
             <div>
-              <h2 style={{ fontSize: '20px', marginBottom: '4px' }}>🏪 Shop Information</h2>
+              <h2 style={{ fontSize: '20px', marginBottom: '4px' }}> Shop Information</h2>
               <p style={{ color: 'var(--text-muted)', fontSize: '13px' }}>
                 Shown on homepage, notifications, and QR poster
               </p>
             </div>
             <button onClick={saveShop} className="btn btn-primary" disabled={savingShop}
               style={{ minWidth: '160px', flexShrink: 0 }}>
-              {savingShop ? <span className="spinner" /> : '💾 Save Shop Info'}
+              {savingShop ? <span className="spinner" /> : ' Save Shop Info'}
             </button>
           </div>
 
