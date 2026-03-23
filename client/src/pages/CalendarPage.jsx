@@ -12,8 +12,8 @@ const TIME_SLOTS = [
 
 const EVENT_TYPES = [
   { id: 'wedding',      label: ' Wedding',                  color: '#e74c3c' },
-  { id: 'baby_shower',  label: ' Baby Shower / Simantha',   color: '#9b59b6' },
-  { id: 'housewarming', label: ' House Warming / Seremani', color: '#e67e22' },
+  { id: 'baby_shower',  label: ' Baby Shower / Seemantha',   color: '#9b59b6' },
+  { id: 'housewarming', label: ' House Warming / Ceremony ', color: '#e67e22' },
   { id: 'prewedding',   label: ' Pre-Wedding Shoot',        color: '#e91e8c' },
   { id: 'outdoor',      label: ' Outdoor Shoot',            color: '#27ae60' },
   { id: 'birthday',     label: ' Birthday Party',           color: '#3498db' },
@@ -83,17 +83,17 @@ export default function CalendarPage() {
   const getDayInfo = (d) => {
     if (!d) return null;
     const b = bookings[toDateStr(year,month,d)];
-    if (!b) return { status:'free', freeSlots:3 };
+    if (!b) return { status:'available', isAvailableSlots:3 };
     const slots = ['morning','afternoon','evening'];
     const booked  = slots.filter(s => b[s]?.status==='booked').length;
     const blocked = slots.filter(s => b[s]?.status==='blocked').length;
     const pending = slots.filter(s => b[s]?.status==='pending').length;
-    const free    = 3 - booked - blocked - pending;
-    if (free === 0 && blocked === 3) return { status:'blocked', freeSlots:0 };
-    if (free === 0 && booked+blocked+pending === 3) return { status:'full', freeSlots:0 };
-    if (pending > 0) return { status:'partial', freeSlots:free, hasPending: true };
-    if (booked > 0 || blocked > 0) return { status:'partial', freeSlots:free };
-    return { status:'free', freeSlots:3 };
+    const isAvailableSlots = 3 - booked - blocked - pending;
+    if (isAvailableSlots === 0 && blocked === 3) return { status:'blocked', isAvailableSlots:0 };
+    if (isAvailableSlots === 0 && booked+blocked+pending === 3) return { status:'full', isAvailableSlots:0 };
+    if (pending > 0) return { status:'partial', isAvailableSlots, hasPending: true };
+    if (booked > 0 || blocked > 0) return { status:'partial', isAvailableSlots };
+    return { status:'available', isAvailableSlots:3 };
   };
 
   const dayCellStyle = (status, isToday, isSel, isPast, hasPending) => ({
@@ -111,7 +111,7 @@ export default function CalendarPage() {
 
   const selectedBooking = selected ? bookings[selected] : null;
   const isPast = selected && new Date(selected) < new Date(today.toDateString());
-  const getSlotStatus = (slotId) => selectedBooking?.[slotId]?.status || 'free';
+  const getSlotStatus = (slotId) => selectedBooking?.[slotId]?.status || 'available';
 
   const selectDay = (ds) => {
     setSelected(ds);
@@ -206,7 +206,7 @@ export default function CalendarPage() {
             {/* Legend */}
             <div style={{ display:'flex', gap:'12px', marginBottom:'16px', flexWrap:'wrap' }}>
               {[
-                { bg:'rgba(45,216,130,0.3)',  label:'All Slots Free' },
+                { bg:'rgba(45,216,130,0.3)',  label:'All Slots Available' },
                 { bg:'rgba(75,158,255,0.3)',  label:'Pending Request' },
                 { bg:'rgba(255,179,71,0.3)',  label:'Partially Booked' },
                 { bg:'rgba(231,76,60,0.3)',   label:'Fully Booked' },
@@ -244,9 +244,9 @@ export default function CalendarPage() {
                           <span style={{ fontSize:'15px', fontWeight:isTod?900:500, color:isTod?'var(--gold)':'var(--text)' }}>{d}</span>
                           {info?.status==='full'    && <span style={{ fontSize:'8px', color:'#e74c3c',       fontWeight:700 }}>FULL</span>}
                           {info?.hasPending         && <span style={{ fontSize:'8px', color:'var(--info)',    fontWeight:700 }}>PENDING</span>}
-                          {info?.status==='partial' && !info?.hasPending && <span style={{ fontSize:'8px', color:'var(--warning)', fontWeight:700 }}>{info.freeSlots} FREE</span>}
+                          {info?.status==='partial' && !info?.hasPending && <span style={{ fontSize:'8px', color:'var(--warning)', fontWeight:700 }}>{info.isAvailableSlots} available</span>}
                           {info?.status==='blocked' && <span style={{ fontSize:'8px', color:'#95a5a6',        fontWeight:700 }}>BLOCKED</span>}
-                          {info?.status==='free'    && !isPst && <span style={{ fontSize:'8px', color:'var(--success)', fontWeight:600 }}>FREE</span>}
+                          {info?.status==='available'    && !isPst && <span style={{ fontSize:'8px', color:'var(--success)', fontWeight:600 }}>AVAILABLE</span>}
                         </>
                       )}
                     </div>
@@ -295,14 +295,14 @@ export default function CalendarPage() {
               {!submitted && formStep === 0 && (
                 <>
                   <p style={{ color:'var(--text-muted)', fontSize:'14px', marginBottom:'16px' }}>
-                    {isOwner ? 'Select a slot to manage it.' : 'Select a free time slot below to book your session.'}
+                    {isOwner ? 'Select a slot to manage it.' : 'Select a available time slot below to book your session.'}
                   </p>
                   <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(200px,1fr))', gap:'12px' }}>
                     {TIME_SLOTS.map(slot => {
                       const status    = getSlotStatus(slot.id);
                       const slotData  = selectedBooking?.[slot.id];
                       const evtInfo   = EVENT_TYPES.find(e => e.id === slotData?.eventType);
-                      const isFree    = status === 'free' || status === 'available';
+                      const isAvailable = status === 'available';
                       const isBooked  = status === 'booked';
                       const isBlocked = status === 'blocked';
                       const isPending = status === 'pending';
@@ -330,7 +330,7 @@ export default function CalendarPage() {
                                      isBlocked ? '#95a5a6' :
                                                  'var(--success)',
                             }}>
-                              {isBooked ? 'BOOKED' : isBlocked ? 'BLOCKED' : isPending ? 'PENDING' : 'FREE'}
+                              {isBooked ? 'BOOKED' : isBlocked ? 'BLOCKED' : isPending ? 'PENDING' : 'AVAILABLE'}
                             </div>
                           </div>
 
@@ -379,7 +379,7 @@ export default function CalendarPage() {
                           )}
 
                           {/* Client — Book button */}
-                          {!isOwner && (isFree) && !isPast && !isPending && (
+                          {!isOwner && (isAvailable) && !isPast && !isPending && (
                             <button onClick={() => startBooking(slot.id)}
                               className="btn btn-primary btn-sm"
                               style={{ width:'100%', marginTop:'8px', fontSize:'14px' }}>
@@ -401,17 +401,17 @@ export default function CalendarPage() {
                                     disabled={submitting}>Decline</button>
                                 </>
                               )}
-                              {isFree && (
+                              {isAvailable && (
                                 <button onClick={() => ownerUpdateSlot(slot.id,'blocked')}
                                   style={{ fontSize:'12px', padding:'5px 10px', background:'rgba(52,73,94,0.4)', border:'1px solid #7f8c8d', borderRadius:'6px', cursor:'pointer', color:'#ecf0f1' }}
                                   disabled={submitting}>Block</button>
                               )}
-                              {/* BOOKED or BLOCKED — can free or clear */}
+                              {/* BOOKED or BLOCKED — can mark available or clear */}
                               {(isBooked || isBlocked) && (
                                 <>
                                   <button onClick={() => ownerUpdateSlot(slot.id,'available')}
                                     style={{ fontSize:'12px', padding:'5px 10px', background:'rgba(45,216,130,0.1)', border:'1px solid var(--success)', borderRadius:'6px', cursor:'pointer', color:'var(--success)' }}
-                                    disabled={submitting}>Mark Free</button>
+                                    disabled={submitting}>Mark Available</button>
                                   <button onClick={() => ownerClearSlot(slot.id)}
                                     style={{ fontSize:'12px', padding:'5px 10px', background:'rgba(255,75,75,0.1)', border:'1px solid var(--danger)', borderRadius:'6px', cursor:'pointer', color:'var(--danger)' }}
                                     disabled={submitting}>Clear</button>

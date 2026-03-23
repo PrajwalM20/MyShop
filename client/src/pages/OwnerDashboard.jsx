@@ -22,7 +22,7 @@ export default function OwnerDashboard() {
   const [revenueLocked, setRevenueLocked] = useState(true);
   const [revenuePin, setRevenuePin] = useState('');
   const [pinError, setPinError] = useState('');
-  const REVENUE_PIN = '1234'; // Owner sets this pin — change this to your preferred PIN
+  const REVENUE_PIN = '1970'; // Owner sets this pin — change this to your preferred PIN
   // Photos & amount lock — same PIN as revenue
   const [photosLocked,  setPhotosLocked]  = useState(true);
   const [amountLocked,  setAmountLocked]  = useState(true);
@@ -173,10 +173,10 @@ export default function OwnerDashboard() {
           <>
             <div className="grid-4 fade-in" style={{ marginBottom: '32px' }}>
               {[
-                { icon: '', label: "Today's Orders", value: stats.todayOrders, bg: 'rgba(212,175,55,0.1)' },
+                { icon: '📝', label: "Today's Orders", value: stats.todayOrders, bg: 'rgba(212,175,55,0.1)' },
                 { icon: '⏳', label: 'Pending', value: stats.pendingOrders, bg: 'rgba(255,179,71,0.1)' },
-                { icon: '️', label: 'Processing', value: stats.processingOrders, bg: 'rgba(75,158,255,0.1)' },
-                { icon: '', label: 'Ready', value: stats.readyOrders, bg: 'rgba(45,216,130,0.1)' },
+                { icon: '️⏳', label: 'Processing', value: stats.processingOrders, bg: 'rgba(75,158,255,0.1)' },
+                { icon: '✅', label: 'Completed', value: stats.completedOrders, bg: 'rgba(45,216,130,0.1)' },
               ].map(s => (
                 <div key={s.label} className="stat-card">
                   <div className="stat-icon" style={{ background: s.bg, fontSize: '24px' }}>{s.icon}</div>
@@ -195,7 +195,7 @@ export default function OwnerDashboard() {
                   <button onClick={() => { setRevenueLocked(l => !l); setRevenuePin(''); setPinError(''); }}
                     style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '20px', lineHeight: 1 }}
                     title={revenueLocked ? 'Unlock revenue' : 'Lock revenue'}
-                  >{revenueLocked ? '' : ''}</button>
+                  >{revenueLocked ? '' : ''}🔐</button>
                 </div>
 
                 {revenueLocked ? (
@@ -249,7 +249,7 @@ export default function OwnerDashboard() {
         {activeTab === 'orders' && (
           <div className="fade-in">
             <div style={{ display: 'flex', gap: '8px', marginBottom: '24px', flexWrap: 'wrap' }}>
-              {['all', 'pending', 'processing', 'ready', 'completed', 'cancelled'].map(s => (
+              {['all', 'pending', 'processing', 'completed', 'cancelled'].map(s => (
                 <button key={s} onClick={() => setFilter(s)} className="btn btn-sm" style={{
                   background: filter === s ? 'var(--gold)' : 'var(--surface)',
                   color: filter === s ? 'var(--black)' : 'var(--text-muted)',
@@ -328,7 +328,7 @@ export default function OwnerDashboard() {
                       <td style={{ padding: '14px 16px' }}>
                         <select value={order.orderStatus} onChange={e => updateStatus(order._id, e.target.value)}
                           style={{ fontSize: '12px', padding: '6px 10px', minWidth: '120px' }}>
-                          {['pending', 'processing', 'ready', 'completed', 'cancelled'].map(s => (
+                          {['pending', 'processing', 'completed', 'cancelled'].map(s => (
                             <option key={s} value={s}>{s.charAt(0).toUpperCase() + s.slice(1)}</option>
                           ))}
                         </select>

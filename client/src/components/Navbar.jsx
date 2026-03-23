@@ -93,11 +93,14 @@ function NavLogo({ onClick }) {
       <img
         src={logoSrc}
         alt="Usha Studio"
+        draggable={false}
+        onContextMenu={e => e.preventDefault()}
         onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = FALLBACK_LOGO; }}
         style={{
           width: '44px', height: '44px', borderRadius: '50%',
           objectFit: 'cover', border: '2px solid var(--gold)',
           background: 'var(--surface2)', flexShrink: 0,
+          pointerEvents: 'none', WebkitUserDrag: 'none',
         }}
       />
       <span style={{ fontFamily: 'var(--font-display)', fontSize: '20px', color: 'var(--gold)', fontWeight: 900, letterSpacing: '-0.5px' }}>
@@ -149,7 +152,7 @@ export default function Navbar() {
               </Dropdown>
 
               <Dropdown label="Menu" isActive={isMenuActive}>
-                <DropItem to="/portfolio" icon="️" label="Our Work"     onClick={close} />
+                <DropItem to="/portfolio" icon="" label="Our Work"     onClick={close} />
                 <DropItem to="/about"     icon="ℹ️"  label="About Us"     onClick={close} />
                 <DropItem to="/feedback"  icon="⭐" label="Feedback"     onClick={close} />
                 <DropItem to="/track"     icon="" label="Track Order"  onClick={close} />
@@ -178,7 +181,7 @@ export default function Navbar() {
                     <DropItem to="/owner/portfolio" icon=""  label="Portfolio"       onClick={close} />
                     <DropItem to="/owner/about"     icon="ℹ️"   label="About Us Editor" onClick={close} />
                     <DropItem to="/owner/feedback"  icon="⭐"  label="Feedback"        onClick={close} />
-                    <DropItem to="/owner/settings"  icon="️"  label="Settings"        onClick={close} />
+                    <DropItem to="/owner/settings"  icon=""  label="Settings"        onClick={close} />
                     <DropItem to="/owner/qr-poster" icon=""  label="QR Poster"       onClick={close} />
                   </Dropdown>
                 </>

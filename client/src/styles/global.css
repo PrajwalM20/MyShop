@@ -408,3 +408,43 @@ button, .btn, nav, .navbar, .hamburger {
     border-left: none !important;
   }
 }
+
+/* ══ COPYRIGHT PROTECTION ══════════════════════════════════════
+   Protects all images from easy saving/dragging
+═══════════════════════════════════════════════════════════════ */
+
+/* Block dragging on ALL images sitewide */
+img {
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  -webkit-touch-callout: none; /* iOS long-press save menu */
+}
+
+/* Block text selection on image captions and portfolio labels */
+.portfolio-protected,
+.copyright-protected {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* Watermark overlay class */
+.watermark-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 10;
+  background: transparent;
+}
+
+/* Logo protection — no right click, no drag */
+.navbar-logo-img,
+.owner-photo,
+.protected-img {
+  -webkit-user-drag: none;
+  -webkit-touch-callout: none;
+  pointer-events: none;
+}
