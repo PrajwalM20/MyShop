@@ -50,13 +50,23 @@ export default function OwnerFeedbackPage() {
   const loadFeedback = async () => {
     setLoading(true);
     try {
-      // Reuse existing GET /api/feedback endpoint from feedbackRoutes.js
       const { data } = await api.get('/feedback');
       setFeedbacks(data);
     } catch (err) {
       toast.error('Failed to load feedback');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const deleteFeedback = async (id) => {
+    if (!window.confirm('Delete this feedback permanently? This cannot be undone.')) return;
+    try {
+      await api.delete(`/feedback/${id}`);
+      setFeedbacks(prev => prev.filter(f => f._id !== id));
+      toast.success('Feedback deleted');
+    } catch (err) {
+      toast.error(err.response?.data?.message || 'Failed to delete');
     }
   };
 
@@ -94,7 +104,7 @@ export default function OwnerFeedbackPage() {
               All feedback submitted by clients — from orders and the feedback page
             </p>
           </div>
-          <button onClick={loadFeedback} className="btn btn-outline btn-sm"> Refresh</button>
+          <button onClick={loadFeedback} className="btn btn-outline btn-sm">🔄 Refresh</button>
         </div>
 
         {total === 0 ? (
@@ -113,9 +123,9 @@ export default function OwnerFeedbackPage() {
             {/* ── STATS ROW ─────────────────────────────────── */}
             <div className="grid-4 fade-in" style={{ marginBottom:'28px', gap:'16px' }}>
               <StatCard icon="⭐" label="Average Rating" value={avgRating} sub={`out of 5`} color="var(--gold)" />
-              <StatCard icon="" label="Total Reviews"  value={total}     sub="all time"  color="var(--info)" />
-              <StatCard icon="" label="5-Star Reviews" value={`${fiveStarPct}%`} sub={`${ratingCounts[5]} reviews`} color="var(--success)" />
-              <StatCard icon="" label="Latest"         value={feedbacks[0] ? new Date(feedbacks[0].createdAt).toLocaleDateString('en-IN',{day:'numeric',month:'short'}) : '—'} sub="most recent" color="var(--text-muted)" />
+              <StatCard icon="💬" label="Total Reviews"  value={total}     sub="all time"  color="var(--info)" />
+              <StatCard icon="🏆" label="5-Star Reviews" value={`${fiveStarPct}%`} sub={`${ratingCounts[5]} reviews`} color="var(--success)" />
+              <StatCard icon="📅" label="Latest"         value={feedbacks[0] ? new Date(feedbacks[0].createdAt).toLocaleDateString('en-IN',{day:'numeric',month:'short'}) : '—'} sub="most recent" color="var(--text-muted)" />
             </div>
 
             {/* ── RATING BREAKDOWN ──────────────────────────── */}
@@ -197,6 +207,17 @@ export default function OwnerFeedbackPage() {
                           <span style={{ fontSize:'12px', color:'var(--text-muted)' }}>
                             {new Date(fb.createdAt).toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' })}
                           </span>
+                          <button
+                            onClick={() => deleteFeedback(fb._id)}
+                            title="Delete this feedback"
+                            style={{
+                              background: 'rgba(255,75,75,0.08)', border: '1px solid rgba(255,75,75,0.25)',
+                              borderRadius: '6px', cursor: 'pointer', padding: '3px 10px',
+                              fontSize: '12px', color: 'var(--danger)', transition: 'all 0.15s',
+                            }}
+                            onMouseEnter={e => { e.currentTarget.style.background='rgba(255,75,75,0.18)'; }}
+                            onMouseLeave={e => { e.currentTarget.style.background='rgba(255,75,75,0.08)'; }}
+                          >🗑 Delete</button>
                         </div>
                       </div>
 
